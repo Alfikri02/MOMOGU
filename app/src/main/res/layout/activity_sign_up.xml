@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_sign_up_relative"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".SignUpActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_account"
+                style="@style/h3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/poppins_thin"
+                android:text="@string/registrasi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_input"
+                style="@style/h2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:text="@string/fill_input"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_account" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fullname_signup_container"
+                style="@style/ti_layout"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="20dp"
+                android:hint="@string/full_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_input">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fullname_signup"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_name"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/username_signup_container"
+                style="@style/ti_layout"
+                android:layout_marginTop="10dp"
+                android:hint="@string/username"
+                app:layout_constraintEnd_toEndOf="@+id/fullname_signup_container"
+                app:layout_constraintStart_toStartOf="@+id/fullname_signup_container"
+                app:layout_constraintTop_toBottomOf="@+id/fullname_signup_container">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/username_signup"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_username"
+                    android:inputType="textPersonName" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_signup_container"
+                style="@style/ti_layout"
+                android:layout_marginTop="10dp"
+                android:hint="@string/email"
+                app:layout_constraintEnd_toEndOf="@+id/username_signup_container"
+                app:layout_constraintStart_toStartOf="@+id/username_signup_container"
+                app:layout_constraintTop_toBottomOf="@+id/username_signup_container">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_signup"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_username"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/lbl_invalid_email"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:text="@string/ACTIVITY_SIGN_IN_INVALID_EMAIL"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/email_signup_container"
+                app:layout_constraintStart_toStartOf="@+id/email_signup_container"
+                app:layout_constraintTop_toBottomOf="@+id/email_signup_container" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_signup_container"
+                style="@style/ti_layout"
+                android:layout_marginTop="15dp"
+                android:hint="@string/password"
+                app:endIconMode="password_toggle"
+                app:layout_constraintEnd_toEndOf="@id/email_signup_container"
+                app:layout_constraintStart_toStartOf="@id/email_signup_container"
+                app:layout_constraintTop_toBottomOf="@+id/email_signup_container">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_signup"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_password"
+                    android:inputType="textPassword" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/signup_btn"
+                style="@style/blueButtonStyle"
+                android:layout_width="@dimen/mediumButtonWidth"
+                android:layout_height="@dimen/mediumButtonHeight"
+                android:layout_marginTop="30dp"
+                android:text="@string/register"
+                app:layout_constraintEnd_toEndOf="@+id/password_signup_container"
+                app:layout_constraintStart_toStartOf="@+id/password_signup_container"
+                app:layout_constraintTop_toBottomOf="@+id/password_signup_container" />
+
+            <LinearLayout
+                android:id="@+id/signin_link_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signup_btn">
+
+                <TextView
+                    style="@style/h2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/have_acc" />
+
+                <TextView
+                    style="@style/h2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/poppins_thin"
+                    android:text="@string/login" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/layoutLoadingView_SignIn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CC000000"
+        android:foregroundGravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animLoadingView_SignIn"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/lblLoadingViewTitle_SignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/animLoadingView_SignIn"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center_horizontal"
+            android:lines="3"
+            android:text="@string/ACTIVITY_SIGN_UP_LOADING_VIEW_TITLE"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,72 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <dimen name="h4TextSize">35sp</dimen>
+    <dimen name="h3TextSize">24sp</dimen>
+    <dimen name="h2TextSize">20sp</dimen>
+    <dimen name="zerodp">0dp</dimen>
+    <dimen name="mediumButtonWidth">200dp</dimen>
+    <dimen name="mediumButtonHeight">60dp</dimen>
+
+    <style name="h2">
+        <item name="android:fontFamily">@font/poppins_light</item>
+        <item name="android:textColor">@color/g_gray700</item>
+        <item name="android:textSize">@dimen/h2TextSize</item>
+    </style>
+
+    <style name="h3">
+        <item name="android:fontFamily">@font/poppins_light</item>
+        <item name="android:textColor">@color/g_black</item>
+        <item name="android:textSize">@dimen/h3TextSize</item>
+    </style>
+
+    <style name="h4">
+        <item name="android:fontFamily">@font/poppins_thin</item>
+        <item name="android:textColor">@color/g_black</item>
+        <item name="android:textSize">@dimen/h4TextSize</item>
+    </style>
+
+    <style name="blueButtonStyle">
+        <item name="android:background">@drawable/blue_background</item>
+        <item name="android:fontFamily">@font/poppins_thin</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/h2TextSize</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="whiteButtonStyle">
+        <item name="android:background">@drawable/white_background</item>
+        <item name="android:fontFamily">@font/poppins_thin</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/h2TextSize</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="ti_layout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">@dimen/zerodp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="boxCornerRadiusBottomEnd">15dp</item>
+        <item name="boxCornerRadiusBottomStart">15dp</item>
+        <item name="boxCornerRadiusTopEnd">15dp</item>
+        <item name="boxCornerRadiusTopStart">15dp</item>
+    </style>
+
+    <style name="et_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/poppins_light</item>
+        <item name="android:textSize">18sp</item>
+        <item name="minHeight">60dp</item>
+        <item name="paddingStart">8dp</item>
+        <item name="paddingEnd">5dp</item>
+        <item name="android:drawablePadding">5dp</item>
+    </style>
+
+</resources>

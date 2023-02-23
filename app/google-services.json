@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1034751584145",
+    "firebase_url": "https://momogu-02-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "momogu-02",
+    "storage_bucket": "momogu-02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034751584145:android:23de3301f2deae2f931c30",
+        "android_client_info": {
+          "package_name": "com.example.momogu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034751584145-ab94sbsp5iglj3asplobk9nl4ocfgpee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMxIBCXxciVDt-BPqHgzVR7LpguuMfCD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034751584145-ab94sbsp5iglj3asplobk9nl4ocfgpee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
