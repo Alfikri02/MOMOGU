@@ -10,9 +10,12 @@
     <string name="NOTIFICATION_ADAPTER_COMMENTED">Commented: </string>
 
     <!--Post Adapter-->
-    <string name="POST_ADAPTER_NUMBER_OF_LIKES">%1$s likes</string>
-    <string name="POST_ADAPTER_TOTAL_COMMENTS">view all %1$s comments</string>
-    <string name="POST_ADAPTER_TOTAL_COMMENT">view all %1$s comment</string>
+    <string name="date_time">Date Time</string>
+    <string name="time_ago">Time Ago</string>
+    <string name="product">Product</string>
+    <string name="price">Rp. %1$s</string>
+    <string name="weight">%1$s KG</string>
+    <string name="location">Location</string>
 
     <!--Story Adapter-->
     <string name="STORY_ADAPTER_MY_STORY">My Story</string>

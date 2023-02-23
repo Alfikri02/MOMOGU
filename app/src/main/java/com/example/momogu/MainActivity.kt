@@ -26,11 +26,6 @@ class MainActivity : AppCompatActivity()
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId)
         {
-            R.id.nav_home ->
-            {
-                routeToFragment(HomeFragment())
-                return@OnNavigationItemSelectedListener true
-            }
 
             R.id.nav_search ->
             {
@@ -42,6 +37,12 @@ class MainActivity : AppCompatActivity()
             {
                 item.isChecked = false
                 startActivity(Intent(this, AddPostActivity::class.java))
+                return@OnNavigationItemSelectedListener true
+            }
+
+            R.id.nav_home ->
+            {
+                routeToFragment(HomeFragment())
                 return@OnNavigationItemSelectedListener true
             }
 

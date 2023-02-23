@@ -1,152 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_marginTop="12dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    app:cardElevation="0dp">
+    android:layout_width="180dp"
+    android:layout_height="270dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true"
+    app:strokeColor="@color/black"
+    app:strokeWidth="1dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/linear1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/user_profile_image_post"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/profile"
-                android:padding="5dp"/>
-
-            <TextView
-                android:id="@+id/user_name_post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/POST_LAYOUT_USERNAME_POST"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="14dp"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:id="@+id/lblDateTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="30dp"
-                android:textAlignment="textEnd"/>
-
-        </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            app:cardCornerRadius="8dp">
-
-            <ImageView
-                android:id="@+id/post_image_home"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:src="@drawable/ig_logo_4"
-                android:scaleType="centerCrop"
-                android:contentDescription="@null"/>
-
-        </androidx.cardview.widget.CardView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp">
-
-            <ImageView
-                android:id="@+id/post_image_like_btn"
-                android:layout_width="40dp"
-                android:layout_height="34dp"
-                android:src="@drawable/baseline_favorite_border_black_36"
-                android:contentDescription="@null"/>
-
-            <ImageView
-                android:id="@+id/post_image_comment_btn"
-                android:layout_width="40dp"
-                android:layout_height="34dp"
-                android:src="@drawable/baseline_chat_bubble_outline_black_36"
-                android:layout_toEndOf="@+id/post_image_like_btn"
-                android:layout_marginTop="3dp"
-                android:layout_marginStart="6dp"
-                android:contentDescription="@null"/>
-
-            <ImageView
-                android:id="@+id/post_save_comment_btn"
-                android:layout_width="40dp"
-                android:layout_height="39dp"
-                android:src="@drawable/baseline_bookmark_border_black_36"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="3dp"
-                android:contentDescription="@null"/>
-
-        </RelativeLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/likes"
+            android:id="@+id/lblDateTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:layout_marginEnd="10dp"
+            android:text="@string/date_time"
+            android:gravity="center"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/post_image_home"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
+            android:layout_marginHorizontal="5dp"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_cow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblDateTime"/>
 
         <TextView
-            android:id="@+id/publisher"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_product"
+            android:layout_width="@dimen/zerodp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:layout_marginTop="6dp"
+            android:text="@string/product"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_image_home" />
 
         <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_price"
+            android:layout_width="@dimen/zerodp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textSize="15sp"
-            android:textColor="@color/colorPrimary"/>
+            android:fontFamily="@font/poppins_thin"
+            android:text="@string/price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_product" />
 
         <TextView
-            android:id="@+id/comments"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_weight"
+            android:layout_width="@dimen/zerodp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
-            android:text=""
-            android:textColor="@color/colorBlack"/>
+            android:text="@string/weight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="@dimen/zerodp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_weight" />
 
         <TextView
             android:id="@+id/lblTimeAgo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:text="@string/time_ago"
+            android:textColor="@color/colorBlack"
             android:textSize="12sp"
-            android:layout_marginBottom="5dp"
-            android:textColor="@color/colorBlack"/>
+            app:layout_constraintStart_toStartOf="@+id/tv_location"
+            app:layout_constraintTop_toBottomOf="@+id/tv_location" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/post_save_comment_btn"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@null"
+            android:src="@drawable/favorite_broder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-</androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

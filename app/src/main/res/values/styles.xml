@@ -1,13 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-    </style>
-
     <dimen name="h4TextSize">35sp</dimen>
     <dimen name="h3TextSize">24sp</dimen>
     <dimen name="h2TextSize">20sp</dimen>
