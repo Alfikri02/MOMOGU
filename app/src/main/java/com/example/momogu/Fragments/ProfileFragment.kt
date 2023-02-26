@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.AccountSettingsActivity
 import com.example.momogu.Adapter.MyImagesAdapter
+import com.example.momogu.AddPostActivity
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.R
-import com.example.momogu.ShowUsersActivity
 import com.example.momogu.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -25,7 +25,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import java.util.*
 import java.util.Collections.reverse
 import kotlin.collections.ArrayList
 
@@ -46,7 +45,6 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
@@ -56,16 +54,7 @@ class ProfileFragment : Fragment() {
             this.profileId = pref.getString("profileId", "none").toString()
         }
 
-        if (profileId == firebaseUser.uid) {
-            binding.editAccountSettingsBtn.text =
-                getString(R.string.PROFILE_FRAGMENT_LBL_EDIT_PROFILE)
-        } else if (profileId != firebaseUser.uid) {
-            checkFollowAndFollowingButtonStatus()
-        }
-
-        //***********
         //Recycler View for Uploaded Images
-        //***********
         val recyclerViewUploadImages: RecyclerView = binding.recyclerViewUploadPic
         recyclerViewUploadImages.setHasFixedSize(true)
         val linearLayoutManager: LinearLayoutManager = GridLayoutManager(context, 3)
@@ -74,13 +63,8 @@ class ProfileFragment : Fragment() {
         postList = ArrayList()
         myImagesAdapter = context?.let { MyImagesAdapter(it, postList as ArrayList<PostModel>) }
         recyclerViewUploadImages.adapter = myImagesAdapter
-        //***********
-        //Recycler View for Uploaded Images
-        //***********
 
-        //***********
         //Recycler View for Saved Images
-        //***********
         val recyclerViewSaveImages: RecyclerView = binding.recyclerViewSavedPic
         recyclerViewSaveImages.setHasFixedSize(true)
         val linearLayoutManager2: LinearLayoutManager = GridLayoutManager(context, 3)
@@ -90,9 +74,6 @@ class ProfileFragment : Fragment() {
         myImagesAdapterSavedImg =
             context?.let { MyImagesAdapter(it, postListSaved as ArrayList<PostModel>) }
         recyclerViewSaveImages.adapter = myImagesAdapterSavedImg
-        //***********
-        //Recycler View for Saved Images
-        //***********
 
         recyclerViewSaveImages.visibility = View.GONE
         recyclerViewUploadImages.visibility = View.VISIBLE
@@ -105,6 +86,7 @@ class ProfileFragment : Fragment() {
             savedImagesBtn.setColorFilter(resources.getColor(R.color.colorBlack))
             recyclerViewSaveImages.visibility = View.GONE
             recyclerViewUploadImages.visibility = View.VISIBLE
+            binding.btnAdd.visibility = View.VISIBLE
         }
 
         savedImagesBtn.setOnClickListener {
@@ -112,67 +94,17 @@ class ProfileFragment : Fragment() {
             savedImagesBtn.setColorFilter(resources.getColor(R.color.blackColor))
             recyclerViewSaveImages.visibility = View.VISIBLE
             recyclerViewUploadImages.visibility = View.GONE
-        }
-
-        binding.layoutFollowersProfile.setOnClickListener {
-            val intent = Intent(context, ShowUsersActivity::class.java)
-            intent.putExtra("id", profileId)
-            intent.putExtra("title", "followers")
-            startActivity(intent)
-        }
-
-        binding.layoutFollowingProfile.setOnClickListener {
-            val intent = Intent(context, ShowUsersActivity::class.java)
-            intent.putExtra("id", profileId)
-            intent.putExtra("title", "following")
-            startActivity(intent)
+            binding.btnAdd.visibility = View.GONE
         }
 
         binding.editAccountSettingsBtn.setOnClickListener {
-
-            when (binding.editAccountSettingsBtn.text.toString()) {
-                "Edit Profile" -> {
-                    startActivity(Intent(context, AccountSettingsActivity::class.java))
-                }
-
-                "Follow" -> {
-                    firebaseUser.uid.let {
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(it)
-                            .child("Following").child(profileId)
-                            .setValue(true)
-                    }
-
-                    firebaseUser.uid.let {
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(profileId)
-                            .child("Followers").child(it)
-                            .setValue(true)
-                    }
-
-                    addNotification()
-                }
-
-                "Following" -> {
-                    firebaseUser.uid.let {
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(it)
-                            .child("Following").child(profileId)
-                            .removeValue()
-                    }
-
-                    firebaseUser.uid.let {
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(profileId)
-                            .child("Followers").child(it)
-                            .removeValue()
-                    }
-                }
-            }
+            startActivity(Intent(context, AccountSettingsActivity::class.java))
+        }
+        
+        binding.btnAdd.setOnClickListener {
+            startActivity(Intent(context, AddPostActivity::class.java))
         }
 
-        getFollowers()
-        getFollowings()
         userInfo()
         myPhotos()
         getTotalNumberOfPhotos()
@@ -203,65 +135,6 @@ class ProfileFragment : Fragment() {
         val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
-    }
-
-    private fun checkFollowAndFollowingButtonStatus() {
-        val followingRef = firebaseUser.uid.let {
-            FirebaseDatabase.getInstance().reference
-                .child("Follow").child(it)
-                .child("Following")
-        }
-
-        followingRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.child(profileId).exists()) {
-                    binding.editAccountSettingsBtn.text =
-                        getString(R.string.PROFILE_FRAGMENT_LBL_FOLLOWING)
-                } else {
-                    binding.editAccountSettingsBtn.text =
-                        getString(R.string.PROFILE_FRAGMENT_LBL_FOLLOW)
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-    }
-
-    private fun getFollowers() {
-        val followersRef = FirebaseDatabase.getInstance().reference
-            .child("Follow").child(profileId)
-            .child("Followers")
-
-        followersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    binding.totalFollowers.text = p0.childrenCount.toString()
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-        })
-    }
-
-    private fun getFollowings() {
-        val followersRef = FirebaseDatabase.getInstance().reference
-            .child("Follow").child(profileId)
-            .child("Following")
-
-
-        followersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    binding.totalFollowing.text = p0.childrenCount.toString()
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-        })
     }
 
     private fun userInfo() {
@@ -378,18 +251,5 @@ class ProfileFragment : Fragment() {
 
             override fun onCancelled(p0: DatabaseError) {}
         })
-    }
-
-    private fun addNotification() {
-        val notificationRef =
-            FirebaseDatabase.getInstance().reference.child("Notifications").child(profileId)
-        val notificationMap = HashMap<String, Any>()
-
-        notificationMap["userid"] = firebaseUser.uid
-        notificationMap["text"] = "Started following you"
-        notificationMap["postid"] = ""
-        notificationMap["ispost"] = false
-
-        notificationRef.push().setValue(notificationMap)
     }
 }

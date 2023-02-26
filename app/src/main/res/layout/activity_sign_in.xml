@@ -62,7 +62,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_login"
                     style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_username"
+                    android:drawableStart="@drawable/ic_mail"
                     android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -98,9 +98,9 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/login_btn"
-                style="@style/blueButtonStyle"
+                style="@style/greenButtonStyle"
                 android:layout_width="@dimen/mediumButtonWidth"
                 android:layout_height="@dimen/mediumButtonHeight"
                 android:layout_marginTop="30dp"

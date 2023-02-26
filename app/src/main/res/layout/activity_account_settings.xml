@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,37 +10,48 @@
         android:id="@+id/app_bar_layout_profile_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/profile_setting_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
+            android:layout_height="?attr/actionBarSize"
             android:background="@android:color/white">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp">
 
                 <ImageView
                     android:id="@+id/close_profile_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_close" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/baseline_close_black_36"
-                    android:contentDescription="@string/ACTIVITY_ACCOUNT_SETTING_IMG_CONTENT_DECS"/>
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_thin"
+                    android:text="@string/ubah_profil"
+                    android:textSize="20sp"
+                    tools:ignore="RelativeOverlap" />
 
                 <ImageView
                     android:id="@+id/save_profile_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/baseline_done_black_36"
-                    android:contentDescription="@string/ACTIVITY_ACCOUNT_SETTING_IMG_CONTENT_DECS"/>
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_done" />
 
             </RelativeLayout>
 
@@ -52,85 +63,101 @@
         android:id="@+id/profile_image_view_profile_frag"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:src="@drawable/profile"
-        android:layout_below="@+id/app_bar_layout_profile_setting"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout_profile_setting" />
 
     <TextView
         android:id="@+id/change_image_text_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text= "@string/ACTIVITY_ACCOUNT_SETTING_LBL_CHANGE_IMAGE"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="6dp"
-        android:textStyle="italic"
-        android:textSize="12sp"
-        android:textColor="@color/colorBlack"
-        android:layout_below="@+id/profile_image_view_profile_frag"/>
+        android:fontFamily="@font/poppins_thin"
+        android:text="@string/change_image"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image_view_profile_frag" />
 
-    <EditText
-        android:id="@+id/full_name_profile_frag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/change_image_text_btn"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="16dp"
-        android:inputType="text"
-        android:hint="@string/ACTIVITY_ACCOUNT_SETTING_TXT_FULL_NAME"
-        android:autofillHints="@string/ACTIVITY_ACCOUNT_SETTING_TXT_FULL_NAME"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fullname_profile_container"
+        style="@style/ti_layout"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/full_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_image_text_btn">
 
-    <EditText
-        android:id="@+id/username_profile_frag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/full_name_profile_frag"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="16dp"
-        android:inputType="text"
-        android:hint="@string/ACTIVITY_ACCOUNT_SETTING_TXT_USERNAME"
-        android:autofillHints="@string/ACTIVITY_ACCOUNT_SETTING_TXT_USERNAME"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/full_name_profile_frag"
+            style="@style/et_layout"
+            android:drawableStart="@drawable/ic_name"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/bio_profile_frag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/username_profile_frag"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="16dp"
-        android:inputType="text"
-        android:hint="@string/ACTIVITY_ACCOUNT_SETTING_TXT_BIO"
-        android:autofillHints="@string/ACTIVITY_ACCOUNT_SETTING_TXT_BIO"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/username_profile_container"
+        style="@style/ti_layout"
+        android:layout_marginTop="10dp"
+        android:hint="@string/username"
+        app:layout_constraintEnd_toEndOf="@+id/fullname_profile_container"
+        app:layout_constraintStart_toStartOf="@+id/fullname_profile_container"
+        app:layout_constraintTop_toBottomOf="@+id/fullname_profile_container">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/username_profile_frag"
+            style="@style/et_layout"
+            android:drawableStart="@drawable/ic_username"
+            android:inputType="textPersonName" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_signup_container"
+        style="@style/ti_layout"
+        android:layout_marginTop="10dp"
+        android:hint="@string/bio"
+        app:layout_constraintEnd_toEndOf="@+id/username_profile_container"
+        app:layout_constraintStart_toStartOf="@+id/username_profile_container"
+        app:layout_constraintTop_toBottomOf="@+id/username_profile_container">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/bio_profile_frag"
+            style="@style/et_layout"
+            android:drawableStart="@drawable/ic_city"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logout_btn"
+        style="@style/greenButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="6dp"
-        android:layout_above="@+id/delete_account_btn"
-        android:background="@drawable/button_black_background"
         android:text="@string/ACTIVITY_ACCOUNT_SETTING_BTN_LOGOUT"
         android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/delete_account_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/delete_account_btn"
+        style="@style/greenButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="6dp"
         android:text="@string/ACTIVITY_ACCOUNT_SETTING_BTN_DELETE_ACC"
         android:textAllCaps="false"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/button_background_dark"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

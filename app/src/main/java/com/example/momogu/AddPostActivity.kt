@@ -39,14 +39,14 @@ class AddPostActivity : AppCompatActivity() {
         }
 
         binding.closeAddPostBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             finish()
         }
 
-        CropImage.activity()
-            .setAspectRatio(2, 2)
-            .start(this)
+        binding.imagePost.setOnClickListener{
+            CropImage.activity()
+                .setAspectRatio(1, 1)
+                .start(this)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

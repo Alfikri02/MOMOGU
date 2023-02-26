@@ -54,7 +54,6 @@ class AccountSettingsActivity : AppCompatActivity() {
 
         binding.changeImageTextBtn.setOnClickListener {
             checker = true
-
             CropImage.activity()
                 .setAspectRatio(1, 1)
                 .start(this)
@@ -143,9 +142,6 @@ class AccountSettingsActivity : AppCompatActivity() {
                     "Account Information has been updated successfully.",
                     Toast.LENGTH_LONG
                 ).show()
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
                 finish()
             }
         }
@@ -209,9 +205,6 @@ class AccountSettingsActivity : AppCompatActivity() {
                             "Account Information has been updated successfully.",
                             Toast.LENGTH_LONG
                         ).show()
-
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
                         finish()
                         progressDialog.dismiss()
                     } else {
