@@ -25,7 +25,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import java.util.Collections.reverse
 import kotlin.collections.ArrayList
 
 class ProfileFragment : Fragment() {
@@ -78,6 +77,11 @@ class ProfileFragment : Fragment() {
         recyclerViewSaveImages.visibility = View.GONE
         recyclerViewUploadImages.visibility = View.VISIBLE
 
+        userInfo()
+        getTotalNumberOfPhotos()
+        myPhotos()
+        mySaves()
+
         val uploadImagesBtn: ImageButton = binding.imagesGridViewBtn
         val savedImagesBtn: ImageButton = binding.imagesSaveBtn
 
@@ -104,11 +108,6 @@ class ProfileFragment : Fragment() {
         binding.btnAdd.setOnClickListener {
             startActivity(Intent(context, AddPostActivity::class.java))
         }
-
-        userInfo()
-        myPhotos()
-        getTotalNumberOfPhotos()
-        mySaves()
 
         return binding.root
     }
@@ -169,10 +168,9 @@ class ProfileFragment : Fragment() {
                         val post = snapshot.getValue(PostModel::class.java)
 
                         if (post?.getPublisher().equals(profileId)) {
+                            (postList as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
                             (postList as ArrayList<PostModel>).add(post!!)
                         }
-
-                        reverse(postList)
                         myImagesAdapter?.notifyDataSetChanged()
                     }
                 }
@@ -240,6 +238,7 @@ class ProfileFragment : Fragment() {
 
                         for (key in mySavedImg!!) {
                             if (post?.getPostid() == key) {
+                                (postListSaved as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
                                 (postListSaved as ArrayList<PostModel>).add(post)
                             }
                         }

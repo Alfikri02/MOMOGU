@@ -36,12 +36,14 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         var saveButton: ImageView
         var dateTime: TextView
         var timeAgo: TextView
+        var product: TextView
 
         init {
             postImage = itemView.findViewById(R.id.post_image_home)
             saveButton = itemView.findViewById(R.id.post_save_comment_btn)
             dateTime = itemView.findViewById(R.id.lblDateTime)
             timeAgo = itemView.findViewById(R.id.lblTimeAgo)
+            product = itemView.findViewById(R.id.tv_product)
         }
     }
 
@@ -62,6 +64,9 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         val post = mPost[position]
         Picasso.get().load(post.getPostimage()).into(holder.postImage)
         checkSavedStatus(post.getPostid()!!, holder.saveButton)
+        holder.product.text = post.getProduct()
+        holder.dateTime.text = getDate(post.getDateTime()!!.toLong(), "dd/MM/yyyy")
+        holder.timeAgo.text = getTimeAgo(post.getDateTime()!!.toLong())
 
         holder.postImage.setOnClickListener {
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
@@ -70,11 +75,6 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
             editor.apply()
             (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PostDetailsFragment()).commit()
-        }
-
-        if (!post.getDateTime().isNullOrEmpty()) {
-            holder.dateTime.text = getDate(post.getDateTime()!!.toLong(), "dd/MM/yyyy EEE")
-            holder.timeAgo.text = getTimeAgo(post.getDateTime()!!.toLong())
         }
 
         holder.saveButton.setOnClickListener {

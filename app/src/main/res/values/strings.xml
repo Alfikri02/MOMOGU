@@ -41,6 +41,7 @@
     <string name="ACTIVITY_ACCOUNT_SETTING_BTN_DELETE_ACC">Delete Account</string>
 
     <!--Activity Add Post-->
+    <string name="tambah_data">Tambah Data</string>
     <string name="ACTIVITY_ADD_POST_IMG_CONTENT_DESC">null</string>
     <string name="ACTIVITY_ADD_POST_TXT_POST_DESC">Say something about your post</string>
 
@@ -98,7 +99,7 @@
     <!--Fragment Profile-->
     <string name="FRAGMENT_PROFILE_LBL_USERNAME">username</string>
     <string name="FRAGMENT_PROFILE_LBL_TOTAL_POST_TITLE">Posts</string>
-    <string name="FRAGMENT_PROFILE_LBL_TOTAL_POST_VALUE">0</string>
+    <string name="zero">0</string>
     <string name="FRAGMENT_PROFILE_LBL_TOTAL_FOLLOWER_TITLE">Followers</string>
     <string name="FRAGMENT_PROFILE_LBL_TOTAL_FOLLOWER_VALUE">0</string>
     <string name="FRAGMENT_PROFILE_LBL_TOTAL_FOLLOWING_TITLE">Following</string>
@@ -128,5 +129,13 @@
     <string name="SPLASH_SCREEN_POWER_BY">Power By</string>
     <string name="SPLASH_SCREEN_LBL_DESMOND">Muhammad Al Fikri</string>
     <string name="welcome_back">Selamat Datang Kembali,</string>
+    <string name="type_cow">Jenis Sapi</string>
+    <string name="age">Umur (Dalam Bulan)</string>
+    <string name="estimated_weight">Bobot</string>
+    <string name="gender">Jenis Kelamin</string>
+    <string name="desc">Deskripsi</string>
+    <string name="prices">Harga</string>
+    <string name="guarante">Saya menjamin sapi-sapi ini dalam keadaan sehat dan layak untuk dijual.</string>
+    <string name="city">Kota</string>
 
 </resources>

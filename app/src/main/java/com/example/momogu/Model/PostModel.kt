@@ -1,71 +1,65 @@
 package com.example.momogu.Model
 
-class PostModel
-{
+class PostModel {
     private var postid: String? = null
     private var postimage: String? = null
     private var publisher: String? = null
-    private var description: String? = null
+    private var product: String? = null
     private var dateTime: String? = null
 
     constructor()
 
-    constructor(postid: String?, postimage: String?, publisher: String?, description: String?, dateTime: String?)
-    {
+    constructor(
+        postid: String?,
+        postimage: String?,
+        publisher: String?,
+        product: String?,
+        dateTime: String?
+    ) {
         this.postid = postid
         this.postimage = postimage
         this.publisher = publisher
-        this.description = description
+        this.product = product
         this.dateTime = dateTime
     }
 
-    fun setPostid(postid: String)
-    {
+    fun setPostid(postid: String) {
         this.postid = postid
     }
 
-    fun getPostid(): String?
-    {
+    fun getPostid(): String? {
         return postid
     }
 
-    fun setPostimage(postimage: String)
-    {
+    fun setPostimage(postimage: String) {
         this.postimage = postimage
     }
 
-    fun getPostimage(): String?
-    {
+    fun getPostimage(): String? {
         return postimage
     }
 
-    fun setPublisher(publisher: String)
-    {
+    fun setPublisher(publisher: String) {
         this.publisher = publisher
     }
 
-    fun getPublisher(): String?
-    {
+    fun getPublisher(): String? {
         return publisher
     }
 
-    fun setDescription(description: String)
-    {
-        this.description = description
+    fun setDescription(description: String) {
+        this.product = description
     }
 
-    fun getDescription(): String?
-    {
-        return description
+    fun getProduct(): String? {
+        return product
     }
 
-    fun setDateTime(dateTime: String)
-    {
+    fun setDateTime(dateTime: String) {
         this.dateTime = dateTime
     }
 
-    fun getDateTime(): String?
-    {
+    fun getDateTime(): String? {
         return dateTime
     }
 }

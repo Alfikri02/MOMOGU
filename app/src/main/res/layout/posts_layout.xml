@@ -6,8 +6,8 @@
     app:cardCornerRadius="14dp"
     app:cardElevation="3dp"
     app:cardUseCompatPadding="true"
-    app:strokeColor="@color/black"
-    app:strokeWidth="1dp">
+    app:strokeColor="@color/colorBlack"
+    app:strokeWidth="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -18,12 +18,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="@string/date_time"
             android:gravity="center"
+            android:text="@string/date_time"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/post_image_home"
@@ -35,7 +35,7 @@
             android:src="@drawable/ic_cow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblDateTime"/>
+            app:layout_constraintTop_toBottomOf="@id/lblDateTime" />
 
         <TextView
             android:id="@+id/tv_product"
@@ -98,7 +98,7 @@
             android:contentDescription="@null"
             android:src="@drawable/favorite_broder"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

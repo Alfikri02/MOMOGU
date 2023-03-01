@@ -131,7 +131,7 @@ class AccountSettingsActivity : AppCompatActivity() {
                 val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
                 val userMap = HashMap<String, Any>()
 
-                userMap["fullname"] = binding.fullNameProfileFrag.text.toString().lowercase()
+                userMap["fullname"] = binding.fullNameProfileFrag.text.toString()
                 userMap["username"] = binding.usernameProfileFrag.text.toString().lowercase()
                 userMap["bio"] = binding.bioProfileFrag.text.toString()
 
@@ -193,7 +193,7 @@ class AccountSettingsActivity : AppCompatActivity() {
 
                         val userMap = HashMap<String, Any>()
 
-                        userMap["fullname"] = binding.fullNameProfileFrag.text.toString().lowercase()
+                        userMap["fullname"] = binding.fullNameProfileFrag.text.toString()
                         userMap["username"] = binding.usernameProfileFrag.text.toString().lowercase()
                         userMap["bio"] = binding.bioProfileFrag.text.toString()
                         userMap["image"] = myUrl

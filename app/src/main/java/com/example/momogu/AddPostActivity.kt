@@ -44,7 +44,7 @@ class AddPostActivity : AppCompatActivity() {
 
         binding.imagePost.setOnClickListener{
             CropImage.activity()
-                .setAspectRatio(1, 1)
+                .setAspectRatio(4, 3)
                 .start(this)
         }
     }
@@ -104,8 +104,11 @@ class AddPostActivity : AppCompatActivity() {
                         Toast.makeText(this, "Post uploaded successfully.", Toast.LENGTH_LONG)
                             .show()
 
+                        /*
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
+                         */
+
                         finish()
                         progressDialog.dismiss()
                     } else {

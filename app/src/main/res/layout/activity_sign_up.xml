@@ -71,7 +71,8 @@
                     android:id="@+id/username_signup"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_username"
-                    android:inputType="textPersonName" />
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                    android:inputType="textFilter"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

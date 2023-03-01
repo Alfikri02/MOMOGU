@@ -32,8 +32,8 @@ class HomeFragment : Fragment() {
 
         //Recycler View Home
         val recyclerView: RecyclerView = binding.recyclerViewHome
-        recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = GridLayoutManager(context,2)
+        recyclerView.setHasFixedSize(true)
 
         postList = ArrayList()
         postAdapter = context?.let { PostAdapter(it, postList as ArrayList<PostModel>) }
@@ -50,9 +50,9 @@ class HomeFragment : Fragment() {
         postsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 postList?.clear()
-
                 for (snapshot in p0.children) {
                     val post = snapshot.getValue(PostModel::class.java)
+                    postList?.sortByDescending { it.getDateTime() }
                     post?.let { postList!!.add(it) }
                     postAdapter?.notifyDataSetChanged()
                 }
