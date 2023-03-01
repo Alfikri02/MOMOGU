@@ -80,7 +80,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_cow"
+                android:id="@+id/ti_product"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
@@ -90,7 +90,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/description_post"
+                    android:id="@+id/et_product"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="text" />
@@ -105,7 +105,7 @@
                 android:hint="@string/age"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_cow">
+                app:layout_constraintTop_toBottomOf="@+id/ti_product">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_age"
@@ -183,7 +183,7 @@
                     android:id="@+id/et_price"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

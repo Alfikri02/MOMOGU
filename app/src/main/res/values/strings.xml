@@ -1,55 +1,31 @@
 <resources>
     <string name="app_name">MOMOGU</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-
-    <!--Notification Adapter-->
-    <string name="NOTIFICATION_ADAPTER_START_FOLLOWING">Started following you</string>
-    <string name="NOTIFICATION_ADAPTER_LIKED_POST">Liked your post</string>
-    <string name="NOTIFICATION_ADAPTER_COMMENTED">Commented: </string>
 
     <!--Post Adapter-->
     <string name="date_time">Date Time</string>
     <string name="time_ago">Time Ago</string>
     <string name="product">Product</string>
-    <string name="price">Rp. %1$s</string>
-    <string name="weight">%1$s KG</string>
+    <string name="price">Price</string>
+    <string name="weight">Weight</string>
     <string name="location">Location</string>
-
-    <!--Story Adapter-->
-    <string name="STORY_ADAPTER_MY_STORY">My Story</string>
-    <string name="STORY_ADAPTER_ADD_STORY">Add Story</string>
-
-    <!--User Adapter-->
-    <string name="USER_ADAPTER_TXT_FOLLOWING">Following</string>
-    <string name="USER_ADAPTER_TXT_FOLLOW">Follow</string>
-
-    <!--Profile Fragment-->
-    <string name="PROFILE_FRAGMENT_LBL_EDIT_PROFILE">Edit Profile</string>
-    <string name="PROFILE_FRAGMENT_LBL_FOLLOWING">Following</string>
-    <string name="PROFILE_FRAGMENT_LBL_FOLLOW">Follow</string>
-
-    <!--Story Activity-->
-    <string name="STORY_ACTIVITY_LBL_SEEN_NUMBER">%1$s</string>
 
     <!--Activity Account Setting-->
     <string name="change_image">Ubah Foto Profil</string>
     <string name="ubah_profil">Ubah Profil</string>
     <string name="bio">Bio</string>
-    <string name="ACTIVITY_ACCOUNT_SETTING_BTN_LOGOUT">Logout</string>
-    <string name="ACTIVITY_ACCOUNT_SETTING_BTN_DELETE_ACC">Delete Account</string>
+    <string name="logout">Logout</string>
+    <string name="delete_account">Delete Account</string>
 
     <!--Activity Add Post-->
+    <string name="type_cow">Jenis Sapi</string>
+    <string name="age">Umur (Dalam Bulan)</string>
+    <string name="estimated_weight">Bobot</string>
+    <string name="gender">Jenis Kelamin</string>
+    <string name="desc">Deskripsi</string>
+    <string name="prices">Harga</string>
+    <string name="guarante">Saya menjamin sapi-sapi ini dalam keadaan sehat dan layak untuk dijual.</string>
+    <string name="city">Kota</string>
     <string name="tambah_data">Tambah Data</string>
-    <string name="ACTIVITY_ADD_POST_IMG_CONTENT_DESC">null</string>
-    <string name="ACTIVITY_ADD_POST_TXT_POST_DESC">Say something about your post</string>
-
-    <!--Activity Comments-->
-    <string name="ACTIVITY_COMMENTS_LBL_TITLE">Comments</string>
-    <string name="ACTIVITY_COMMENTS_TXT_WRITE_COMMENT">write your comment.....</string>
-    <string name="ACTIVITY_COMMENTS_BTN_PUBLISH">Publish</string>
-    <string name="ACTIVITY_COMMENTS_IMG_CONTENT">null</string>
 
     <!--Activity Sign In-->
     <string name="content">null</string>
@@ -59,8 +35,8 @@
     <string name="password">Kata Sandi</string>
     <string name="no_acc">Tidak punya akun?</string>
     <string name="no_acc_bred">Akun untuk peternak?</string>
-    <string name="ACTIVITY_SIGN_IN_INVALID_EMAIL">Invalid Email Format!</string>
-    <string name="ACTIVITY_SIGN_IN_LOADING_VIEW_TITLE">Please wait, while we are signing in for you, this may take a while&#8230;</string>
+    <string name="invalid_email">Format email salah!</string>
+    <string name="loading_title">Harap tunggu sementara kami Login untuk Anda, ini mungkin memakan waktu cukup lama&#8230;</string>
 
     <!--Activity Sign Up-->
     <string name="registrasi">Registrasi Akun</string>
@@ -69,44 +45,12 @@
     <string name="username">Nama Pengguna</string>
     <string name="register">Register</string>
     <string name="have_acc">Sudah punya akun?</string>
-    <string name="ACTIVITY_SIGN_UP_INVALID_EMAIL">Invalid Email Format!</string>
-    <string name="ACTIVITY_SIGN_UP_LOADING_VIEW_TITLE">Please wait, while we are signing up for you, this may take a while&#8230;</string>
-
-    <!--Activity Story-->
-    <string name="ACTIVITY_STORY_IMG_CONTENT">null</string>
-    <string name="ACTIVITY_STORY_TXT_USERNAME">username</string>
-    <string name="ACTIVITY_STORY_TXT_SEEN_BY">Seen by</string>
-    <string name="ACTIVITY_STORY_TXT_SEEN_NUM">0</string>
-    <string name="ACTIVITY_STORY_BTN_DELETE">Delete</string>
-
-    <!--Add Story Layout-->
-    <string name="ADD_STORY_LAYOUT_LBL_ADD_STORY">Add Story</string>
-
-    <!--Comments Item Layout-->
-    <string name="COMMENTS_ITEM_LAYOUT_LBL_USERNAME">Username</string>
-    <string name="COMMENTS_ITEM_LAYOUT_LBL_COMMENT">Comment Text</string>
-
-    <!--Fragment Home-->
-    <string name="FRAGMENT_HOME_EMPTY_POST_MSG">You don\'t have any post yet. \nStart upload your picture.</string>
-
-    <!--Fragment Notifications-->
-    <string name="FRAGMENT_NOTIFICATION_TITLE">Notifications</string>
-    <string name="FRAGMENT_NOTIFICATION_MSG">You don\'t have any notification yet.</string>
 
     <!--Fragment Post Detail-->
-    <string name="FRAGMENT_POST_DETAIL_TITLE">Photo</string>
+    <string name="photo">Photo</string>
 
     <!--Fragment Profile-->
-    <string name="FRAGMENT_PROFILE_LBL_USERNAME">username</string>
-    <string name="FRAGMENT_PROFILE_LBL_TOTAL_POST_TITLE">Posts</string>
     <string name="zero">0</string>
-    <string name="FRAGMENT_PROFILE_LBL_TOTAL_FOLLOWER_TITLE">Followers</string>
-    <string name="FRAGMENT_PROFILE_LBL_TOTAL_FOLLOWER_VALUE">0</string>
-    <string name="FRAGMENT_PROFILE_LBL_TOTAL_FOLLOWING_TITLE">Following</string>
-    <string name="FRAGMENT_PROFILE_LBL_TOTAL_FOLLOWING_VALUE">0</string>
-    <string name="FRAGMENT_PROFILE_BTN_EDIT_PROFILE">Edit Profile</string>
-    <string name="FRAGMENT_PROFILE_LBL_FULL_NAME">Full Name</string>
-    <string name="FRAGMENT_PROFILE_LBL_BIO">Bio</string>
 
     <!--Fragment Search-->
     <string name="FRAGMENT_SEARCH_TXT_SEARCH">Search&#8230;&#8230;</string>
@@ -114,28 +58,9 @@
     <string name="FRAGMENT_SEARCH_TXT_EMPTY_RESULT_MESSAGE">The person you\'re looking for does not seem to exist.</string>
     <string name="FRAGMENT_SEARCH_TXT_EMPTY_SEARCH_MESSAGE">Please search any username you\'re looking for inside the search bar.</string>
 
-    <!--Posts Layout-->
-    <string name="POST_LAYOUT_USERNAME_POST">Username</string>
-
-    <!--Story Layout-->
-    <string name="STORY_LAYOUT_USERNAME">Username</string>
-
-    <!--User Item Layout-->
-    <string name="USER_ITEM_LAYOUT_USERNAME">Username</string>
-    <string name="USER_ITEM_LAYOUT_PROFILE_NAME">Profile Name</string>
-    <string name="USER_ITEM_LAYOUT_BTN_FOLLOW">Follow</string>
-
     <!--Splash Screen-->
-    <string name="SPLASH_SCREEN_POWER_BY">Power By</string>
-    <string name="SPLASH_SCREEN_LBL_DESMOND">Muhammad Al Fikri</string>
+    <string name="power_by">Power By</string>
+    <string name="splash_name">Muhammad Al Fikri</string>
     <string name="welcome_back">Selamat Datang Kembali,</string>
-    <string name="type_cow">Jenis Sapi</string>
-    <string name="age">Umur (Dalam Bulan)</string>
-    <string name="estimated_weight">Bobot</string>
-    <string name="gender">Jenis Kelamin</string>
-    <string name="desc">Deskripsi</string>
-    <string name="prices">Harga</string>
-    <string name="guarante">Saya menjamin sapi-sapi ini dalam keadaan sehat dan layak untuk dijual.</string>
-    <string name="city">Kota</string>
 
 </resources>

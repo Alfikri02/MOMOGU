@@ -30,13 +30,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/baseline_close_black_24"
+                    android:src="@drawable/ic_close"
                     android:contentDescription="@null"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/FRAGMENT_POST_DETAIL_TITLE"
+                    android:text="@string/photo"
                     android:layout_marginStart="10dp"
                     android:textSize="18sp"
                     android:textStyle="bold"

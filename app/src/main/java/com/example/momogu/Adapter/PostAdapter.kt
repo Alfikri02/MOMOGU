@@ -1,5 +1,6 @@
 package com.example.momogu.Adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -37,6 +38,8 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         var dateTime: TextView
         var timeAgo: TextView
         var product: TextView
+        var price: TextView
+        var weight: TextView
 
         init {
             postImage = itemView.findViewById(R.id.post_image_home)
@@ -44,6 +47,8 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
             dateTime = itemView.findViewById(R.id.lblDateTime)
             timeAgo = itemView.findViewById(R.id.lblTimeAgo)
             product = itemView.findViewById(R.id.tv_product)
+            price = itemView.findViewById(R.id.tv_price)
+            weight = itemView.findViewById(R.id.tv_weight)
         }
     }
 
@@ -57,6 +62,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         return mPost.size
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -64,7 +70,11 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         val post = mPost[position]
         Picasso.get().load(post.getPostimage()).into(holder.postImage)
         checkSavedStatus(post.getPostid()!!, holder.saveButton)
+
         holder.product.text = post.getProduct()
+        holder.price.text = "Rp. ${post.getPrice()}"
+        holder.weight.text = "${post.getWeight()} KG"
+
         holder.dateTime.text = getDate(post.getDateTime()!!.toLong(), "dd/MM/yyyy")
         holder.timeAgo.text = getTimeAgo(post.getDateTime()!!.toLong())
 
@@ -135,6 +145,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun getDate(milliSeconds: Long, dateFormat: String?): String? {
         // Create a DateFormatter object for displaying date in specified format.
         val formatter = SimpleDateFormat(dateFormat)

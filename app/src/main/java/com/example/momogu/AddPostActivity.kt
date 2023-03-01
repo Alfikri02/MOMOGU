@@ -94,20 +94,20 @@ class AddPostActivity : AppCompatActivity() {
                         val postMap = HashMap<String, Any>()
 
                         postMap["postid"] = postId!!
-                        postMap["description"] = binding.descriptionPost.text.toString().lowercase()
-                        postMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
                         postMap["postimage"] = myUrl
+                        postMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
+                        postMap["product"] = binding.etProduct.text.toString()
+                        postMap["age"] = binding.etAge.text.toString()
+                        postMap["weight"] = binding.etWeight.text.toString()
+                        postMap["gender"] = binding.etGender.text.toString()
+                        postMap["desc"] = binding.etDesc.text.toString()
+                        postMap["price"] = binding.etPrice.text.toString()
                         postMap["dateTime"] = System.currentTimeMillis().toString()
 
                         ref.child(postId).updateChildren(postMap)
 
                         Toast.makeText(this, "Post uploaded successfully.", Toast.LENGTH_LONG)
                             .show()
-
-                        /*
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                         */
 
                         finish()
                         progressDialog.dismiss()

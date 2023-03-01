@@ -24,19 +24,9 @@ class UserModel
         return username
     }
 
-    fun setUsername(username: String?)
-    {
-        this.username = username
-    }
-
     fun getFullname(): String?
     {
         return fullname
-    }
-
-    fun setFullname(fullname: String?)
-    {
-        this.fullname = fullname
     }
 
     fun getBio(): String?
@@ -44,28 +34,13 @@ class UserModel
         return bio
     }
 
-    fun setBio(bio: String?)
-    {
-        this.bio = bio
-    }
-
     fun getImage(): String?
     {
         return image
     }
 
-    fun setImage(image: String?)
-    {
-        this.image = image
-    }
-
     fun getUID(): String?
     {
         return uid
-    }
-
-    fun setUID(uid: String?)
-    {
-        this.uid = uid
     }
 }

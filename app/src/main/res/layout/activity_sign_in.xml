@@ -71,7 +71,7 @@
                 android:id="@+id/lblInvalidEmail"
                 android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
-                android:text="@string/ACTIVITY_SIGN_IN_INVALID_EMAIL"
+                android:text="@string/invalid_email"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="12sp"
                 android:textStyle="italic"
@@ -164,7 +164,7 @@
             android:layout_marginEnd="50dp"
             android:gravity="center_horizontal"
             android:lines="3"
-            android:text="@string/ACTIVITY_SIGN_IN_LOADING_VIEW_TITLE"
+            android:text="@string/loading_title"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 

@@ -17,10 +17,6 @@
         tools:targetApi="31">
         <activity android:name=".WelcomeActivity"/>
         <activity android:name=".SignInActivity" />
-        <activity android:name=".StoryActivity" />
-        <activity android:name=".AddStoryActivity" />
-        <activity android:name=".ShowUsersActivity" />
-        <activity android:name=".CommentsActivity" />
         <activity android:name=".AddPostActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SplashScreenActivity"

@@ -169,7 +169,7 @@ class SignUpActivity : AppCompatActivity() {
         if (isEnabled) {
             binding.signupBtn.isEnabled = true
             binding.signupBtn.isClickable = true
-            binding.signupBtn.background = resources.getDrawable(R.drawable.rounded_corner_black)
+            binding.signupBtn.background = resources.getDrawable(R.drawable.rounded_corner_ijo)
         } else {
             binding.signupBtn.isEnabled = false
             binding.signupBtn.isClickable = false
@@ -276,7 +276,7 @@ class SignUpActivity : AppCompatActivity() {
         val userMap = HashMap<String, Any>()
 
         userMap["uid"] = currentUserID
-        userMap["fullname"] = fullName.toLowerCase()
+        userMap["fullname"] = fullName
         userMap["username"] = userName.toLowerCase()
         userMap["email"] = email
         userMap["bio"] = "Welcome to my Instagram Clone App!"

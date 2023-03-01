@@ -50,16 +50,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="@string/SPLASH_SCREEN_POWER_BY"
+            android:text="@string/power_by"
             android:textColor="@color/blackColor"
-            android:textSize="10sp" />
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/lblDesmond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:text="@string/SPLASH_SCREEN_LBL_DESMOND"
+            android:layout_marginStart="50dp"
+            android:text="@string/splash_name"
             android:textColor="@color/blackColor"
             android:textSize="15sp"
             android:textStyle="bold"

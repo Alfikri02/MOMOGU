@@ -131,7 +131,7 @@ class SignInActivity : AppCompatActivity() {
         if (isEnabled) {
             binding.loginBtn.isEnabled = true
             binding.loginBtn.isClickable = true
-            binding.loginBtn.background = resources.getDrawable(R.drawable.rounded_corner_black)
+            binding.loginBtn.background = resources.getDrawable(R.drawable.rounded_corner_ijo)
         } else {
             binding.loginBtn.isEnabled = false
             binding.loginBtn.isClickable = false
