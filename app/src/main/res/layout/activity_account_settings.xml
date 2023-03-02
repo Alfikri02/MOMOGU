@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,10 +9,10 @@
         android:id="@+id/app_bar_layout_profile_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/white">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/profile_setting_toolbar"
@@ -63,102 +62,152 @@
         android:id="@+id/profile_image_view_profile_frag"
         android:layout_width="130dp"
         android:layout_height="130dp"
+        android:layout_below="@+id/app_bar_layout_profile_setting"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:src="@drawable/profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout_profile_setting" />
+        android:src="@drawable/profile" />
 
     <TextView
         android:id="@+id/change_image_text_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_image_view_profile_frag"
+        android:layout_centerHorizontal="true"
         android:fontFamily="@font/poppins_thin"
         android:text="@string/change_image"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image_view_profile_frag" />
+        android:textSize="16sp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fullname_profile_container"
-        style="@style/ti_layout"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/full_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/change_image_text_btn">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/logout_btn"
+        android:layout_below="@+id/change_image_text_btn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/full_name_profile_frag"
-            style="@style/et_layout"
-            android:drawableStart="@drawable/ic_name"
-            android:inputType="text" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_fullname_profile"
+                style="@style/ti_layout"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="20dp"
+                android:hint="@string/full_name">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username_profile_container"
-        style="@style/ti_layout"
-        android:layout_marginTop="10dp"
-        android:hint="@string/username"
-        app:layout_constraintEnd_toEndOf="@+id/fullname_profile_container"
-        app:layout_constraintStart_toStartOf="@+id/fullname_profile_container"
-        app:layout_constraintTop_toBottomOf="@+id/fullname_profile_container">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_fullname_profile"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_name"
+                    android:inputType="text" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username_profile_frag"
-            style="@style/et_layout"
-            android:drawableStart="@drawable/ic_username"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-            android:inputType="textFilter"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_username_profile"
+                style="@style/ti_layout"
+                android:layout_below="@+id/ti_fullname_profile"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/username">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email_signup_container"
-        style="@style/ti_layout"
-        android:layout_marginTop="10dp"
-        android:hint="@string/bio"
-        app:layout_constraintEnd_toEndOf="@+id/username_profile_container"
-        app:layout_constraintStart_toStartOf="@+id/username_profile_container"
-        app:layout_constraintTop_toBottomOf="@+id/username_profile_container">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_username_profile"
+                    style="@style/et_layout"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                    android:drawableStart="@drawable/ic_username"
+                    android:inputType="textFilter" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/bio_profile_frag"
-            style="@style/et_layout"
-            android:drawableStart="@drawable/ic_city"
-            android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_whatsapp_profile"
+                style="@style/ti_layout"
+                android:layout_below="@+id/ti_username_profile"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/whatsapp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_whatsapp_profile"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_city"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_city_profile"
+                style="@style/ti_layout"
+                android:layout_below="@+id/ti_whatsapp_profile"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/city">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_city_profile"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_city"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_address_profile"
+                style="@style/ti_layout"
+                android:layout_below="@+id/ti_city_profile"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:hint="@string/address">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_address_profile"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_city"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logout_btn"
         style="@style/greenButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/delete_account_btn"
+        android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="10dp"
         android:text="@string/logout"
         android:textAllCaps="false"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/delete_account_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="16sp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/delete_account_btn"
         style="@style/greenButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
         android:text="@string/delete_account"
         android:textAllCaps="false"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="16sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

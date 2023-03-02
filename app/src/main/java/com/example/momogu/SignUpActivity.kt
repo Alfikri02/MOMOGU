@@ -41,10 +41,11 @@ class SignUpActivity : AppCompatActivity() {
         binding.layoutSignUpRelative.setOnTouchListener { _, _ ->
 
             hideSoftKeyboard(this)
-            binding.fullnameSignup.clearFocus()
-            binding.usernameSignup.clearFocus()
-            binding.emailSignup.clearFocus()
-            binding.passwordSignup.clearFocus()
+            binding.etFullname.clearFocus()
+            binding.etUsername.clearFocus()
+            binding.etWhatsapp.clearFocus()
+            binding.etEmail.clearFocus()
+            binding.etPassword.clearFocus()
 
             false
         }
@@ -56,12 +57,13 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        binding.fullnameSignup.addTextChangedListener(object : TextWatcher {
+        binding.etFullname.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (binding.fullnameSignup.text.toString() != "" &&
-                    binding.usernameSignup.text.toString() != "" &&
-                    binding.emailSignup.text.toString() != "" &&
-                    binding.passwordSignup.text.toString() != ""
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etUsername.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
                 ) {
                     setSignUpButtonEnabled(true)
                 } else {
@@ -72,10 +74,11 @@ class SignUpActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.fullnameSignup.text.toString() != "" &&
-                    binding.usernameSignup.text.toString() != "" &&
-                    binding.emailSignup.text.toString() != "" &&
-                    binding.passwordSignup.text.toString() != ""
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etUsername.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
                 ) {
                     setSignUpButtonEnabled(true)
                 } else {
@@ -84,12 +87,13 @@ class SignUpActivity : AppCompatActivity() {
             }
         })
 
-        binding.usernameSignup.addTextChangedListener(object : TextWatcher {
+        binding.etUsername.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (binding.fullnameSignup.text.toString() != "" &&
-                    binding.usernameSignup.text.toString() != "" &&
-                    binding.emailSignup.text.toString() != "" &&
-                    binding.passwordSignup.text.toString() != ""
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etUsername.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
                 ) {
                     setSignUpButtonEnabled(true)
                 } else {
@@ -100,10 +104,11 @@ class SignUpActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.fullnameSignup.text.toString() != "" &&
-                    binding.usernameSignup.text.toString() != "" &&
-                    binding.emailSignup.text.toString() != "" &&
-                    binding.passwordSignup.text.toString() != ""
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etUsername.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
                 ) {
                     setSignUpButtonEnabled(true)
                 } else {
@@ -112,9 +117,39 @@ class SignUpActivity : AppCompatActivity() {
             }
         })
 
-        binding.emailSignup.addTextChangedListener(object : TextWatcher {
+        binding.etWhatsapp.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (isEmailValid(binding.emailSignup.text.toString())) {
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etUsername.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
+                ) {
+                    setSignUpButtonEnabled(true)
+                } else {
+                    setSignUpButtonEnabled(false)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etUsername.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
+                ) {
+                    setSignUpButtonEnabled(true)
+                } else {
+                    setSignUpButtonEnabled(false)
+                }
+            }
+        })
+
+        binding.etEmail.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (isEmailValid(binding.etEmail.text.toString())) {
                     binding.lblInvalidEmail.visibility = View.GONE
                 } else {
                     binding.lblInvalidEmail.visibility = View.VISIBLE
@@ -124,10 +159,11 @@ class SignUpActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.fullnameSignup.text.toString() != "" &&
-                    binding.usernameSignup.text.toString() != "" &&
-                    binding.emailSignup.text.toString() != "" &&
-                    binding.passwordSignup.text.toString() != ""
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etUsername.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
                 ) {
                     setSignUpButtonEnabled(true)
                 } else {
@@ -136,12 +172,13 @@ class SignUpActivity : AppCompatActivity() {
             }
         })
 
-        binding.passwordSignup.addTextChangedListener(object : TextWatcher {
+        binding.etPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (binding.fullnameSignup.text.toString() != "" &&
-                    binding.usernameSignup.text.toString() != "" &&
-                    binding.emailSignup.text.toString() != "" &&
-                    binding.passwordSignup.text.toString() != ""
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etUsername.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
                 ) {
                     setSignUpButtonEnabled(true)
                 } else {
@@ -152,10 +189,11 @@ class SignUpActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.fullnameSignup.text.toString() != "" &&
-                    binding.usernameSignup.text.toString() != "" &&
-                    binding.emailSignup.text.toString() != "" &&
-                    binding.passwordSignup.text.toString() != ""
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etUsername.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
                 ) {
                     setSignUpButtonEnabled(true)
                 } else {
@@ -197,17 +235,19 @@ class SignUpActivity : AppCompatActivity() {
         if (isEnabled) {
             binding.signinLinkBtn.isEnabled = true
             binding.signupBtn.isEnabled = true
-            binding.fullnameSignup.isEnabled = true
-            binding.usernameSignup.isEnabled = true
-            binding.emailSignup.isEnabled = true
-            binding.passwordSignup.isEnabled = true
+            binding.etFullname.isEnabled = true
+            binding.etUsername.isEnabled = true
+            binding.etWhatsapp.isEnabled = true
+            binding.etEmail.isEnabled = true
+            binding.etPassword.isEnabled = true
         } else {
             binding.signinLinkBtn.isEnabled = false
             binding.signupBtn.isEnabled = false
-            binding.fullnameSignup.isEnabled = false
-            binding.usernameSignup.isEnabled = false
-            binding.emailSignup.isEnabled = false
-            binding.passwordSignup.isEnabled = false
+            binding.etFullname.isEnabled = false
+            binding.etUsername.isEnabled = false
+            binding.etWhatsapp.isEnabled = false
+            binding.etEmail.isEnabled = false
+            binding.etPassword.isEnabled = false
         }
     }
 
@@ -221,10 +261,11 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun createAccount() {
-        val fullName = binding.fullnameSignup.text.toString()
-        val userName = binding.usernameSignup.text.toString()
-        val email = binding.emailSignup.text.toString()
-        val password = binding.passwordSignup.text.toString()
+        val fullName = binding.etFullname.text.toString()
+        val userName = binding.etUsername.text.toString()
+        val whatsapp = binding.etWhatsapp.text.toString()
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
 
         when {
             TextUtils.isEmpty(fullName) -> Toast.makeText(
@@ -235,6 +276,11 @@ class SignUpActivity : AppCompatActivity() {
             TextUtils.isEmpty(userName) -> Toast.makeText(
                 this,
                 "User Name is required.",
+                Toast.LENGTH_LONG
+            ).show()
+            TextUtils.isEmpty(whatsapp) -> Toast.makeText(
+                this,
+                "Whatsapp Number is required.",
                 Toast.LENGTH_LONG
             ).show()
             TextUtils.isEmpty(email) -> Toast.makeText(
@@ -255,7 +301,7 @@ class SignUpActivity : AppCompatActivity() {
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            saveUserInfo(fullName, userName, email, password)
+                            saveUserInfo(fullName, userName, whatsapp, email, password)
 
                         } else {
                             val message = task.exception!!.toString()
@@ -270,7 +316,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUserInfo(fullName: String, userName: String, email: String, password: String) {
+    private fun saveUserInfo(fullName: String, userName: String, whatsapp: String, email: String, password: String) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
         val userMap = HashMap<String, Any>()
@@ -279,7 +325,9 @@ class SignUpActivity : AppCompatActivity() {
         userMap["fullname"] = fullName
         userMap["username"] = userName.toLowerCase()
         userMap["email"] = email
-        userMap["bio"] = "Welcome to my Instagram Clone App!"
+        userMap["wa"] = whatsapp
+        userMap["city"] = ""
+        userMap["address"] = ""
         userMap["image"] =
             "https://firebasestorage.googleapis.com/v0/b/instagram-clone-app-7f61a.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=1d051bfb-77fd-4404-9652-95836cfb796f"
 
@@ -296,12 +344,6 @@ class SignUpActivity : AppCompatActivity() {
                         "Account has been created successfully.",
                         Toast.LENGTH_LONG
                     ).show()
-
-                    FirebaseDatabase.getInstance().reference.child("Follow")
-                        .child(currentUserID)
-                        .child("Following")
-                        .child(currentUserID)
-                        .setValue(true)
 
                     val intent = Intent(this, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

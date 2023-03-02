@@ -183,6 +183,7 @@
                     android:id="@+id/et_price"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
+                    android:digits="0123456789.,"
                     android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>

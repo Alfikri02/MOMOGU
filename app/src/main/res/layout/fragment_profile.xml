@@ -63,7 +63,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/full_name_profile_frag"
+                    android:id="@+id/et_fullname_profile"
                     android:layout_width="@dimen/zerodp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -75,7 +75,7 @@
                     app:layout_constraintTop_toTopOf="@+id/pro_image_profile_frag" />
 
                 <TextView
-                    android:id="@+id/bio_profile_frag"
+                    android:id="@+id/et_city_profile"
                     android:layout_width="@dimen/zerodp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -87,7 +87,7 @@
                     app:drawableStartCompat="@drawable/ic_city"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
-                    app:layout_constraintTop_toBottomOf="@id/full_name_profile_frag" />
+                    app:layout_constraintTop_toBottomOf="@id/et_fullname_profile" />
 
                 <TextView
                     android:id="@+id/total_posts"
@@ -100,7 +100,7 @@
                     android:textSize="16sp"
                     app:drawableStartCompat="@drawable/ic_grid"
                     app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
-                    app:layout_constraintTop_toBottomOf="@+id/bio_profile_frag" />
+                    app:layout_constraintTop_toBottomOf="@+id/et_city_profile" />
 
                 <ImageView
                     android:id="@+id/edit_account_settings_btn"
@@ -109,7 +109,7 @@
                     android:contentDescription="@string/content"
                     android:src="@drawable/ic_edit"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/bio_profile_frag" />
+                    app:layout_constraintEnd_toEndOf="@+id/et_city_profile" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

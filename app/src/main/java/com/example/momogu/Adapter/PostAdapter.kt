@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.Fragments.PostDetailsFragment
 import com.example.momogu.Model.PostModel
+import com.example.momogu.Model.UserModel
 import com.example.momogu.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -40,6 +41,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         var product: TextView
         var price: TextView
         var weight: TextView
+        var location: TextView
 
         init {
             postImage = itemView.findViewById(R.id.post_image_home)
@@ -49,6 +51,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
             product = itemView.findViewById(R.id.tv_product)
             price = itemView.findViewById(R.id.tv_price)
             weight = itemView.findViewById(R.id.tv_weight)
+            location = itemView.findViewById(R.id.tv_location)
         }
     }
 
@@ -70,6 +73,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         val post = mPost[position]
         Picasso.get().load(post.getPostimage()).into(holder.postImage)
         checkSavedStatus(post.getPostid()!!, holder.saveButton)
+        locationInfo(holder.location, post.getPublisher())
 
         holder.product.text = post.getProduct()
         holder.price.text = "Rp. ${post.getPrice()}"
@@ -154,6 +158,26 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         calendar.timeInMillis = milliSeconds
 
         return formatter.format(calendar.time)
+    }
+
+    private fun locationInfo(location: TextView, publisherId: String?)
+    {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
+
+        usersRef.addValueEventListener(object : ValueEventListener
+        {
+            override fun onDataChange(p0: DataSnapshot)
+            {
+                if (p0.exists())
+                {
+                    val user = p0.getValue<UserModel>(UserModel::class.java)
+
+                    location.text = user!!.getCity()
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
     }
 
     private fun checkSavedStatus(postid: String, imageView: ImageView) {

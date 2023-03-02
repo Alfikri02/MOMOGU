@@ -147,8 +147,8 @@ class ProfileFragment : Fragment() {
                     Picasso.get().load(user?.getImage()).placeholder(R.drawable.profile)
                         .into(binding.proImageProfileFrag)
                     binding.profileFragmentUsername.text = user?.getUsername()
-                    binding.fullNameProfileFrag.text = user?.getFullname()
-                    binding.bioProfileFrag.text = user?.getBio()
+                    binding.etFullnameProfile.text = user?.getFullname()
+                    binding.etCityProfile.text = user?.getCity()
                 }
             }
 

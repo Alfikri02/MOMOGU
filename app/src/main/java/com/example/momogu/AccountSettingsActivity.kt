@@ -103,9 +103,11 @@ class AccountSettingsActivity : AppCompatActivity() {
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile)
                         .into(binding.profileImageViewProfileFrag)
-                    binding.usernameProfileFrag.setText(user.getUsername())
-                    binding.fullNameProfileFrag.setText(user.getFullname())
-                    binding.bioProfileFrag.setText(user.getBio())
+                    binding.etUsernameProfile.setText(user.getUsername())
+                    binding.etFullnameProfile.setText(user.getFullname())
+                    binding.etWhatsappProfile.setText(user.getWa())
+                    binding.etCityProfile.setText(user.getCity())
+                    binding.etAddressProfile.setText(user.getAddress())
                 }
             }
 
@@ -115,25 +117,35 @@ class AccountSettingsActivity : AppCompatActivity() {
 
     private fun updateUserInfoOnly() {
         when {
-            TextUtils.isEmpty(binding.fullNameProfileFrag.text.toString()) -> {
+            TextUtils.isEmpty(binding.etFullnameProfile.text.toString()) -> {
                 Toast.makeText(this, "Full Name is Required!", Toast.LENGTH_LONG).show()
             }
 
-            TextUtils.isEmpty(binding.usernameProfileFrag.text.toString()) -> {
+            TextUtils.isEmpty(binding.etUsernameProfile.text.toString()) -> {
                 Toast.makeText(this, "Username is Required!", Toast.LENGTH_LONG).show()
             }
 
-            TextUtils.isEmpty(binding.bioProfileFrag.text.toString()) -> {
-                Toast.makeText(this, "Bio is Required!", Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(binding.etWhatsappProfile.text.toString()) -> {
+                Toast.makeText(this, "Whatsapp Number is Required!", Toast.LENGTH_LONG).show()
+            }
+
+            TextUtils.isEmpty(binding.etCityProfile.text.toString()) -> {
+                Toast.makeText(this, "City is Required!", Toast.LENGTH_LONG).show()
+            }
+
+            TextUtils.isEmpty(binding.etAddressProfile.text.toString()) -> {
+                Toast.makeText(this, "Full Address is Required!", Toast.LENGTH_LONG).show()
             }
 
             else -> {
                 val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
                 val userMap = HashMap<String, Any>()
 
-                userMap["fullname"] = binding.fullNameProfileFrag.text.toString()
-                userMap["username"] = binding.usernameProfileFrag.text.toString().lowercase()
-                userMap["bio"] = binding.bioProfileFrag.text.toString()
+                userMap["fullname"] = binding.etFullnameProfile.text.toString()
+                userMap["username"] = binding.etUsernameProfile.text.toString().lowercase()
+                userMap["wa"] = binding.etWhatsappProfile.text.toString()
+                userMap["city"] = binding.etCityProfile.text.toString()
+                userMap["address"] = binding.etAddressProfile.text.toString()
 
                 usersRef.child(firebaseUser.uid).updateChildren(userMap)
 
@@ -154,16 +166,24 @@ class AccountSettingsActivity : AppCompatActivity() {
                     .show()
             }
 
-            TextUtils.isEmpty(binding.fullNameProfileFrag.text.toString()) -> {
+            TextUtils.isEmpty(binding.etFullnameProfile.text.toString()) -> {
                 Toast.makeText(this, "Full Name is Required!", Toast.LENGTH_LONG).show()
             }
 
-            TextUtils.isEmpty(binding.usernameProfileFrag.text.toString()) -> {
+            TextUtils.isEmpty(binding.etUsernameProfile.text.toString()) -> {
                 Toast.makeText(this, "Username is Required!", Toast.LENGTH_LONG).show()
             }
 
-            TextUtils.isEmpty(binding.bioProfileFrag.text.toString()) -> {
-                Toast.makeText(this, "Bio is Required!", Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(binding.etWhatsappProfile.text.toString()) -> {
+                Toast.makeText(this, "Whatsapp Number is Required!", Toast.LENGTH_LONG).show()
+            }
+
+            TextUtils.isEmpty(binding.etCityProfile.text.toString()) -> {
+                Toast.makeText(this, "City is Required!", Toast.LENGTH_LONG).show()
+            }
+
+            TextUtils.isEmpty(binding.etAddressProfile.text.toString()) -> {
+                Toast.makeText(this, "Full Address is Required!", Toast.LENGTH_LONG).show()
             }
 
             else -> {
@@ -193,9 +213,11 @@ class AccountSettingsActivity : AppCompatActivity() {
 
                         val userMap = HashMap<String, Any>()
 
-                        userMap["fullname"] = binding.fullNameProfileFrag.text.toString()
-                        userMap["username"] = binding.usernameProfileFrag.text.toString().lowercase()
-                        userMap["bio"] = binding.bioProfileFrag.text.toString()
+                        userMap["fullname"] = binding.etFullnameProfile.text.toString()
+                        userMap["username"] = binding.etUsernameProfile.text.toString().lowercase()
+                        userMap["wa"] = binding.etWhatsappProfile.text.toString()
+                        userMap["city"] = binding.etCityProfile.text.toString()
+                        userMap["address"] = binding.etAddressProfile.text.toString()
                         userMap["image"] = myUrl
 
                         ref.child(firebaseUser.uid).updateChildren(userMap)

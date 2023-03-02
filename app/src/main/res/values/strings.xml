@@ -12,7 +12,7 @@
     <!--Activity Account Setting-->
     <string name="change_image">Ubah Foto Profil</string>
     <string name="ubah_profil">Ubah Profil</string>
-    <string name="bio">Bio</string>
+    <string name="address">Alamat Lengkap</string>
     <string name="logout">Logout</string>
     <string name="delete_account">Delete Account</string>
 
@@ -43,6 +43,7 @@
     <string name="fill_input">Silakan isi data di bawah ini</string>
     <string name="full_name">Nama Lengkap</string>
     <string name="username">Nama Pengguna</string>
+    <string name="whatsapp">Nomor Whatsapp Aktif</string>
     <string name="register">Register</string>
     <string name="have_acc">Sudah punya akun?</string>
 
@@ -62,5 +63,6 @@
     <string name="power_by">Power By</string>
     <string name="splash_name">Muhammad Al Fikri</string>
     <string name="welcome_back">Selamat Datang Kembali,</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

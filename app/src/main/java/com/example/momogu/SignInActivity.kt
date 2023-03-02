@@ -49,8 +49,8 @@ class SignInActivity : AppCompatActivity() {
     private fun buttonOnClickListener() {
         binding.signupLinkBtn.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
-            binding.emailLogin.text = null
-            binding.passwordLogin.text = null
+            binding.etEmail.text = null
+            binding.etPassword.text = null
             binding.lblInvalidEmail.visibility = View.GONE
         }
 
@@ -62,27 +62,27 @@ class SignInActivity : AppCompatActivity() {
         }
 
         binding.layoutSignInRelative.setOnTouchListener { _, _ ->
-            if (binding.emailLogin.text.toString() != "" && !isEmailValid(binding.emailLogin.text.toString())) {
+            if (binding.etEmail.text.toString() != "" && !isEmailValid(binding.etEmail.text.toString())) {
                 binding.lblInvalidEmail.visibility = View.VISIBLE
             } else {
                 binding.lblInvalidEmail.visibility = View.GONE
             }
 
             hideSoftKeyboard(this)
-            binding.emailLogin.clearFocus()
-            binding.passwordLogin.clearFocus()
+            binding.etEmail.clearFocus()
+            binding.etPassword.clearFocus()
             false
         }
     }
 
     private fun textFieldValidationChecking() {
-        binding.emailLogin.addTextChangedListener(object : TextWatcher {
+        binding.etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (!isEmailValid(binding.emailLogin.text.toString())) {
+                if (!isEmailValid(binding.etEmail.text.toString())) {
                     binding.lblInvalidEmail.visibility = View.VISIBLE
                 } else {
                     binding.lblInvalidEmail.visibility = View.GONE
-                    if (binding.emailLogin.text.toString() != "" && binding.passwordLogin.text.toString() != "") {
+                    if (binding.etEmail.text.toString() != "" && binding.etPassword.text.toString() != "") {
                         setLoginButtonEnabled(true)
                     } else {
                         setLoginButtonEnabled(false)
@@ -93,7 +93,7 @@ class SignInActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.emailLogin.text.toString() != "" && binding.passwordLogin.text.toString() != "") {
+                if (binding.etEmail.text.toString() != "" && binding.etPassword.text.toString() != "") {
                     setLoginButtonEnabled(true)
                 } else {
                     setLoginButtonEnabled(false)
@@ -101,9 +101,9 @@ class SignInActivity : AppCompatActivity() {
             }
         })
 
-        binding.passwordLogin.addTextChangedListener(object : TextWatcher {
+        binding.etPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (binding.emailLogin.text.toString() != "" && binding.passwordLogin.text.toString() != "") {
+                if (binding.etEmail.text.toString() != "" && binding.etPassword.text.toString() != "") {
                     setLoginButtonEnabled(true)
                 } else {
                     setLoginButtonEnabled(false)
@@ -113,7 +113,7 @@ class SignInActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.emailLogin.text.toString() != "" && binding.passwordLogin.text.toString() != "") {
+                if (binding.etEmail.text.toString() != "" && binding.etPassword.text.toString() != "") {
                     setLoginButtonEnabled(true)
                 } else {
                     setLoginButtonEnabled(false)
@@ -163,19 +163,19 @@ class SignInActivity : AppCompatActivity() {
     private fun enableComponents(isEnabled: Boolean) {
         if (isEnabled) {
             binding.signupLinkBtn.isEnabled = true
-            binding.emailLogin.isEnabled = true
-            binding.passwordLogin.isEnabled = true
+            binding.etEmail.isEnabled = true
+            binding.etPassword.isEnabled = true
 
         } else {
             binding.signupLinkBtn.isEnabled = false
-            binding.emailLogin.isEnabled = false
-            binding.passwordLogin.isEnabled = false
+            binding.etEmail.isEnabled = false
+            binding.etPassword.isEnabled = false
         }
     }
 
     private fun loginUser() {
-        val email = binding.emailLogin.text.toString()
-        val password = binding.passwordLogin.text.toString()
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
 
         when {
             TextUtils.isEmpty(email) -> Toast.makeText(

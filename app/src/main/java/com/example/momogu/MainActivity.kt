@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.momogu.Fragments.HomeFragment
 import com.example.momogu.Fragments.ProfileFragment
+import com.example.momogu.Fragments.ScalesFragment
 
 class MainActivity : AppCompatActivity()
 {
@@ -23,6 +24,12 @@ class MainActivity : AppCompatActivity()
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId)
         {
+
+            R.id.nav_scales ->
+            {
+                routeToFragment(ScalesFragment())
+                return@OnNavigationItemSelectedListener true
+            }
 
             R.id.nav_home ->
             {

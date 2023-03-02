@@ -4,17 +4,21 @@ class UserModel
 {
     private var username: String? = null
     private var fullname: String? = null
-    private var bio: String? = null
+    private var wa: String? = null
+    private var city: String? = null
+    private var address: String? = null
     private var image: String? = null
     private var uid: String? = null
 
     constructor()
 
-    constructor(username: String, fullname: String, bio: String, image: String, uid: String)
+    constructor(username: String, fullname: String, wa: String, city: String, address: String, image: String, uid: String)
     {
         this.username = username
         this.fullname = fullname
-        this.bio = bio
+        this.wa = wa
+        this.city = city
+        this.address = address
         this.image = image
         this.uid = uid
     }
@@ -29,9 +33,19 @@ class UserModel
         return fullname
     }
 
-    fun getBio(): String?
+    fun getWa(): String?
     {
-        return bio
+        return wa
+    }
+
+    fun getCity(): String?
+    {
+        return city
+    }
+
+    fun getAddress(): String?
+    {
+        return address
     }
 
     fun getImage(): String?

@@ -41,7 +41,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_account" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/fullname_signup_container"
+                android:id="@+id/ti_fullname"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp"
@@ -51,7 +51,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_input">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/fullname_signup"
+                    android:id="@+id/et_fullname"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="text" />
@@ -59,16 +59,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/username_signup_container"
+                android:id="@+id/ti_username"
                 style="@style/ti_layout"
                 android:layout_marginTop="10dp"
                 android:hint="@string/username"
-                app:layout_constraintEnd_toEndOf="@+id/fullname_signup_container"
-                app:layout_constraintStart_toStartOf="@+id/fullname_signup_container"
-                app:layout_constraintTop_toBottomOf="@+id/fullname_signup_container">
+                app:layout_constraintEnd_toEndOf="@+id/ti_fullname"
+                app:layout_constraintStart_toStartOf="@+id/ti_fullname"
+                app:layout_constraintTop_toBottomOf="@+id/ti_fullname">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/username_signup"
+                    android:id="@+id/et_username"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_username"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
@@ -77,16 +77,34 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/email_signup_container"
+                android:id="@+id/ti_whatsapp"
+                style="@style/ti_layout"
+                android:layout_marginTop="10dp"
+                android:hint="@string/whatsapp"
+                app:layout_constraintEnd_toEndOf="@+id/ti_username"
+                app:layout_constraintStart_toStartOf="@+id/ti_username"
+                app:layout_constraintTop_toBottomOf="@+id/ti_username">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_whatsapp"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_username"
+                    android:digits="1234567890"
+                    android:inputType="textFilter|phone"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_email"
                 style="@style/ti_layout"
                 android:layout_marginTop="10dp"
                 android:hint="@string/email"
-                app:layout_constraintEnd_toEndOf="@+id/username_signup_container"
-                app:layout_constraintStart_toStartOf="@+id/username_signup_container"
-                app:layout_constraintTop_toBottomOf="@+id/username_signup_container">
+                app:layout_constraintEnd_toEndOf="@+id/ti_whatsapp"
+                app:layout_constraintStart_toStartOf="@+id/ti_whatsapp"
+                app:layout_constraintTop_toBottomOf="@+id/ti_whatsapp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email_signup"
+                    android:id="@+id/et_email"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_mail"
                     android:inputType="textEmailAddress" />
@@ -102,22 +120,22 @@
                 android:textSize="12sp"
                 android:textStyle="italic"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/email_signup_container"
-                app:layout_constraintStart_toStartOf="@+id/email_signup_container"
-                app:layout_constraintTop_toBottomOf="@+id/email_signup_container" />
+                app:layout_constraintEnd_toEndOf="@+id/ti_email"
+                app:layout_constraintStart_toStartOf="@+id/ti_email"
+                app:layout_constraintTop_toBottomOf="@+id/ti_email" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/password_signup_container"
+                android:id="@+id/ti_password"
                 style="@style/ti_layout"
                 android:layout_marginTop="15dp"
                 android:hint="@string/password"
                 app:endIconMode="password_toggle"
-                app:layout_constraintEnd_toEndOf="@id/email_signup_container"
-                app:layout_constraintStart_toStartOf="@id/email_signup_container"
-                app:layout_constraintTop_toBottomOf="@+id/email_signup_container">
+                app:layout_constraintEnd_toEndOf="@id/ti_email"
+                app:layout_constraintStart_toStartOf="@id/ti_email"
+                app:layout_constraintTop_toBottomOf="@+id/ti_email">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password_signup"
+                    android:id="@+id/et_password"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_password"
                     android:inputType="textPassword" />
@@ -131,15 +149,17 @@
                 android:layout_height="@dimen/mediumButtonHeight"
                 android:layout_marginTop="30dp"
                 android:text="@string/register"
-                app:layout_constraintEnd_toEndOf="@+id/password_signup_container"
-                app:layout_constraintStart_toStartOf="@+id/password_signup_container"
-                app:layout_constraintTop_toBottomOf="@+id/password_signup_container" />
+                app:layout_constraintEnd_toEndOf="@+id/ti_password"
+                app:layout_constraintStart_toStartOf="@+id/ti_password"
+                app:layout_constraintTop_toBottomOf="@+id/ti_password" />
 
             <LinearLayout
                 android:id="@+id/signin_link_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/signup_btn">
