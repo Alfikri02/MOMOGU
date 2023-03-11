@@ -2,28 +2,17 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="180dp"
-    android:layout_height="270dp"
+    android:layout_height="250dp"
     app:cardCornerRadius="14dp"
     app:cardElevation="3dp"
     app:cardUseCompatPadding="true"
     app:strokeColor="@color/colorBlack"
-    app:strokeWidth="2dp">
+    app:strokeWidth="2dp"
+    android:id="@+id/cardPost">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/lblDateTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:gravity="center"
-            android:text="@string/date_time"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/post_image_home"
@@ -35,7 +24,7 @@
             android:src="@drawable/ic_cow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblDateTime" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_product"

@@ -2,7 +2,7 @@
     <string name="app_name">MOMOGU</string>
 
     <!--Post Adapter-->
-    <string name="date_time">Date Time</string>
+    <string name="date">Date</string>
     <string name="time_ago">Time Ago</string>
     <string name="product">Product</string>
     <string name="price">Price</string>
@@ -19,7 +19,8 @@
     <!--Activity Add Post-->
     <string name="type_cow">Jenis Sapi</string>
     <string name="age">Umur (Dalam Bulan)</string>
-    <string name="estimated_weight">Bobot</string>
+    <string name="estimated_weight">Bobot (Dalam KG)</string>
+    <string name="color">Warna</string>
     <string name="gender">Jenis Kelamin</string>
     <string name="desc">Deskripsi</string>
     <string name="prices">Harga</string>
@@ -47,8 +48,13 @@
     <string name="register">Register</string>
     <string name="have_acc">Sudah punya akun?</string>
 
-    <!--Fragment Post Detail-->
+    <!--Activity Post Detail-->
     <string name="photo">Photo</string>
+    <string name="detail">Detail</string>
+    <string name="favorite">Favorit</string>
+    <string name="weight_estimation">Estimasi Berat</string>
+    <string name="age_">Umur</string>
+    <string name="buy">Beli Sekarang!</string>
 
     <!--Fragment Profile-->
     <string name="zero">0</string>

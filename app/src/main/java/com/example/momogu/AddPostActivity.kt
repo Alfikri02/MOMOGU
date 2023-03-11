@@ -99,6 +99,7 @@ class AddPostActivity : AppCompatActivity() {
                         postMap["product"] = binding.etProduct.text.toString()
                         postMap["age"] = binding.etAge.text.toString()
                         postMap["weight"] = binding.etWeight.text.toString()
+                        postMap["color"] = binding.etColor.text.toString()
                         postMap["gender"] = binding.etGender.text.toString()
                         postMap["desc"] = binding.etDesc.text.toString()
                         postMap["price"] = binding.etPrice.text.toString()

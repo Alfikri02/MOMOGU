@@ -7,6 +7,7 @@ class PostModel {
     private var product: String? = null
     private var age: String? = null
     private var weight: String? = null
+    private var color: String? = null
     private var gender: String? = null
     private var desc: String? = null
     private var price: String? = null
@@ -21,6 +22,7 @@ class PostModel {
         product: String?,
         age: String?,
         weight: String?,
+        color: String?,
         gender: String?,
         desc: String?,
         price: String?,
@@ -32,6 +34,7 @@ class PostModel {
         this.product = product
         this.age = age
         this.weight = weight
+        this.color = color
         this.gender = gender
         this.desc = desc
         this.price = price
@@ -60,6 +63,10 @@ class PostModel {
 
     fun getWeight(): String? {
         return weight
+    }
+
+    fun getColor(): String? {
+        return color
     }
 
     fun getGender(): String? {

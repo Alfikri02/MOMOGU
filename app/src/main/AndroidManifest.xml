@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MOMOGU"
         tools:targetApi="31">
-        <activity android:name=".DetailActivity"/>
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".AddPostActivity" />

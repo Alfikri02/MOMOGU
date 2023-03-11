@@ -134,6 +134,24 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_color"
+                style="@style/ti_layout"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ti_weight">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_color"
+                    style="@style/et_layout"
+                    android:drawableStart="@drawable/ic_name"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_gender"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
@@ -141,7 +159,7 @@
                 android:hint="@string/gender"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_weight">
+                app:layout_constraintTop_toBottomOf="@+id/ti_color">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_gender"

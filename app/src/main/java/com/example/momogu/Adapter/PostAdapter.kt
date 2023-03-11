@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.Fragments.PostDetailsFragment
@@ -22,7 +23,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
 import java.util.*
 
 class PostAdapter(private val mContext: Context, private val mPost: List<PostModel>) :
@@ -36,22 +36,22 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var postImage: ImageView
         var saveButton: ImageView
-        var dateTime: TextView
         var timeAgo: TextView
         var product: TextView
         var price: TextView
         var weight: TextView
         var location: TextView
+        var cardPost: CardView
 
         init {
             postImage = itemView.findViewById(R.id.post_image_home)
             saveButton = itemView.findViewById(R.id.post_save_comment_btn)
-            dateTime = itemView.findViewById(R.id.lblDateTime)
             timeAgo = itemView.findViewById(R.id.lblTimeAgo)
             product = itemView.findViewById(R.id.tv_product)
             price = itemView.findViewById(R.id.tv_price)
             weight = itemView.findViewById(R.id.tv_weight)
             location = itemView.findViewById(R.id.tv_location)
+            cardPost = itemView.findViewById(R.id.cardPost)
         }
     }
 
@@ -78,11 +78,10 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         holder.product.text = post.getProduct()
         holder.price.text = "Rp. ${post.getPrice()}"
         holder.weight.text = "${post.getWeight()} KG"
-
-        holder.dateTime.text = getDate(post.getDateTime()!!.toLong(), "dd/MM/yyyy")
         holder.timeAgo.text = getTimeAgo(post.getDateTime()!!.toLong())
 
-        holder.postImage.setOnClickListener {
+        holder.cardPost.setOnClickListener {
+
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
 
             editor.putString("postId", post.getPostid())
@@ -149,17 +148,6 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun getDate(milliSeconds: Long, dateFormat: String?): String? {
-        // Create a DateFormatter object for displaying date in specified format.
-        val formatter = SimpleDateFormat(dateFormat)
-        // Create a calendar object that will convert the date and time value in milliseconds to date.
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.timeInMillis = milliSeconds
-
-        return formatter.format(calendar.time)
-    }
-
     private fun locationInfo(location: TextView, publisherId: String?)
     {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
@@ -170,7 +158,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
             {
                 if (p0.exists())
                 {
-                    val user = p0.getValue<UserModel>(UserModel::class.java)
+                    val user = p0.getValue(UserModel::class.java)
 
                     location.text = user!!.getCity()
                 }
