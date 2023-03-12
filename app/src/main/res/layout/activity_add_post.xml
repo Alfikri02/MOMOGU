@@ -147,7 +147,7 @@
                     android:id="@+id/et_color"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
-                    android:inputType="numberDecimal" />
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

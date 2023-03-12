@@ -251,7 +251,9 @@
                     android:id="@+id/et_desc"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
-                    android:inputType="textMultiLine" />
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:inputType="none"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

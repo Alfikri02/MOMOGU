@@ -48,6 +48,11 @@ class PostDetailsFragment : Fragment() {
                 .replace(R.id.fragment_container, HomeFragment()).commit()
         }
 
+        binding.linearProfile.setOnClickListener {
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, BreederFragment()).commit()
+        }
+
         return binding.root
     }
 
