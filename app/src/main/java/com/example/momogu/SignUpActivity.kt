@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
+@Suppress("DEPRECATION")
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
@@ -203,6 +204,7 @@ class SignUpActivity : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setSignUpButtonEnabled(isEnabled: Boolean) {
         if (isEnabled) {
             binding.signupBtn.isEnabled = true
@@ -301,7 +303,7 @@ class SignUpActivity : AppCompatActivity() {
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            saveUserInfo(fullName, userName, whatsapp, email, password)
+                            saveUserInfo(fullName, userName, whatsapp, email)
 
                         } else {
                             val message = task.exception!!.toString()
@@ -316,7 +318,8 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUserInfo(fullName: String, userName: String, whatsapp: String, email: String, password: String) {
+    @SuppressLint("DefaultLocale")
+    private fun saveUserInfo(fullName: String, userName: String, whatsapp: String, email: String) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
         val userMap = HashMap<String, Any>()

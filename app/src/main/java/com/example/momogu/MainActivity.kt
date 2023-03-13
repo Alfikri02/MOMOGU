@@ -8,6 +8,7 @@ import com.example.momogu.Fragments.HomeFragment
 import com.example.momogu.Fragments.ProfileFragment
 import com.example.momogu.Fragments.ScalesFragment
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?)
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity()
         routeFrag.commit()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed()
     {
         //Don't do anything

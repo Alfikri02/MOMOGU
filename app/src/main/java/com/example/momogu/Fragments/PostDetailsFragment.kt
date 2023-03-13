@@ -102,6 +102,7 @@ class PostDetailsFragment : Fragment() {
         })
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun getDate(milliSeconds: Long, dateFormat: String?): String? {
         val formatter = SimpleDateFormat(dateFormat)
         val calendar: Calendar = Calendar.getInstance()

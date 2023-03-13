@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu
 
 import android.app.Activity
@@ -24,6 +26,7 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
+
 
 class AccountSettingsActivity : AppCompatActivity() {
 
@@ -82,6 +85,8 @@ class AccountSettingsActivity : AppCompatActivity() {
         userInfo()
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -159,6 +164,7 @@ class AccountSettingsActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun uploadImageAndUpdateInfo() {
         when {
             imageUri == null -> {

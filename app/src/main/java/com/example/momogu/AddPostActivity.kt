@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu
 
 import android.app.Activity
@@ -49,6 +51,8 @@ class AddPostActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -59,6 +63,7 @@ class AddPostActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun uploadImage() {
         when (imageUri) {
             null -> {

@@ -1,6 +1,5 @@
 package com.example.momogu.Fragments
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -100,7 +99,6 @@ class BreederFragment : Fragment() {
         val postRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
         postRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SuspiciousIndentation")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     for (snapshot in p0.children) {

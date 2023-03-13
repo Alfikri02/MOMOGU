@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu.Fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -78,7 +81,8 @@ class ProfileFragment : Fragment() {
         recyclerViewUploadImages.visibility = View.VISIBLE
 
         userInfo()
-        getTotalNumberOfPhotos()
+        numberPhoto()
+        numberFavorite()
         myPhotos()
         mySaves()
 
@@ -90,6 +94,8 @@ class ProfileFragment : Fragment() {
             savedImagesBtn.setColorFilter(resources.getColor(R.color.colorBlack))
             recyclerViewSaveImages.visibility = View.GONE
             recyclerViewUploadImages.visibility = View.VISIBLE
+            binding.totalFavorite.visibility = View.GONE
+            binding.totalPosts.visibility = View.VISIBLE
             binding.btnAdd.visibility = View.VISIBLE
         }
 
@@ -98,6 +104,8 @@ class ProfileFragment : Fragment() {
             savedImagesBtn.setColorFilter(resources.getColor(R.color.blackColor))
             recyclerViewSaveImages.visibility = View.VISIBLE
             recyclerViewUploadImages.visibility = View.GONE
+            binding.totalFavorite.visibility = View.VISIBLE
+            binding.totalPosts.visibility = View.GONE
             binding.btnAdd.visibility = View.GONE
         }
 
@@ -160,6 +168,7 @@ class ProfileFragment : Fragment() {
         val postRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
         postRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     (postList as ArrayList<PostModel>).clear()
@@ -180,7 +189,7 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    private fun getTotalNumberOfPhotos() {
+    private fun numberPhoto() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
         postsRef.addValueEventListener(object : ValueEventListener {
@@ -197,6 +206,26 @@ class ProfileFragment : Fragment() {
                     }
 
                     binding.totalPosts.text = postCounter.toString()//" $postCounter"
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun numberFavorite() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Saves").child(profileId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    var favoriteCounter = 0
+
+                    for (snapShot in p0.children) {
+                            favoriteCounter++
+                    }
+
+                    binding.totalFavorite.text = favoriteCounter.toString()
                 }
             }
 
@@ -229,6 +258,7 @@ class ProfileFragment : Fragment() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
         postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     (postListSaved as ArrayList<PostModel>).clear()

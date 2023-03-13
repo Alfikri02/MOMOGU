@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu
 
 import android.annotation.SuppressLint
@@ -17,6 +19,7 @@ import com.example.momogu.databinding.ActivitySignInBinding
 import com.google.firebase.auth.FirebaseAuth
 
 
+@Suppress("DEPRECATION")
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
