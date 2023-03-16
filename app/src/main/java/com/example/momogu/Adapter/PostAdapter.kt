@@ -2,6 +2,7 @@ package com.example.momogu.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.momogu.Fragments.PostDetailsFragment
+import com.example.momogu.DetailPostActivity
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.R
@@ -56,7 +56,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.posts_layout, parent, false)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.posts_item, parent, false)
 
         return ViewHolder(view)
     }
@@ -82,12 +82,10 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
 
         holder.cardPost.setOnClickListener {
 
-            val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
-
-            editor.putString("postId", post.getPostid())
+            val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+            editor.putString("postid", post.getPostid())
             editor.apply()
-            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, PostDetailsFragment()).commit()
+            mContext.startActivity(Intent(mContext, DetailPostActivity::class.java))
         }
 
         holder.saveButton.setOnClickListener {

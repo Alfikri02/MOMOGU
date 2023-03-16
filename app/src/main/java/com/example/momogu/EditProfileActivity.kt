@@ -10,8 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.momogu.Model.UserModel
-import com.example.momogu.databinding.ActivityAccountSettingsBinding
+import com.example.momogu.databinding.ActivityEditProfileBinding
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -28,31 +29,41 @@ import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 
 
-class AccountSettingsActivity : AppCompatActivity() {
+class EditProfileActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAccountSettingsBinding
+    private lateinit var binding: ActivityEditProfileBinding
 
     private lateinit var firebaseUser: FirebaseUser
     private var checker: Boolean = false
     private var myUrl = ""
     private var imageUri: Uri? = null
     private var storageProfilePicRef: StorageReference? = null
+    private lateinit var builder: AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAccountSettingsBinding.inflate(layoutInflater)
+        binding = ActivityEditProfileBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         storageProfilePicRef = FirebaseStorage.getInstance().reference.child("Profile Picture")
 
+        builder = AlertDialog.Builder(this)
+
         binding.logoutBtn.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(this, SignInActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            finish()
+            builder.setTitle("Peringatan!")
+                .setMessage("Apakah anda ingin keluar dari akun ini?")
+                .setCancelable(true)
+                .setPositiveButton("Iya") { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
+                    val intent = Intent(this, SignInActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                    dialogInterface.cancel()
+                }.show()
         }
 
         binding.changeImageTextBtn.setOnClickListener {
@@ -220,7 +231,8 @@ class AccountSettingsActivity : AppCompatActivity() {
                         val userMap = HashMap<String, Any>()
 
                         userMap["fullname"] = binding.etFullnameProfile.text.toString()
-                        userMap["username"] = binding.etUsernameProfile.text.toString().lowercase()
+                        userMap["username"] =
+                            binding.etUsernameProfile.text.toString().lowercase()
                         userMap["wa"] = binding.etWhatsappProfile.text.toString()
                         userMap["city"] = binding.etCityProfile.text.toString()
                         userMap["address"] = binding.etAddressProfile.text.toString()

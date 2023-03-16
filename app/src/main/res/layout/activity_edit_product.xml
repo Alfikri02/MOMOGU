@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddPostActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".EditProductActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout_add_post"
+        android:id="@+id/app_bar_edit_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -16,7 +16,7 @@
         android:background="@android:color/white">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/add_post_toolbar"
+            android:id="@+id/edit_product_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/white">
@@ -27,7 +27,7 @@
                 android:layout_marginEnd="15dp">
 
                 <ImageView
-                    android:id="@+id/close_add_post_btn"
+                    android:id="@+id/close_edit_product"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentStart="true"
@@ -40,12 +40,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/poppins_thin"
-                    android:text="@string/tambah_data"
+                    android:text="@string/edit_data"
                     android:textSize="20sp"
                     tools:ignore="RelativeOverlap" />
 
                 <ImageView
-                    android:id="@+id/save_new_post_btn"
+                    android:id="@+id/save_edit_product"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
@@ -62,14 +62,16 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar_layout_add_post">
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/app_bar_edit_product">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/image_post"
+                android:id="@+id/image_edit_product"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:contentDescription="@string/content"
@@ -80,17 +82,17 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_product"
+                android:id="@+id/ti_product_edit"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/type_cow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_post">
+                app:layout_constraintTop_toBottomOf="@+id/image_edit_product">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_product"
+                    android:id="@+id/et_product_edit"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="text" />
@@ -98,17 +100,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_age"
+                android:id="@+id/ti_age_edit"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/age"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_product">
+                app:layout_constraintTop_toBottomOf="@+id/ti_product_edit">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_age"
+                    android:id="@+id/et_age_edit"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="number" />
@@ -116,17 +118,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_weight"
+                android:id="@+id/ti_weight_edit"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/estimated_weight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_age">
+                app:layout_constraintTop_toBottomOf="@+id/ti_age_edit">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_weight"
+                    android:id="@+id/et_weight_edit"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="numberDecimal" />
@@ -134,17 +136,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_color"
+                android:id="@+id/ti_color_edit"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_weight">
+                app:layout_constraintTop_toBottomOf="@+id/ti_weight_edit">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_color"
+                    android:id="@+id/et_color_edit"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="text" />
@@ -152,17 +154,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_gender"
+                android:id="@+id/ti_gender_edit"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/gender"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_color">
+                app:layout_constraintTop_toBottomOf="@+id/ti_color_edit">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_gender"
+                    android:id="@+id/et_gender_edit"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="text" />
@@ -170,17 +172,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_desc"
+                android:id="@+id/ti_desc_edit"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/desc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_gender">
+                app:layout_constraintTop_toBottomOf="@+id/ti_gender_edit">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_desc"
+                    android:id="@+id/et_desc_edit"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="textMultiLine" />
@@ -188,37 +190,23 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_price"
+                android:id="@+id/ti_price_edit"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/prices"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_desc">
+                app:layout_constraintTop_toBottomOf="@+id/ti_desc_edit">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_price"
+                    android:id="@+id/et_price_edit"
                     style="@style/et_layout"
                     android:digits="0123456789.,"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <CheckBox
-                android:layout_width="@dimen/zerodp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
-                android:fontFamily="@font/poppins_light"
-                android:text="@string/guarante"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_price" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

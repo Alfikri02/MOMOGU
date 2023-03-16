@@ -70,5 +70,7 @@
     <string name="splash_name">Muhammad Al Fikri</string>
     <string name="welcome_back">Selamat Datang Kembali,</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_data">Ubah Data</string>
+    <string name="delete_data">Hapus Data</string>
 
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.PostDetailsFragment">
+    tools:context=".DetailProfileActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_detail"
@@ -43,6 +43,15 @@
                     android:text="@string/detail"
                     android:textSize="20sp"
                     tools:ignore="RelativeOverlap" />
+
+                <ImageView
+                    android:id="@+id/menu_detail"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_menu" />
 
             </RelativeLayout>
 
@@ -94,8 +103,8 @@
                 android:fontFamily="@font/poppins_light"
                 android:text="@string/product"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/price_detail" />
 
             <TextView

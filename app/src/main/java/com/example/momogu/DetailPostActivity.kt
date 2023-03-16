@@ -1,17 +1,13 @@
-package com.example.momogu.Fragments
+package com.example.momogu
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
-import com.example.momogu.R
-import com.example.momogu.databinding.FragmentPostDetailsBinding
+import com.example.momogu.databinding.ActivityDetailPostBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -20,40 +16,33 @@ import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PostDetailsFragment : Fragment() {
+class DetailPostActivity : AppCompatActivity() {
 
-    private lateinit var binding: FragmentPostDetailsBinding
-
-    //private var firebaseUser: FirebaseUser? = null
+    private lateinit var binding: ActivityDetailPostBinding
     private var postId: String = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentPostDetailsBinding.inflate(inflater)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityDetailPostBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        val preferences = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
 
+        val preferences = this.getSharedPreferences("POST", Context.MODE_PRIVATE)
         if (preferences != null) {
-            postId = preferences.getString("postId", "none")!!
+            postId = preferences.getString("postid", "none")!!
         }
 
         retrievePosts()
 
         binding.closeDetail.setOnClickListener {
-            (context as FragmentActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, HomeFragment()).commit()
+            finish()
         }
 
         binding.linearProfile.setOnClickListener {
-            (context as FragmentActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, BreederFragment()).commit()
+            startActivity(Intent(this, BreederActivity::class.java))
         }
 
-        return binding.root
     }
 
     private fun retrievePosts() {
@@ -76,7 +65,6 @@ class PostDetailsFragment : Fragment() {
                     binding.etColor.text = post.getColor()
                     binding.etDesc.setText(post.getDesc())
                     publisherInfo(post.getPublisher())
-                    //checkSavedStatus(post.getPostid()!!, binding.btnSaveDetail)
                 }
             }
 
@@ -110,26 +98,5 @@ class PostDetailsFragment : Fragment() {
 
         return formatter.format(calendar.time)
     }
-
-    /*
-    private fun checkSavedStatus(postid: String, imageView: ImageView) {
-        val savesRef = FirebaseDatabase.getInstance().reference.child("Saves")
-            .child(firebaseUser!!.uid)
-
-        savesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.child(postid).exists()) {
-                    imageView.setImageResource(R.drawable.favorite)
-                    imageView.tag = "Saved"
-                } else {
-                    imageView.setImageResource(R.drawable.favorite_broder)
-                    imageView.tag = "Save"
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-    }
-     */
 
 }

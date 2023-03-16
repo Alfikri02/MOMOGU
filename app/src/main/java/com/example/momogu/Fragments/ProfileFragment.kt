@@ -14,8 +14,8 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.momogu.AccountSettingsActivity
-import com.example.momogu.Adapter.MyImagesAdapter
+import com.example.momogu.EditProfileActivity
+import com.example.momogu.Adapter.PostImagesAdapter
 import com.example.momogu.AddPostActivity
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
@@ -37,9 +37,9 @@ class ProfileFragment : Fragment() {
     private lateinit var profileId: String
     private lateinit var firebaseUser: FirebaseUser
     var postList: List<PostModel>? = null
-    var myImagesAdapter: MyImagesAdapter? = null
+    var postImagesAdapter: PostImagesAdapter? = null
     var postListSaved: List<PostModel>? = null
-    var myImagesAdapterSavedImg: MyImagesAdapter? = null
+    var postImagesAdapterSavedImg: PostImagesAdapter? = null
     var mySavedImg: List<String>? = null
 
     override fun onCreateView(
@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
-        val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
+        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
         if (pref != null) {
             this.profileId = pref.getString("profileId", "none").toString()
         }
@@ -63,8 +63,8 @@ class ProfileFragment : Fragment() {
         recyclerViewUploadImages.layoutManager = linearLayoutManager
 
         postList = ArrayList()
-        myImagesAdapter = context?.let { MyImagesAdapter(it, postList as ArrayList<PostModel>) }
-        recyclerViewUploadImages.adapter = myImagesAdapter
+        postImagesAdapter = context?.let { PostImagesAdapter(it, postList as ArrayList<PostModel>) }
+        recyclerViewUploadImages.adapter = postImagesAdapter
 
         //Recycler View for Saved Images
         val recyclerViewSaveImages: RecyclerView = binding.recyclerViewSavedPic
@@ -73,9 +73,9 @@ class ProfileFragment : Fragment() {
         recyclerViewSaveImages.layoutManager = linearLayoutManager2
 
         postListSaved = ArrayList()
-        myImagesAdapterSavedImg =
-            context?.let { MyImagesAdapter(it, postListSaved as ArrayList<PostModel>) }
-        recyclerViewSaveImages.adapter = myImagesAdapterSavedImg
+        postImagesAdapterSavedImg =
+            context?.let { PostImagesAdapter(it, postListSaved as ArrayList<PostModel>) }
+        recyclerViewSaveImages.adapter = postImagesAdapterSavedImg
 
         recyclerViewSaveImages.visibility = View.GONE
         recyclerViewUploadImages.visibility = View.VISIBLE
@@ -110,7 +110,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.editAccountSettingsBtn.setOnClickListener {
-            startActivity(Intent(context, AccountSettingsActivity::class.java))
+            startActivity(Intent(context, EditProfileActivity::class.java))
         }
         
         binding.btnAdd.setOnClickListener {
@@ -123,7 +123,7 @@ class ProfileFragment : Fragment() {
     override fun onStop() {
         super.onStop()
 
-        val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
     }
@@ -131,7 +131,7 @@ class ProfileFragment : Fragment() {
     override fun onPause() {
         super.onPause()
 
-        val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
     }
@@ -139,7 +139,7 @@ class ProfileFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
 
-        val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
     }
@@ -180,7 +180,7 @@ class ProfileFragment : Fragment() {
                             (postList as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
                             (postList as ArrayList<PostModel>).add(post!!)
                         }
-                        myImagesAdapter?.notifyDataSetChanged()
+                        postImagesAdapter?.notifyDataSetChanged()
                     }
                 }
             }
@@ -274,7 +274,7 @@ class ProfileFragment : Fragment() {
                         }
                     }
 
-                    myImagesAdapterSavedImg?.notifyDataSetChanged()
+                    postImagesAdapterSavedImg?.notifyDataSetChanged()
                 }
             }
 

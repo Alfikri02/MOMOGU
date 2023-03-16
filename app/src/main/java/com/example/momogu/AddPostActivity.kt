@@ -76,8 +76,11 @@ class AddPostActivity : AppCompatActivity() {
                 progressDialog.setMessage("Please wait, while we are adding your new post...")
                 progressDialog.show()
 
+                val ref = FirebaseDatabase.getInstance().reference.child("Posts")
+                val postId = ref.push().key
+
                 val fileRef =
-                    storagePostPicRef!!.child(System.currentTimeMillis().toString() + ".jpg")
+                    storagePostPicRef!!.child("$postId.jpg")
                 val uploadTask: StorageTask<*>
 
                 uploadTask = fileRef.putFile(imageUri!!)
@@ -94,8 +97,6 @@ class AddPostActivity : AppCompatActivity() {
                         val downloadUrl = task.result
                         myUrl = downloadUrl.toString()
 
-                        val ref = FirebaseDatabase.getInstance().reference.child("Posts")
-                        val postId = ref.push().key
                         val postMap = HashMap<String, Any>()
 
                         postMap["postid"] = postId!!
