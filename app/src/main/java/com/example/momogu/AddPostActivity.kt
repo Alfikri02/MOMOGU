@@ -8,6 +8,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import com.example.momogu.databinding.ActivityAddPostBinding
 import com.google.android.gms.tasks.Continuation
@@ -19,6 +21,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.theartofdev.edmodo.cropper.CropImage
+import java.text.DecimalFormat
 
 class AddPostActivity : AppCompatActivity() {
 
@@ -44,11 +47,32 @@ class AddPostActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.imagePost.setOnClickListener{
+        binding.imagePost.setOnClickListener {
             CropImage.activity()
                 .setAspectRatio(4, 3)
                 .start(this)
         }
+
+        binding.etPrice.addTextChangedListener(object : TextWatcher {
+            val decimalFormat = DecimalFormat("#,##0")
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.etPrice.removeTextChangedListener(this)
+                try {
+                    val value = s.toString().replace(".", "").replace(",", "")
+                    val formatted = decimalFormat.format(value.toDouble())
+                    binding.etPrice.setText(formatted)
+                    binding.etPrice.setSelection(formatted.length)
+                } catch (_: NumberFormatException) {
+                }
+                binding.etPrice.addTextChangedListener(this)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
     }
 
     @Suppress("DEPRECATION")
