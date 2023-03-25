@@ -41,6 +41,11 @@ class DetailPostActivity : AppCompatActivity() {
 
         binding.linearProfile.setOnClickListener {
             startActivity(Intent(this, BreederActivity::class.java))
+            finish()
+        }
+
+        binding.btnBuy.setOnClickListener {
+            startActivity(Intent(this, CheckoutActivity::class.java))
         }
 
     }

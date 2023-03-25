@@ -73,6 +73,26 @@ class AddPostActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        binding.etShipping.addTextChangedListener(object : TextWatcher {
+            val decimalFormat = DecimalFormat("#,##0")
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.etShipping.removeTextChangedListener(this)
+                try {
+                    val value = s.toString().replace(".", "").replace(",", "")
+                    val formatted = decimalFormat.format(value.toDouble())
+                    binding.etShipping.setText(formatted)
+                    binding.etShipping.setSelection(formatted.length)
+                } catch (_: NumberFormatException) {
+                }
+                binding.etShipping.addTextChangedListener(this)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
     }
 
     @Suppress("DEPRECATION")
@@ -89,15 +109,52 @@ class AddPostActivity : AppCompatActivity() {
 
     @Suppress("DEPRECATION")
     private fun uploadImage() {
-        when (imageUri) {
-            null -> {
-                Toast.makeText(this, "Please select your picture.", Toast.LENGTH_LONG).show()
+        when {
+
+            imageUri == null -> {
+                Toast.makeText(this, "Silahkan pilih foto sapi anda!", Toast.LENGTH_LONG).show()
+            }
+
+            binding.etProduct.text.isNullOrEmpty() -> {
+                binding.etProduct.error = "Nama sapi dibutuhkan!"
+            }
+
+            binding.etAge.text.isNullOrEmpty() -> {
+                binding.etAge.error = "Umur sapi dibutuhkan!"
+            }
+
+            binding.etWeight.text.isNullOrEmpty() -> {
+                binding.etWeight.error = "Bobot sapi dibutuhkan!"
+            }
+
+            binding.etColor.text.isNullOrEmpty() -> {
+                binding.etColor.error = "Warna sapi dibutuhkan!"
+            }
+
+            binding.etGender.text.isNullOrEmpty() -> {
+                binding.etGender.error = "Jenis kelamin sapi dibutuhkan!"
+            }
+
+            binding.etDesc.text.isNullOrEmpty() -> {
+                binding.etDesc.error = "Deskripsi sapi dibutuhkan!"
+            }
+
+            binding.etPrice.text.isNullOrEmpty() -> {
+                binding.etPrice.error = "Harga sapi dibutuhkan!"
+            }
+
+            binding.etShipping.text.isNullOrEmpty() -> {
+                binding.etShipping.error = "Ongkos pengiriman sapi dibutuhkan!"
+            }
+
+            binding.cbCondition.isChecked.not() -> {
+                Toast.makeText(this, "Penjaminan sapi dibutuhkan!", Toast.LENGTH_LONG).show()
             }
 
             else -> {
                 val progressDialog = ProgressDialog(this)
-                progressDialog.setTitle("Adding New Post")
-                progressDialog.setMessage("Please wait, while we are adding your new post...")
+                progressDialog.setTitle("Menambahkan Sapi!")
+                progressDialog.setMessage("Silahkan tunggu, sementara kami sedang menambahkan postingan sapi anda!")
                 progressDialog.show()
 
                 val ref = FirebaseDatabase.getInstance().reference.child("Posts")
@@ -133,6 +190,7 @@ class AddPostActivity : AppCompatActivity() {
                         postMap["gender"] = binding.etGender.text.toString()
                         postMap["desc"] = binding.etDesc.text.toString()
                         postMap["price"] = binding.etPrice.text.toString()
+                        postMap["shipping"] = binding.etShipping.text.toString()
                         postMap["dateTime"] = System.currentTimeMillis().toString()
 
                         ref.child(postId).updateChildren(postMap)

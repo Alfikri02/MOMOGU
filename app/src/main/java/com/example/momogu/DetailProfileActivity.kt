@@ -10,7 +10,6 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityDetailProfileBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -51,10 +50,6 @@ class DetailProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.linearProfile.setOnClickListener {
-            startActivity(Intent(this, BreederActivity::class.java))
-        }
-
         binding.menuDetail.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.setOnMenuItemClickListener { item ->
@@ -65,7 +60,7 @@ class DetailProfileActivity : AppCompatActivity() {
                     }
                     R.id.delete_data -> {
                         builder.setTitle("Peringatan!")
-                            .setMessage("Apakah anda ingin menghapus data ini?")
+                            .setMessage("Apakah anda ingin menghapus data sapi ini?")
                             .setCancelable(true)
                             .setPositiveButton("Iya") { _, _ ->
                                 val postRef =
@@ -75,7 +70,7 @@ class DetailProfileActivity : AppCompatActivity() {
                                 val fileRef = storagePostPicRef!!.child("$postId.jpg")
                                 fileRef.delete()
 
-                                Toast.makeText(this, "Data berhasil dihapus", Toast.LENGTH_SHORT)
+                                Toast.makeText(this, "Data sapi berhasil dihapus!", Toast.LENGTH_SHORT)
                                     .show()
                                 finish()
                             }.setNegativeButton("Tidak") { dialogInterface, _ ->
@@ -125,25 +120,6 @@ class DetailProfileActivity : AppCompatActivity() {
                     binding.etAge.text = "${post.getAge()} Bulan"
                     binding.etColor.text = post.getColor()
                     binding.etDesc.setText(post.getDesc())
-                    publisherInfo(post.getPublisher())
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-    }
-
-    private fun publisherInfo(publisherId: String?) {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
-
-        usersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(UserModel::class.java)
-
-                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile)
-                        .into(binding.userProfile)
-                    binding.tvFullnameDetail.text = user.getFullname()
                 }
             }
 

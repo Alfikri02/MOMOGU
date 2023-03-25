@@ -9,7 +9,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import com.example.momogu.Model.PostModel
 import com.example.momogu.databinding.ActivityEditProductBinding
@@ -27,6 +28,7 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
+import java.text.DecimalFormat
 
 
 class EditProductActivity : AppCompatActivity() {
@@ -72,6 +74,46 @@ class EditProductActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.etPriceEdit.addTextChangedListener(object : TextWatcher {
+            val decimalFormat = DecimalFormat("#,##0")
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.etPriceEdit.removeTextChangedListener(this)
+                try {
+                    val value = s.toString().replace(".", "").replace(",", "")
+                    val formatted = decimalFormat.format(value.toDouble())
+                    binding.etPriceEdit.setText(formatted)
+                    binding.etPriceEdit.setSelection(formatted.length)
+                } catch (_: NumberFormatException) {
+                }
+                binding.etPriceEdit.addTextChangedListener(this)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.etShippingEdit.addTextChangedListener(object : TextWatcher {
+            val decimalFormat = DecimalFormat("#,##0")
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.etShippingEdit.removeTextChangedListener(this)
+                try {
+                    val value = s.toString().replace(".", "").replace(",", "")
+                    val formatted = decimalFormat.format(value.toDouble())
+                    binding.etShippingEdit.setText(formatted)
+                    binding.etShippingEdit.setSelection(formatted.length)
+                } catch (_: NumberFormatException) {
+                }
+                binding.etShippingEdit.addTextChangedListener(this)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
         productInfo()
     }
 
@@ -104,7 +146,8 @@ class EditProductActivity : AppCompatActivity() {
                     binding.etColorEdit.setText(post.getColor())
                     binding.etGenderEdit.setText(post.getGender())
                     binding.etDescEdit.setText(post.getDesc())
-                    binding.etPriceEdit.setText(post.getPrice())
+                    binding.etPriceEdit.setText(post.getPrice()!!)
+                    binding.etShippingEdit.setText(post.getShipping()!!)
                 }
             }
 
@@ -114,30 +157,36 @@ class EditProductActivity : AppCompatActivity() {
 
     private fun updateProductInfoOnly() {
         when {
-            TextUtils.isEmpty(binding.etProductEdit.text.toString()) -> {
-                Toast.makeText(this, "Product is Required!", Toast.LENGTH_LONG).show()
+            binding.etProductEdit.text.isNullOrEmpty() -> {
+                binding.etProductEdit.error = "Nama sapi dibutuhkan!"
             }
 
-            TextUtils.isEmpty(binding.etAgeEdit.text.toString()) -> {
-                Toast.makeText(this, "Age is Required!", Toast.LENGTH_LONG).show()
+            binding.etAgeEdit.text.isNullOrEmpty() -> {
+                binding.etAgeEdit.error = "Umur sapi dibutuhkan!"
             }
 
-            TextUtils.isEmpty(binding.etWeightEdit.text.toString()) -> {
-                Toast.makeText(this, "Weight is Required!", Toast.LENGTH_LONG).show()
+            binding.etWeightEdit.text.isNullOrEmpty() -> {
+                binding.etWeightEdit.error = "Bobot sapi dibutuhkan!"
             }
 
-            TextUtils.isEmpty(binding.etColorEdit.text.toString()) -> {
-                Toast.makeText(this, "Color is Required!", Toast.LENGTH_LONG).show()
+            binding.etColorEdit.text.isNullOrEmpty() -> {
+                binding.etColorEdit.error = "Warna sapi dibutuhkan!"
             }
 
-            TextUtils.isEmpty(binding.etGenderEdit.text.toString()) -> {
-                Toast.makeText(this, "Gender is Required!", Toast.LENGTH_LONG).show()
+            binding.etGenderEdit.text.isNullOrEmpty() -> {
+                binding.etGenderEdit.error = "Jenis kelamin sapi dibutuhkan!"
             }
-            TextUtils.isEmpty(binding.etDescEdit.text.toString()) -> {
-                Toast.makeText(this, "Description is Required!", Toast.LENGTH_LONG).show()
+
+            binding.etDescEdit.text.isNullOrEmpty() -> {
+                binding.etDescEdit.error = "Deskripsi sapi dibutuhkan!"
             }
-            TextUtils.isEmpty(binding.etPriceEdit.text.toString()) -> {
-                Toast.makeText(this, "Price is Required!", Toast.LENGTH_LONG).show()
+
+            binding.etPriceEdit.text.isNullOrEmpty() -> {
+                binding.etPriceEdit.error = "Harga sapi dibutuhkan!"
+            }
+
+            binding.etShippingEdit.text.isNullOrEmpty() -> {
+                binding.etShippingEdit.error = "Ongkos pengiriman sapi dibutuhkan!"
             }
 
             else -> {
@@ -151,12 +200,13 @@ class EditProductActivity : AppCompatActivity() {
                 postMap["gender"] = binding.etGenderEdit.text.toString()
                 postMap["desc"] = binding.etDescEdit.text.toString()
                 postMap["price"] = binding.etPriceEdit.text.toString()
+                postMap["shipping"] = binding.etShippingEdit.text.toString()
 
                 postRef.child(postId).updateChildren(postMap)
 
                 Toast.makeText(
                     this,
-                    "Data Berhasil Dirubah",
+                    "Data sapi berhasil dirubah!",
                     Toast.LENGTH_LONG
                 ).show()
                 finish()
@@ -168,40 +218,46 @@ class EditProductActivity : AppCompatActivity() {
     private fun uploadImageAndUpdateInfo() {
         when {
             imageUri == null -> {
-                Toast.makeText(this, "Please select your profile picture.", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Silahkan pilih foto sapi anda!", Toast.LENGTH_LONG)
                     .show()
             }
 
-            TextUtils.isEmpty(binding.etProductEdit.text.toString()) -> {
-                Toast.makeText(this, "Product is Required!", Toast.LENGTH_LONG).show()
+            binding.etProductEdit.text.isNullOrEmpty() -> {
+                binding.etProductEdit.error = "Nama sapi dibutuhkan!"
             }
 
-            TextUtils.isEmpty(binding.etAgeEdit.text.toString()) -> {
-                Toast.makeText(this, "Age is Required!", Toast.LENGTH_LONG).show()
+            binding.etAgeEdit.text.isNullOrEmpty() -> {
+                binding.etAgeEdit.error = "Umur sapi dibutuhkan!"
             }
 
-            TextUtils.isEmpty(binding.etWeightEdit.text.toString()) -> {
-                Toast.makeText(this, "Weight is Required!", Toast.LENGTH_LONG).show()
+            binding.etWeightEdit.text.isNullOrEmpty() -> {
+                binding.etWeightEdit.error = "Bobot sapi dibutuhkan!"
             }
 
-            TextUtils.isEmpty(binding.etColorEdit.text.toString()) -> {
-                Toast.makeText(this, "Color is Required!", Toast.LENGTH_LONG).show()
+            binding.etColorEdit.text.isNullOrEmpty() -> {
+                binding.etColorEdit.error = "Warna sapi dibutuhkan!"
             }
 
-            TextUtils.isEmpty(binding.etGenderEdit.text.toString()) -> {
-                Toast.makeText(this, "Gender is Required!", Toast.LENGTH_LONG).show()
+            binding.etGenderEdit.text.isNullOrEmpty() -> {
+                binding.etGenderEdit.error = "Jenis kelamin sapi dibutuhkan!"
             }
-            TextUtils.isEmpty(binding.etDescEdit.text.toString()) -> {
-                Toast.makeText(this, "Description is Required!", Toast.LENGTH_LONG).show()
+
+            binding.etDescEdit.text.isNullOrEmpty() -> {
+                binding.etDescEdit.error = "Deskripsi sapi dibutuhkan!"
             }
-            TextUtils.isEmpty(binding.etPriceEdit.text.toString()) -> {
-                Toast.makeText(this, "Price is Required!", Toast.LENGTH_LONG).show()
+
+            binding.etPriceEdit.text.isNullOrEmpty() -> {
+                binding.etPriceEdit.error = "Harga sapi dibutuhkan!"
+            }
+
+            binding.etShippingEdit.text.isNullOrEmpty() -> {
+                binding.etShippingEdit.error = "Ongkos pengiriman sapi dibutuhkan!"
             }
 
             else -> {
                 val progressDialog = ProgressDialog(this)
-                progressDialog.setTitle("Ubah Data")
-                progressDialog.setMessage("Harap Tunggu, Kami Sedang Memperbarui Data Anda...")
+                progressDialog.setTitle("Mengubah data sapi!")
+                progressDialog.setMessage("Harap tunggu, kami sedang memperbarui data sapi anda...")
                 progressDialog.show()
 
                 val ref = FirebaseDatabase.getInstance().reference.child("Posts")
@@ -232,13 +288,14 @@ class EditProductActivity : AppCompatActivity() {
                         postMap["gender"] = binding.etGenderEdit.text.toString()
                         postMap["desc"] = binding.etDescEdit.text.toString()
                         postMap["price"] = binding.etPriceEdit.text.toString()
+                        postMap["shipping"] = binding.etShippingEdit.text.toString()
                         postMap["postimage"] = myUrl
 
                         ref.child(postId).updateChildren(postMap)
 
                         Toast.makeText(
                             this,
-                            "Data Berhasil Dirubah",
+                            "Data sapi berhasil diperbarui!",
                             Toast.LENGTH_LONG
                         ).show()
                         finish()

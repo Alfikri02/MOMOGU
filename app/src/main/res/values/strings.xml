@@ -71,5 +71,6 @@
     <string name="body">Panjang Badan</string>
     <string name="weight_estimated">0.0 KG</string>
     <string name="cow_weight">Perkiraan Bobot Sapi</string>
+    <string name="checkout">CheckOut</string>
 
 </resources>

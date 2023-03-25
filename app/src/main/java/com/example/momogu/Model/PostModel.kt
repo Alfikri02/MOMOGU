@@ -11,6 +11,7 @@ class PostModel {
     private var gender: String? = null
     private var desc: String? = null
     private var price: String? = null
+    private var shipping: String? = null
     private var dateTime: String? = null
 
     constructor()
@@ -26,6 +27,7 @@ class PostModel {
         gender: String?,
         desc: String?,
         price: String?,
+        shipping: String?,
         dateTime: String?
     ) {
         this.postid = postid
@@ -38,6 +40,7 @@ class PostModel {
         this.gender = gender
         this.desc = desc
         this.price = price
+        this.shipping = shipping
         this.dateTime = dateTime
     }
 
@@ -79,6 +82,10 @@ class PostModel {
 
     fun getPrice(): String? {
         return price
+    }
+
+    fun getShipping(): String? {
+        return shipping
     }
 
     fun getDateTime(): String? {

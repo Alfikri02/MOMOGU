@@ -50,7 +50,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar_detail"
@@ -64,7 +64,7 @@
             <ImageView
                 android:id="@+id/image_post"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="240dp"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/image_border"
                 android:contentDescription="@string/content"
@@ -78,8 +78,8 @@
                 android:id="@+id/price_detail"
                 android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="22dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/poppins_thin"
                 android:text="@string/price"
                 android:textSize="22sp"
@@ -103,9 +103,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/date"
                 android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/price_detail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/price_detail" />
 
@@ -229,11 +229,12 @@
 
             <TextView
                 android:id="@+id/et_color"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/zero"
                 app:layout_constraintBottom_toBottomOf="@+id/ic_color"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ic_color"
                 app:layout_constraintTop_toBottomOf="@+id/ti_color" />
 
@@ -245,15 +246,15 @@
                 android:hint="@string/desc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ic_color">
+                app:layout_constraintTop_toBottomOf="@+id/et_color">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_desc"
                     style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_name"
                     android:clickable="false"
+                    android:drawableStart="@drawable/ic_name"
                     android:focusable="false"
-                    android:inputType="none"/>
+                    android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -334,6 +335,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 </RelativeLayout>
