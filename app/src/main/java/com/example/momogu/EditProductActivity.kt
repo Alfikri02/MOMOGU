@@ -9,6 +9,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
@@ -57,9 +58,10 @@ class EditProductActivity : AppCompatActivity() {
         }
 
         binding.imageEditProduct.setOnClickListener {
-            CropImage.activity()
-                .setAspectRatio(4, 3)
-                .start(this)
+            checker = true
+
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, REQUEST_POST_EDIT_IMAGE)
         }
 
         binding.saveEditProduct.setOnClickListener {
@@ -117,16 +119,24 @@ class EditProductActivity : AppCompatActivity() {
         productInfo()
     }
 
-    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == REQUEST_POST_EDIT_IMAGE) {
+            val uri = data?.data
+            CropImage.activity(uri)
+                .setAspectRatio(4, 3)
+                .start(this)
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val result = CropImage.getActivityResult(data)
             imageUri = result.uri
             binding.imageEditProduct.setImageURI(imageUri)
         }
+    }
+
+    companion object {
+        private const val REQUEST_POST_EDIT_IMAGE = 100
     }
 
     private fun productInfo() {

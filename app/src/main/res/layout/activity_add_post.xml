@@ -75,6 +75,8 @@
                 android:contentDescription="@string/content"
                 android:scaleType="fitCenter"
                 android:src="@drawable/momogu_with_text"
+                android:clickable="true"
+                android:focusable="true"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>

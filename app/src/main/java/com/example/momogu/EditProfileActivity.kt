@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -68,17 +69,15 @@ class EditProfileActivity : AppCompatActivity() {
 
         binding.changeImageTextBtn.setOnClickListener {
             checker = true
-            CropImage.activity()
-                .setAspectRatio(1, 1)
-                .start(this)
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, REQUEST_PROFILE_IMAGE)
         }
 
         binding.profileImageViewProfileFrag.setOnClickListener {
             checker = true
 
-            CropImage.activity()
-                .setAspectRatio(1, 1)
-                .start(this)
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, REQUEST_PROFILE_IMAGE)
         }
 
         binding.saveProfileBtn.setOnClickListener {
@@ -96,16 +95,24 @@ class EditProfileActivity : AppCompatActivity() {
         userInfo()
     }
 
-    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == REQUEST_PROFILE_IMAGE) {
+            val uri = data?.data
+            CropImage.activity(uri)
+                .setAspectRatio(1, 1)
+                .start(this)
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val result = CropImage.getActivityResult(data)
             imageUri = result.uri
             binding.profileImageViewProfileFrag.setImageURI(imageUri)
         }
+    }
+
+    companion object {
+        private const val REQUEST_PROFILE_IMAGE = 100
     }
 
     private fun userInfo() {
