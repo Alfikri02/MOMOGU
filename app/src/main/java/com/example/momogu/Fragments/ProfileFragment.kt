@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.momogu.Adapter.FavoriteAdapter
 import com.example.momogu.EditProfileActivity
 import com.example.momogu.Adapter.PostImagesAdapter
 import com.example.momogu.AddPostActivity
@@ -40,7 +41,7 @@ class ProfileFragment : Fragment() {
     var postList: List<PostModel>? = null
     var postImagesAdapter: PostImagesAdapter? = null
     var postListSaved: List<PostModel>? = null
-    var postImagesAdapterSavedImg: PostImagesAdapter? = null
+    var favoriteAdapter: FavoriteAdapter? = null
     var mySavedImg: List<String>? = null
 
     override fun onCreateView(
@@ -74,9 +75,9 @@ class ProfileFragment : Fragment() {
         recyclerViewSaveImages.layoutManager = linearLayoutManager2
 
         postListSaved = ArrayList()
-        postImagesAdapterSavedImg =
-            context?.let { PostImagesAdapter(it, postListSaved as ArrayList<PostModel>) }
-        recyclerViewSaveImages.adapter = postImagesAdapterSavedImg
+        favoriteAdapter =
+            context?.let { FavoriteAdapter(it, postListSaved as ArrayList<PostModel>) }
+        recyclerViewSaveImages.adapter = favoriteAdapter
 
         recyclerViewSaveImages.visibility = View.GONE
         recyclerViewUploadImages.visibility = View.VISIBLE
@@ -221,6 +222,7 @@ class ProfileFragment : Fragment() {
             FirebaseDatabase.getInstance().reference.child("Saves").child(firebaseUser.uid)
 
         savedRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     for (snapshot in p0.children) {
@@ -228,6 +230,7 @@ class ProfileFragment : Fragment() {
                     }
 
                     readSavedImagesData()
+                    favoriteAdapter?.notifyDataSetChanged()
                 }
             }
 
@@ -255,7 +258,7 @@ class ProfileFragment : Fragment() {
                         }
                     }
 
-                    postImagesAdapterSavedImg?.notifyDataSetChanged()
+                    favoriteAdapter?.notifyDataSetChanged()
                 }
             }
 
