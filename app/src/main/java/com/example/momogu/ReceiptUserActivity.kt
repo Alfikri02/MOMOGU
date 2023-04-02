@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
@@ -21,6 +23,7 @@ class ReceiptUserActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReceiptUserBinding
     private var postId: String = ""
     private lateinit var profileId: String
+    private lateinit var builder: AlertDialog.Builder
 
     @SuppressLint("DiscouragedPrivateApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +31,8 @@ class ReceiptUserActivity : AppCompatActivity() {
         binding = ActivityReceiptUserBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        builder = AlertDialog.Builder(this)
 
         val preferences = this.getSharedPreferences("POST", Context.MODE_PRIVATE)
         if (preferences != null) {
@@ -57,9 +62,11 @@ class ReceiptUserActivity : AppCompatActivity() {
                             .setMessage("Apakah anda ingin mengkonfirmasi pesanan ini?")
                             .setCancelable(true)
                             .setPositiveButton("Iya") { _, _ ->
-                                setStatusConfirm()
 
+                                setStatusConfirm()
                                 finish()
+                                Toast.makeText(this, "Pesanan telah dikonfirmasi!", Toast.LENGTH_SHORT).show()
+
                             }.setNegativeButton("Tidak") { dialogInterface, _ ->
                                 dialogInterface.cancel()
                             }.show()
@@ -67,14 +74,53 @@ class ReceiptUserActivity : AppCompatActivity() {
                         true
                     }
                     R.id.proses_receipt -> {
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Peringatan!")
+                            .setMessage("Apakah anda ingin memproses pesanan ini?")
+                            .setCancelable(true)
+                            .setPositiveButton("Iya") { _, _ ->
+
+                                setStatusProses()
+                                finish()
+                                Toast.makeText(this, "Pesanan telah diproses!", Toast.LENGTH_SHORT).show()
+
+                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                                dialogInterface.cancel()
+                            }.show()
 
                         true
                     }
                     R.id.order_receipt -> {
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Peringatan!")
+                            .setMessage("Apakah anda ingin mengantar pesanan ini?")
+                            .setCancelable(true)
+                            .setPositiveButton("Iya") { _, _ ->
+
+                                setStatusOrder()
+                                finish()
+                                Toast.makeText(this, "Pesanan sedang dalam pengantaran!", Toast.LENGTH_SHORT).show()
+
+                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                                dialogInterface.cancel()
+                            }.show()
 
                         true
                     }
                     R.id.done_receipt -> {
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Peringatan!")
+                            .setMessage("Apakah anda ingin menyelesaikan pesanan ini?")
+                            .setCancelable(true)
+                            .setPositiveButton("Iya") { _, _ ->
+
+                                setStatusDone()
+                                finish()
+                                Toast.makeText(this, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT).show()
+
+                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                                dialogInterface.cancel()
+                            }.show()
 
                         true
                     }
@@ -82,7 +128,20 @@ class ReceiptUserActivity : AppCompatActivity() {
                 }
             }
             popupMenu.inflate(R.menu.receipt_menu)
-            popupMenu.show()
+
+            try {
+                val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
+                fieldMPopup.isAccessible = true
+                val mPopup = fieldMPopup.get(popupMenu)
+                mPopup.javaClass
+                    .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                    .invoke(mPopup, true)
+            } catch (e: Exception) {
+                Log.e("Main", "Error showing menu icons.", e)
+            } finally {
+                popupMenu.show()
+            }
+
         }
     }
 
@@ -144,44 +203,39 @@ class ReceiptUserActivity : AppCompatActivity() {
     }
 
     private fun setStatusConfirm() {
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+        val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+        val receiptMap = HashMap<String, Any>()
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val post = p0.getValue(PostModel::class.java)
+        receiptMap["status"] = "Dikonfirmasi"
 
-                    post?.getPublisher()?.let { addReceiptUser(it) }
-
-                    if (post != null) {
-                        addReceiptPost()
-                    }
-
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        ref.child(postId).updateChildren(receiptMap)
     }
 
-    private fun addReceiptPost()
-    {
-        val receiptPostRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(profileId)
-        val receiptPostMap = HashMap<String, Any>()
+    private fun setStatusProses() {
+        val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+        val receiptMap = HashMap<String, Any>()
 
-        receiptPostMap["status"] = "Dikonfirmasi"
+        receiptMap["status"] = "Diproses"
 
-        receiptPostRef.child(postId).updateChildren(receiptPostMap)
+        ref.child(postId).updateChildren(receiptMap)
     }
 
-    private fun addReceiptUser(publisherId: String)
-    {
-        val receiptUserRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(publisherId)
-        val receiptUserMap = HashMap<String, Any>()
+    private fun setStatusOrder() {
+        val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+        val receiptMap = HashMap<String, Any>()
 
-        receiptUserMap["status"] = "Dikonfirmasi"
+        receiptMap["status"] = "Pengantaran"
 
-        receiptUserRef.child(postId).updateChildren(receiptUserMap)
+        ref.child(postId).updateChildren(receiptMap)
     }
+
+    private fun setStatusDone() {
+        val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+        val receiptMap = HashMap<String, Any>()
+
+        receiptMap["status"] = "Selesai"
+
+        ref.child(postId).updateChildren(receiptMap)
+    }
+
 }

@@ -8,10 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.*
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.ReceiptModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -31,6 +35,9 @@ class ReceiptAdapter(
         var status: TextView
         var product: TextView
         var total: TextView
+        var cvStatus: CardView
+        var menu: ImageView
+        var firebaseUser: FirebaseUser
 
         init {
             postImage = itemView.findViewById(R.id.post_image_receipt)
@@ -38,6 +45,9 @@ class ReceiptAdapter(
             status = itemView.findViewById(R.id.tv_status)
             product = itemView.findViewById(R.id.product_receipt)
             total = itemView.findViewById(R.id.tv_total_receipt)
+            cvStatus = itemView.findViewById(R.id.cv_status)
+            menu = itemView.findViewById(R.id.menu_receipt)
+            firebaseUser = FirebaseAuth.getInstance().currentUser!!
         }
     }
 
@@ -50,29 +60,77 @@ class ReceiptAdapter(
         return mReceipt.size
     }
 
-    @SuppressLint("DiscouragedPrivateApi", "SetTextI18n")
+    @SuppressLint("DiscouragedPrivateApi", "SetTextI18n", "ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val receipt = mReceipt[position]
 
         when {
             receipt.getStatus()
                 .equals("Dikonfirmasi") -> {
-                holder.status.text = "Dikonfirmasi!"
+                holder.status.text = "Pesanan Dikonfirmasi!"
+                holder.status.setTextColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.white
+                    )
+                )
+                holder.cvStatus.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.pastel
+                    )
+                )
             }
 
             receipt.getStatus()
                 .equals("Diproses") -> {
-                holder.status.text = "Diproses!"
+                holder.status.text = "Pesanan Diproses!"
+                holder.status.setTextColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.white
+                    )
+                )
+                holder.cvStatus.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.ijomuda
+                    )
+                )
             }
 
             receipt.getStatus()
-                .equals("Dalam Pengantaran") -> {
+                .equals("Pengantaran") -> {
                 holder.status.text = "Dalam Pengantaran!"
+                holder.status.setTextColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.ijotua
+                    )
+                )
+                holder.cvStatus.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.tea
+                    )
+                )
             }
 
             receipt.getStatus()
                 .equals("Selesai") -> {
                 holder.status.text = "Selesai"
+                holder.status.setTextColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.white
+                    )
+                )
+                holder.cvStatus.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.ijotua
+                    )
+                )
             }
 
             else -> {
@@ -83,19 +141,23 @@ class ReceiptAdapter(
         holder.date.text = getDate(receipt.getDateTime()!!.toLong(), "dd/MM/yyyy")
         getPostImage(holder.postImage, holder.product, holder.total, receipt.getPostId()!!)
 
+        if (receipt.getSellerId().equals(holder.firebaseUser.uid)) {
+            holder.menu.visibility = View.VISIBLE
+        } else {
+            holder.menu.visibility = View.GONE
+        }
+
         holder.itemView.setOnClickListener {
-            if (receipt.getIsPost()) {
+            if (receipt.getSellerId().equals(holder.firebaseUser.uid)) {
                 val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
-
-                editor.putString("postid", receipt.getPostId())
-                editor.apply()
-                mContext.startActivity(Intent(mContext, ReceiptPostActivity::class.java))
-            } else {
-                val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
-
                 editor.putString("postid", receipt.getPostId())
                 editor.apply()
                 mContext.startActivity(Intent(mContext, ReceiptUserActivity::class.java))
+            } else {
+                val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+                editor.putString("postid", receipt.getPostId())
+                editor.apply()
+                mContext.startActivity(Intent(mContext, ReceiptPostActivity::class.java))
             }
         }
     }

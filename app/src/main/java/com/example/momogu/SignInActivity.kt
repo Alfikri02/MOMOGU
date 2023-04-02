@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package com.example.momogu
 
 import android.annotation.SuppressLint
@@ -14,11 +12,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.airbnb.lottie.LottieDrawable
 import com.example.momogu.databinding.ActivitySignInBinding
 import com.google.firebase.auth.FirebaseAuth
 
-
-@Suppress("DEPRECATION")
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
@@ -128,16 +125,17 @@ class SignInActivity : AppCompatActivity() {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setLoginButtonEnabled(isEnabled: Boolean) {
         if (isEnabled) {
             binding.loginBtn.isEnabled = true
             binding.loginBtn.isClickable = true
-            binding.loginBtn.background = resources.getDrawable(R.drawable.rounded_corner_ijo)
+            //binding.loginBtn.background = resources.getDrawable(R.drawable.rounded_corner_ijo)
+            binding.loginBtn.setBackgroundResource(R.drawable.rounded_corner_ijo)
         } else {
             binding.loginBtn.isEnabled = false
             binding.loginBtn.isClickable = false
-            binding.loginBtn.background = resources.getDrawable(R.drawable.rounded_corner_light_gray)
+            //binding.loginBtn.background = resources.getDrawable(R.drawable.rounded_corner_light_gray)
+            binding.loginBtn.setBackgroundResource(R.drawable.rounded_corner_light_gray)
         }
     }
 
@@ -155,7 +153,7 @@ class SignInActivity : AppCompatActivity() {
             binding.layoutLoadingView.visibility = View.VISIBLE
             binding.animLoadingView.setAnimation("paperplane.json")
             binding.animLoadingView.playAnimation()
-            binding.animLoadingView.loop(true)
+            binding.animLoadingView.repeatCount = LottieDrawable.INFINITE
         } else {
             binding.layoutLoadingView.visibility = View.GONE
             binding.animLoadingView.cancelAnimation()

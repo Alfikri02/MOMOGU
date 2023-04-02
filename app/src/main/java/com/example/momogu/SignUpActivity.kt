@@ -12,12 +12,14 @@ import android.util.Patterns
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import com.airbnb.lottie.LottieDrawable
 import com.example.momogu.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.util.*
+import kotlin.collections.HashMap
 
-@Suppress("DEPRECATION")
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
@@ -204,16 +206,15 @@ class SignUpActivity : AppCompatActivity() {
         })
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setSignUpButtonEnabled(isEnabled: Boolean) {
         if (isEnabled) {
             binding.signupBtn.isEnabled = true
             binding.signupBtn.isClickable = true
-            binding.signupBtn.background = resources.getDrawable(R.drawable.rounded_corner_ijo)
+            binding.signupBtn.setBackgroundResource(R.drawable.rounded_corner_ijo)
         } else {
             binding.signupBtn.isEnabled = false
             binding.signupBtn.isClickable = false
-            binding.signupBtn.background = resources.getDrawable(R.drawable.rounded_corner_light_gray)
+            binding.signupBtn.setBackgroundResource(R.drawable.rounded_corner_light_gray)
         }
     }
 
@@ -226,7 +227,7 @@ class SignUpActivity : AppCompatActivity() {
             binding.layoutLoadingViewSignIn.visibility = View.VISIBLE
             binding.animLoadingViewSignIn.setAnimation("paperplane.json")
             binding.animLoadingViewSignIn.playAnimation()
-            binding.animLoadingViewSignIn.loop(true)
+            binding.animLoadingViewSignIn.repeatCount = LottieDrawable.INFINITE
         } else {
             binding.layoutLoadingViewSignIn.visibility = View.GONE
             binding.animLoadingViewSignIn.cancelAnimation()
@@ -318,7 +319,6 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("DefaultLocale")
     private fun saveUserInfo(fullName: String, userName: String, whatsapp: String, email: String) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
@@ -326,7 +326,7 @@ class SignUpActivity : AppCompatActivity() {
 
         userMap["uid"] = currentUserID
         userMap["fullname"] = fullName
-        userMap["username"] = userName.toLowerCase()
+        userMap["username"] = userName
         userMap["email"] = email
         userMap["wa"] = whatsapp
         userMap["city"] = ""

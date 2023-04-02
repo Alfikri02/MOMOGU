@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,7 +85,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         holder.cardPost.setOnClickListener {
 
             if (post.getPublisher().equals(firebaseUser!!.uid)) {
-                customToast(mContext, "Sapi ini milik anda!")
+                Toast.makeText(mContext, "Sapi ini milik anda!", Toast.LENGTH_SHORT).show()
             } else {
                 val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
                 editor.putString("postid", post.getPostid())
@@ -96,7 +95,9 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         }
 
         holder.saveButton.setOnClickListener {
-            if (holder.saveButton.tag == "Save") {
+            if (post.getPublisher().equals(firebaseUser!!.uid)) {
+                Toast.makeText(mContext, "Sapi ini milik anda!", Toast.LENGTH_SHORT).show()
+            } else if (holder.saveButton.tag == "Save") {
                 FirebaseDatabase.getInstance().reference.child("Saves")
                     .child(firebaseUser!!.uid)
                     .child(post.getPostid()!!)
@@ -108,20 +109,6 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
                     .removeValue()
             }
         }
-    }
-
-    @SuppressLint("InflateParams")
-    fun customToast(context: Context, message: String) {
-        val inflater = LayoutInflater.from(context)
-        val layout = inflater.inflate(R.layout.toast_layout, null)
-        val text = layout.findViewById<TextView>(R.id.tv_toast)
-        text.text = message
-
-        val toast = Toast(context)
-        toast.setGravity(Gravity.BOTTOM, 0, 120)
-        toast.duration = Toast.LENGTH_SHORT
-        toast.view = layout
-        toast.show()
     }
 
     private fun getTimeAgo(time: Long): String? {

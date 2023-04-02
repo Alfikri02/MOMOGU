@@ -1,30 +1,34 @@
 package com.example.momogu.Model
 
 class ReceiptModel {
-    private var userid: String? = null
+    private var buyerid: String? = null
+    private var sellerid: String? = null
     private var postid: String? = null
     private var status: String? = null
     private var dateTime: String? = null
-    private var ispost = false
 
     constructor()
 
     constructor(
-        userid: String?,
+        buyerid: String?,
+        sellerid: String?,
         postid: String?,
         status: String?,
         dateTime: String?,
-        ispost: Boolean
     ) {
-        this.userid = userid
+        this.buyerid = buyerid
+        this.sellerid = sellerid
         this.postid = postid
         this.status = status
         this.dateTime = dateTime
-        this.ispost = ispost
     }
 
-    fun getUserId(): String? {
-        return userid
+    fun getBuyerId(): String? {
+        return buyerid
+    }
+
+    fun getSellerId(): String? {
+        return sellerid
     }
 
     fun getPostId(): String? {
@@ -37,9 +41,5 @@ class ReceiptModel {
 
     fun getDateTime(): String? {
         return dateTime
-    }
-
-    fun getIsPost(): Boolean {
-        return ispost
     }
 }

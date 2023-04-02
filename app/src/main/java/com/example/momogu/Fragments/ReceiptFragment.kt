@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieDrawable
 import com.example.momogu.Adapter.ReceiptAdapter
 import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.databinding.FragmentReceiptBinding
@@ -24,6 +25,7 @@ import kotlin.collections.ArrayList
 class ReceiptFragment : Fragment() {
 
     private lateinit var binding: FragmentReceiptBinding
+    private var postId: String = ""
     private lateinit var profileId: String
 
     private var receiptList: List<ReceiptModel>? = null
@@ -35,6 +37,11 @@ class ReceiptFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentReceiptBinding.inflate(inflater)
+
+        val preferences = context?.getSharedPreferences("POST", Context.MODE_PRIVATE)
+        if (preferences != null) {
+            postId = preferences.getString("postid", "none")!!
+        }
 
         val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
         if (pref != null) {
@@ -56,7 +63,7 @@ class ReceiptFragment : Fragment() {
     }
 
     private fun readNotifications() {
-        val notificationRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(profileId)
+        val notificationRef = FirebaseDatabase.getInstance().reference.child("Receipt")
 
         notificationRef.addValueEventListener(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
@@ -67,7 +74,13 @@ class ReceiptFragment : Fragment() {
                     for (snapshot in p0.children) {
                         val notification = snapshot.getValue(ReceiptModel::class.java)
 
-                        (receiptList as ArrayList<ReceiptModel>).add(notification!!)
+                        if (notification?.getSellerId().equals(profileId)) {
+                            (receiptList as ArrayList<ReceiptModel>).sortByDescending { it.getDateTime() }
+                            (receiptList as ArrayList<ReceiptModel>).add(notification!!)
+                        } else if (notification?.getBuyerId().equals(profileId)) {
+                            (receiptList as ArrayList<ReceiptModel>).sortByDescending { it.getDateTime() }
+                            (receiptList as ArrayList<ReceiptModel>).add(notification!!)
+                        }
                     }
 
                     binding.animLoadingViewNotification.visibility = View.GONE
@@ -82,7 +95,7 @@ class ReceiptFragment : Fragment() {
                     binding.recyclerViewNotifications.visibility = View.GONE
                     binding.animLoadingViewNotification.setAnimation("empty.json")
                     binding.animLoadingViewNotification.playAnimation()
-                    binding.animLoadingViewNotification.loop(true)
+                    binding.animLoadingViewNotification.repeatCount = LottieDrawable.INFINITE
                 }
             }
 

@@ -113,7 +113,6 @@ class CheckoutActivity : AppCompatActivity() {
         binding.layoutCheckoutView.visibility = View.VISIBLE
         binding.animCheckoutView.setAnimation("Checkout.json")
         binding.animCheckoutView.playAnimation()
-        binding.animCheckoutView.loop(true)
         binding.btnCheckout.visibility = View.INVISIBLE
     }
 
@@ -126,11 +125,7 @@ class CheckoutActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val post = p0.getValue(PostModel::class.java)
 
-                    post?.getPublisher()?.let { addReceiptUser(it) }
-
-                    if (post != null) {
-                        addReceiptPost()
-                    }
+                    post?.getPublisher()?.let { addReceiptPost(it) }
 
                 }
             }
@@ -139,32 +134,18 @@ class CheckoutActivity : AppCompatActivity() {
         })
     }
 
-    private fun addReceiptPost()
+    private fun addReceiptPost(publisherId: String)
     {
-        val receiptPostRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(profileId)
+        val receiptPostRef = FirebaseDatabase.getInstance().reference.child("Receipt")
         val receiptPostMap = HashMap<String, Any>()
 
-        receiptPostMap["userid"] = profileId
+        receiptPostMap["buyerid"] = profileId
+        receiptPostMap["sellerid"] = publisherId
         receiptPostMap["postid"] = postId
         receiptPostMap["status"] = "Menunggu konfirmasi!"
         receiptPostMap["dateTime"] = System.currentTimeMillis().toString()
-        receiptPostMap["ispost"] = true
 
         receiptPostRef.child(postId).setValue(receiptPostMap)
-    }
-
-    private fun addReceiptUser(publisherId: String)
-    {
-        val receiptUserRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(publisherId)
-        val receiptUserMap = HashMap<String, Any>()
-
-        receiptUserMap["userid"] = publisherId
-        receiptUserMap["postid"] = postId
-        receiptUserMap["status"] = "Menunggu konfirmasi!"
-        receiptUserMap["dateTime"] = System.currentTimeMillis().toString()
-        receiptUserMap["ispost"] = false
-
-        receiptUserRef.child(postId).setValue(receiptUserMap)
     }
 
 }

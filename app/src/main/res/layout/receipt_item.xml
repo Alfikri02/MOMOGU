@@ -57,14 +57,16 @@
                 app:layout_constraintStart_toEndOf="@+id/ic_cow" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardview_tv"
+                android:id="@+id/cv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="4dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="-10dp"
                 app:cardUseCompatPadding="true"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/menu_receipt"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
 
@@ -72,15 +74,27 @@
                     android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:layout_marginHorizontal="10dp"
+                    android:textColor="#757575"
                     android:fontFamily="@font/poppins_thin"
                     android:text="Status Pesanan"
                     android:textAlignment="center"
-                    android:textColor="@color/g_gray500"
                     android:textSize="12sp" />
 
             </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/menu_receipt"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/content"
+                android:layout_marginEnd="-10dp"
+                android:src="@drawable/ic_menu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/cv_status"
+                app:layout_constraintBottom_toBottomOf="@+id/cv_status"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
