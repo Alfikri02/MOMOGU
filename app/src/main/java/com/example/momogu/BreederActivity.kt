@@ -1,5 +1,6 @@
 package com.example.momogu
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,7 @@ class BreederActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBreederBinding
 
     private var postId: String = ""
+    private lateinit var profileId: String
     var postList: List<PostModel>? = null
     var detailImagesAdapter: DetailImagesAdapter? = null
 
@@ -35,6 +37,11 @@ class BreederActivity : AppCompatActivity() {
             postId = preferences.getString("postid", "none")!!
         }
 
+        val pref = this.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
+        if (pref != null) {
+            this.profileId = pref.getString("profileId", "none").toString()
+        }
+
         //Recycler View for Uploaded Images
         val recyclerViewUploadImages: RecyclerView = binding.recyclerViewUploadPic
         recyclerViewUploadImages.setHasFixedSize(true)
@@ -47,7 +54,7 @@ class BreederActivity : AppCompatActivity() {
 
         retrievePosts()
         myPhotos()
-        getTotalNumberOfPhotos()
+        numberPhoto()
     }
 
     private fun retrievePosts() {
@@ -59,6 +66,8 @@ class BreederActivity : AppCompatActivity() {
                     val post = p0.getValue(PostModel::class.java)
 
                     publisherInfo(post?.getPublisher())
+                    profileId = post?.getPublisher().toString()
+
                 }
             }
 
@@ -79,6 +88,7 @@ class BreederActivity : AppCompatActivity() {
                     binding.profileFragmentUsername.text = user.getUsername()
                     binding.etFullnameProfile.text = user.getFullname()
                     binding.etCityProfile.text = user.getCity()
+
                 }
             }
 
@@ -90,12 +100,18 @@ class BreederActivity : AppCompatActivity() {
         val postRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
         postRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
+                    (postList as ArrayList<PostModel>).clear()
+
                     for (snapshot in p0.children) {
                         val post = snapshot.getValue(PostModel::class.java)
-                        (postList as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
-                        (postList as ArrayList<PostModel>).add(post!!)
+
+                        if (post?.getPublisher().equals(profileId)) {
+                            (postList as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
+                            (postList as ArrayList<PostModel>).add(post!!)
+                        }
                     }
                 }
             }
@@ -104,7 +120,7 @@ class BreederActivity : AppCompatActivity() {
         })
     }
 
-    private fun getTotalNumberOfPhotos() {
+    private fun numberPhoto() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
         postsRef.addValueEventListener(object : ValueEventListener {
@@ -113,10 +129,14 @@ class BreederActivity : AppCompatActivity() {
                     var postCounter = 0
 
                     for (snapShot in p0.children) {
-                        postCounter++
+                        val post = snapShot.getValue(PostModel::class.java)
+
+                        if (post?.getPublisher() == profileId) {
+                            postCounter++
+                        }
                     }
 
-                    binding.totalPosts.text = postCounter.toString()
+                    binding.totalPosts.text = postCounter.toString()//" $postCounter"
                 }
             }
 

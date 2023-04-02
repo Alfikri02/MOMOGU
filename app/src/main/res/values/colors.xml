@@ -34,4 +34,14 @@
     <color name="pink">#FCDFAE</color>
     <color name="ijomuda">#C0D95F</color>
     <color name="ijotua">#67B145</color>
+
+
+    <color name="delapan">#CC000000</color>
+    <color name="tujuh">#B3000000</color>
+    <color name="enam">#99000000</color>
+    <color name="lima">#80000000</color>
+    <color name="empat">#66000000</color>
+    <color name="tiga">#4D000000</color>
+    <color name="dua">#33000000</color>
+
 </resources>

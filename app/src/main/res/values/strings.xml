@@ -59,6 +59,11 @@
     <!--Fragment Profile-->
     <string name="zero">0</string>
 
+    <!--Notification Adapter-->
+    <string name="NOTIFICATION_ADAPTER_START_FOLLOWING">Started following you</string>
+    <string name="NOTIFICATION_ADAPTER_LIKED_POST">Liked your post</string>
+    <string name="NOTIFICATION_ADAPTER_COMMENTED">Commented: </string>
+
     <!--Splash Screen-->
     <string name="power_by">Power By</string>
     <string name="splash_name">Muhammad Al Fikri</string>

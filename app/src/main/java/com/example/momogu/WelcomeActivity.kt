@@ -23,7 +23,7 @@ class WelcomeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.animLoadingViewWelcome.setAnimation("18430-welcome-white.json")
+        binding.animLoadingViewWelcome.setAnimation("welcome.json")
         binding.animLoadingViewWelcome.playAnimation()
         binding.animLoadingViewWelcome.loop(true)
 

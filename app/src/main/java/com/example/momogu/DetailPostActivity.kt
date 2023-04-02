@@ -39,7 +39,7 @@ class DetailPostActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.linearProfile.setOnClickListener {
+        binding.profileDetail.setOnClickListener {
             startActivity(Intent(this, BreederActivity::class.java))
             finish()
         }

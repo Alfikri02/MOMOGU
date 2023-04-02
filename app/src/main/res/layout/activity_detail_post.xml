@@ -268,8 +268,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ti_desc" />
 
-            <LinearLayout
-                android:id="@+id/linear_profile"
+            <RelativeLayout
+                android:id="@+id/profile_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -279,24 +279,39 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_profile"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginStart="20dp"
                     android:padding="5dp"
                     android:src="@drawable/profile" />
 
                 <TextView
                     android:id="@+id/tv_fullname_detail"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@+id/forward_detail"
+                    android:layout_toEndOf="@+id/user_profile"
                     android:fontFamily="@font/poppins_thin"
                     android:text="@string/full_name"
                     android:textSize="14sp" />
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/forward_detail"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_forward" />
+
+            </RelativeLayout>
 
             <View
                 android:id="@+id/line3"
@@ -306,7 +321,7 @@
                 android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linear_profile" />
+                app:layout_constraintTop_toBottomOf="@+id/profile_detail" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_buy"

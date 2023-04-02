@@ -4,10 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
-import com.example.momogu.databinding.ActivityCheckoutBinding
+import com.example.momogu.databinding.ActivityReceiptUserBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -15,15 +16,16 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import java.text.DecimalFormat
 
-class CheckoutActivity : AppCompatActivity() {
+class ReceiptUserActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCheckoutBinding
+    private lateinit var binding: ActivityReceiptUserBinding
     private var postId: String = ""
     private lateinit var profileId: String
 
+    @SuppressLint("DiscouragedPrivateApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCheckoutBinding.inflate(layoutInflater)
+        binding = ActivityReceiptUserBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -45,11 +47,43 @@ class CheckoutActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.btnCheckout.setOnClickListener {
-            retrieveNotification()
-            startLoadingView()
-        }
+        binding.menuReceipt.setOnClickListener {
+            val popupMenu = PopupMenu(this, it)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.confirm_receipt -> {
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Peringatan!")
+                            .setMessage("Apakah anda ingin mengkonfirmasi pesanan ini?")
+                            .setCancelable(true)
+                            .setPositiveButton("Iya") { _, _ ->
+                                setStatusConfirm()
 
+                                finish()
+                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                                dialogInterface.cancel()
+                            }.show()
+
+                        true
+                    }
+                    R.id.proses_receipt -> {
+
+                        true
+                    }
+                    R.id.order_receipt -> {
+
+                        true
+                    }
+                    R.id.done_receipt -> {
+
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.inflate(R.menu.receipt_menu)
+            popupMenu.show()
+        }
     }
 
     private fun retrievePosts() {
@@ -109,15 +143,7 @@ class CheckoutActivity : AppCompatActivity() {
         })
     }
 
-    private fun startLoadingView() {
-        binding.layoutCheckoutView.visibility = View.VISIBLE
-        binding.animCheckoutView.setAnimation("Checkout.json")
-        binding.animCheckoutView.playAnimation()
-        binding.animCheckoutView.loop(true)
-        binding.btnCheckout.visibility = View.INVISIBLE
-    }
-
-    private fun retrieveNotification() {
+    private fun setStatusConfirm() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
 
         postsRef.addValueEventListener(object : ValueEventListener {
@@ -144,13 +170,9 @@ class CheckoutActivity : AppCompatActivity() {
         val receiptPostRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(profileId)
         val receiptPostMap = HashMap<String, Any>()
 
-        receiptPostMap["userid"] = profileId
-        receiptPostMap["postid"] = postId
-        receiptPostMap["status"] = "Menunggu konfirmasi!"
-        receiptPostMap["dateTime"] = System.currentTimeMillis().toString()
-        receiptPostMap["ispost"] = true
+        receiptPostMap["status"] = "Dikonfirmasi"
 
-        receiptPostRef.child(postId).setValue(receiptPostMap)
+        receiptPostRef.child(postId).updateChildren(receiptPostMap)
     }
 
     private fun addReceiptUser(publisherId: String)
@@ -158,13 +180,8 @@ class CheckoutActivity : AppCompatActivity() {
         val receiptUserRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(publisherId)
         val receiptUserMap = HashMap<String, Any>()
 
-        receiptUserMap["userid"] = publisherId
-        receiptUserMap["postid"] = postId
-        receiptUserMap["status"] = "Menunggu konfirmasi!"
-        receiptUserMap["dateTime"] = System.currentTimeMillis().toString()
-        receiptUserMap["ispost"] = false
+        receiptUserMap["status"] = "Dikonfirmasi"
 
-        receiptUserRef.child(postId).setValue(receiptUserMap)
+        receiptUserRef.child(postId).updateChildren(receiptUserMap)
     }
-
 }

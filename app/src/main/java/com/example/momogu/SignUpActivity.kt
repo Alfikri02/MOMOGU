@@ -224,7 +224,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun startLoadingView(start: Boolean) {
         if (start) {
             binding.layoutLoadingViewSignIn.visibility = View.VISIBLE
-            binding.animLoadingViewSignIn.setAnimation("paperplane_lottie_animation.json")
+            binding.animLoadingViewSignIn.setAnimation("paperplane.json")
             binding.animLoadingViewSignIn.playAnimation()
             binding.animLoadingViewSignIn.loop(true)
         } else {

@@ -88,7 +88,6 @@ class HomeFragment : Fragment() {
         val query = FirebaseDatabase.getInstance().reference
             .child("Posts")
             .orderByChild("product")
-            //.child("product")
             .startAt(input)
             .endAt(input + "\uf8ff")
 
@@ -145,7 +144,7 @@ class HomeFragment : Fragment() {
     private fun startAnimation(isStartAnim: Boolean) {
         if (isStartAnim) {
             binding.animLoadingViewHome.visibility = View.VISIBLE
-            binding.animLoadingViewHome.setAnimation("13525-empty.json")
+            binding.animLoadingViewHome.setAnimation("empty.json")
             binding.animLoadingViewHome.playAnimation()
             binding.animLoadingViewHome.repeatMode
         }

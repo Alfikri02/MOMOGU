@@ -4,10 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
-import com.example.momogu.databinding.ActivityCheckoutBinding
+import com.example.momogu.databinding.ActivityReceiptPostBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -15,15 +14,15 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import java.text.DecimalFormat
 
-class CheckoutActivity : AppCompatActivity() {
+class ReceiptPostActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCheckoutBinding
+    private lateinit var binding: ActivityReceiptPostBinding
     private var postId: String = ""
     private lateinit var profileId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCheckoutBinding.inflate(layoutInflater)
+        binding = ActivityReceiptPostBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -43,11 +42,6 @@ class CheckoutActivity : AppCompatActivity() {
 
         binding.backCheckout.setOnClickListener {
             finish()
-        }
-
-        binding.btnCheckout.setOnClickListener {
-            retrieveNotification()
-            startLoadingView()
         }
 
     }
@@ -108,63 +102,4 @@ class CheckoutActivity : AppCompatActivity() {
             override fun onCancelled(p0: DatabaseError) {}
         })
     }
-
-    private fun startLoadingView() {
-        binding.layoutCheckoutView.visibility = View.VISIBLE
-        binding.animCheckoutView.setAnimation("Checkout.json")
-        binding.animCheckoutView.playAnimation()
-        binding.animCheckoutView.loop(true)
-        binding.btnCheckout.visibility = View.INVISIBLE
-    }
-
-    private fun retrieveNotification() {
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
-
-        postsRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val post = p0.getValue(PostModel::class.java)
-
-                    post?.getPublisher()?.let { addReceiptUser(it) }
-
-                    if (post != null) {
-                        addReceiptPost()
-                    }
-
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-    }
-
-    private fun addReceiptPost()
-    {
-        val receiptPostRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(profileId)
-        val receiptPostMap = HashMap<String, Any>()
-
-        receiptPostMap["userid"] = profileId
-        receiptPostMap["postid"] = postId
-        receiptPostMap["status"] = "Menunggu konfirmasi!"
-        receiptPostMap["dateTime"] = System.currentTimeMillis().toString()
-        receiptPostMap["ispost"] = true
-
-        receiptPostRef.child(postId).setValue(receiptPostMap)
-    }
-
-    private fun addReceiptUser(publisherId: String)
-    {
-        val receiptUserRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(publisherId)
-        val receiptUserMap = HashMap<String, Any>()
-
-        receiptUserMap["userid"] = publisherId
-        receiptUserMap["postid"] = postId
-        receiptUserMap["status"] = "Menunggu konfirmasi!"
-        receiptUserMap["dateTime"] = System.currentTimeMillis().toString()
-        receiptUserMap["ispost"] = false
-
-        receiptUserRef.child(postId).setValue(receiptUserMap)
-    }
-
 }

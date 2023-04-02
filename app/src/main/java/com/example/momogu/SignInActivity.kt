@@ -4,7 +4,6 @@ package com.example.momogu
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -154,7 +153,7 @@ class SignInActivity : AppCompatActivity() {
     private fun startLoadingView(start: Boolean) {
         if (start) {
             binding.layoutLoadingView.visibility = View.VISIBLE
-            binding.animLoadingView.setAnimation("paperplane_lottie_animation.json")
+            binding.animLoadingView.setAnimation("paperplane.json")
             binding.animLoadingView.playAnimation()
             binding.animLoadingView.loop(true)
         } else {
@@ -193,17 +192,11 @@ class SignInActivity : AppCompatActivity() {
             ).show()
 
             else -> {
-                val progressDialog = ProgressDialog(this)
-                progressDialog.setTitle("Login")
-                progressDialog.setMessage("Please wait, this may take a while...")
-                progressDialog.setCanceledOnTouchOutside(false)
-                //progressDialog.show()
 
                 val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        progressDialog.dismiss()
                         startLoadingView(false)
                         enableComponents(true)
                         setLoginButtonEnabled(true)
@@ -219,7 +212,6 @@ class SignInActivity : AppCompatActivity() {
                         startLoadingView(false)
                         enableComponents(true)
                         setLoginButtonEnabled(true)
-                        //progressDialog.dismiss()
                     }
                 }
             }

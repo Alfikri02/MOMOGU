@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CheckoutActivity">
+    tools:context=".ReceiptUserActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_checkout"
@@ -43,6 +43,15 @@
                     android:text="@string/checkout"
                     android:textSize="20sp"
                     tools:ignore="RelativeOverlap" />
+
+                <ImageView
+                    android:id="@+id/menu_receipt"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_menu" />
 
             </RelativeLayout>
 
@@ -288,20 +297,6 @@
         android:text="Mohon sediakan uang pas"
         android:textColor="@color/g_light_red"
         android:textSize="12sp" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_checkout"
-        style="@style/greenButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="Pesan Sapi"
-        android:textAllCaps="false"
-        android:textSize="16sp" />
 
     <RelativeLayout
         android:id="@+id/layoutCheckoutView"

@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -117,31 +118,11 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(context, AddPostActivity::class.java))
         }
 
+        binding.receipt.setOnClickListener {
+            (context as FragmentActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ReceiptFragment()).commit()
+        }
+
         return binding.root
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
-        pref?.putString("profileId", firebaseUser.uid)
-        pref?.apply()
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
-        pref?.putString("profileId", firebaseUser.uid)
-        pref?.apply()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
-        pref?.putString("profileId", firebaseUser.uid)
-        pref?.apply()
     }
 
     private fun userInfo() {
@@ -280,5 +261,30 @@ class ProfileFragment : Fragment() {
 
             override fun onCancelled(p0: DatabaseError) {}
         })
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+
+        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
+        pref?.putString("profileId", firebaseUser.uid)
+        pref?.apply()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
+        pref?.putString("profileId", firebaseUser.uid)
+        pref?.apply()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
+        pref?.putString("profileId", firebaseUser.uid)
+        pref?.apply()
     }
 }

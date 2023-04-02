@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import java.util.*
+
 
 class PostAdapter(private val mContext: Context, private val mPost: List<PostModel>) :
     RecyclerView.Adapter<PostAdapter.ViewHolder>() {
@@ -82,10 +85,14 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
 
         holder.cardPost.setOnClickListener {
 
-            val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
-            editor.putString("postid", post.getPostid())
-            editor.apply()
-            mContext.startActivity(Intent(mContext, DetailPostActivity::class.java))
+            if (post.getPublisher().equals(firebaseUser!!.uid)) {
+                customToast(mContext, "Sapi ini milik anda!")
+            } else {
+                val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+                editor.putString("postid", post.getPostid())
+                editor.apply()
+                mContext.startActivity(Intent(mContext, DetailPostActivity::class.java))
+            }
         }
 
         holder.saveButton.setOnClickListener {
@@ -101,6 +108,20 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
                     .removeValue()
             }
         }
+    }
+
+    @SuppressLint("InflateParams")
+    fun customToast(context: Context, message: String) {
+        val inflater = LayoutInflater.from(context)
+        val layout = inflater.inflate(R.layout.toast_layout, null)
+        val text = layout.findViewById<TextView>(R.id.tv_toast)
+        text.text = message
+
+        val toast = Toast(context)
+        toast.setGravity(Gravity.BOTTOM, 0, 120)
+        toast.duration = Toast.LENGTH_SHORT
+        toast.view = layout
+        toast.show()
     }
 
     private fun getTimeAgo(time: Long): String? {
