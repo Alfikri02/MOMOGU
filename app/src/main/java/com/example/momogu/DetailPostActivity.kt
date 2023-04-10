@@ -1,13 +1,22 @@
 package com.example.momogu
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityDetailPostBinding
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -20,6 +29,11 @@ class DetailPostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailPostBinding
     private var postId: String = ""
+    private lateinit var locationManager: LocationManager
+    var userLatitude = 0.0
+    var userLongitude = 0.0
+    var productLatitude = 0.0
+    var productLongitude = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +41,7 @@ class DetailPostActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
 
         val preferences = this.getSharedPreferences("POST", Context.MODE_PRIVATE)
         if (preferences != null) {
@@ -48,6 +63,64 @@ class DetailPostActivity : AppCompatActivity() {
             startActivity(Intent(this, CheckoutActivity::class.java))
         }
 
+        val checkPermission  = registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted->
+            if (isGranted){
+                if(checkGPS()){
+                    val locationClient = LocationServices.getFusedLocationProviderClient(this)
+                    if (ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        return@registerForActivityResult
+                    }
+                    locationClient.lastLocation
+                        .addOnSuccessListener {location ->
+                            if(location != null){
+                                userLatitude = location.latitude
+                                userLongitude = location.longitude
+                                val i = Intent(this,MapUserActivity::class.java)
+                                i.putExtra("productLatitude",productLatitude)
+                                i.putExtra("productLongitude",productLongitude)
+                                i.putExtra("userLatitude",userLatitude)
+                                i.putExtra("userLongitude",userLongitude)
+                                startActivity(i)
+                            }
+                        }
+                }
+            }else{
+                Toast.makeText(this, "Please accept permission to view the location", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        binding.btnSeeLocation.setOnClickListener {
+            checkPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+    }
+
+    private fun checkGPS():Boolean{
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            return true
+        } else {
+            val dialog = AlertDialog.Builder(this)
+            dialog.setTitle("GPS isn't enabled !")
+            dialog.setMessage("Enable it to see the distance between you and the product.")
+            dialog.setCancelable(true)
+            dialog.setIcon(R.drawable.ic_location_off)
+            dialog.setPositiveButton("OK") { d, _ ->
+                d.dismiss()
+                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+            dialog.setNegativeButton("NO") { d, _ ->
+                d.dismiss()
+            }
+            dialog.show()
+        }
+        return false
     }
 
     private fun retrievePosts() {
@@ -69,6 +142,8 @@ class DetailPostActivity : AppCompatActivity() {
                     binding.etAge.text = "${post.getAge()} Bulan"
                     binding.etColor.text = post.getColor()
                     binding.etDesc.setText(post.getDesc())
+                    productLatitude = post.getLatitude()!!
+                    productLongitude = post.getLongitude()!!
                     publisherInfo(post.getPublisher())
                 }
             }

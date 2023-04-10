@@ -1,6 +1,7 @@
 package com.example.momogu.Fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.Adapter.PostAdapter
+import com.example.momogu.MapsActivity
 import com.example.momogu.Model.PostModel
 import com.example.momogu.databinding.FragmentHomeBinding
 import com.google.firebase.database.DataSnapshot
@@ -55,6 +57,10 @@ class HomeFragment : Fragment() {
             }
 
         })
+
+        binding.maps.setOnClickListener {
+            startActivity(Intent(context, MapsActivity::class.java))
+        }
 
         return binding.root
     }

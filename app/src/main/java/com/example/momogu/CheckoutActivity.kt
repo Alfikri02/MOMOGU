@@ -46,7 +46,7 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         binding.btnCheckout.setOnClickListener {
-            retrieveNotification()
+            retrieveReceipt()
             startLoadingView()
         }
 
@@ -116,7 +116,7 @@ class CheckoutActivity : AppCompatActivity() {
         binding.btnCheckout.visibility = View.INVISIBLE
     }
 
-    private fun retrieveNotification() {
+    private fun retrieveReceipt() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
 
         postsRef.addValueEventListener(object : ValueEventListener {
@@ -134,8 +134,7 @@ class CheckoutActivity : AppCompatActivity() {
         })
     }
 
-    private fun addReceiptPost(publisherId: String)
-    {
+    private fun addReceiptPost(publisherId: String) {
         val receiptPostRef = FirebaseDatabase.getInstance().reference.child("Receipt")
         val receiptPostMap = HashMap<String, Any>()
 

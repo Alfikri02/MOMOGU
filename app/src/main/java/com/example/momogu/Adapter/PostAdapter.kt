@@ -86,6 +86,10 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
 
             if (post.getPublisher().equals(firebaseUser!!.uid)) {
                 Toast.makeText(mContext, "Sapi ini milik anda!", Toast.LENGTH_SHORT).show()
+                val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+                editor.putString("postid", post.getPostid())
+                editor.apply()
+                mContext.startActivity(Intent(mContext, DetailPostActivity::class.java))
             } else {
                 val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
                 editor.putString("postid", post.getPostid())

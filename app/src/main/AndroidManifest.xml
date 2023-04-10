@@ -4,6 +4,9 @@
     package="com.example.momogu">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MOMOGU"
         tools:targetApi="31">
+        <activity
+            android:name=".MapUserActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyABqMLY3kCxEUIUpF4rqNDkBqtWC7pfVpQ" />
+
+        <activity android:name=".MapAdminActivity" />
+        <activity android:name=".MapsActivity" />
         <activity android:name=".FavoriteActivity" />
         <activity android:name=".ReceiptUserActivity" />
         <activity android:name=".ReceiptPostActivity" />

@@ -227,12 +227,40 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_location"
+                style="@style/greenButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Pilih Lokasi Sapi"
+                android:paddingHorizontal="20dp"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/ti_shipping"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/savedLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:text="Saved"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:drawableEndCompat="@drawable/ic_cloud_done"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_location" />
+
             <CheckBox
                 android:id="@+id/cb_condition"
                 android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="30dp"
                 android:fontFamily="@font/poppins_light"
                 android:text="@string/guarante"
@@ -240,7 +268,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_shipping" />
+                app:layout_constraintTop_toBottomOf="@+id/savedLocation" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

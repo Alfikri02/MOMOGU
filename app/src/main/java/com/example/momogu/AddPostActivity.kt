@@ -1,20 +1,27 @@
-@file:Suppress("DEPRECATION")
-
 package com.example.momogu
 
+import android.Manifest
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.PermissionChecker
 import com.example.momogu.databinding.ActivityAddPostBinding
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -26,11 +33,13 @@ import java.text.DecimalFormat
 
 class AddPostActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAddPostBinding
-
     private var myUrl = ""
     private var imageUri: Uri? = null
     private var storagePostPicRef: StorageReference? = null
+    private val LOCATION_CODE = 100
+    private lateinit var locationManager: LocationManager
+    var latitude = 0.0
+    var longitude = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +48,8 @@ class AddPostActivity : AppCompatActivity() {
         setContentView(view)
 
         storagePostPicRef = FirebaseStorage.getInstance().reference.child("Post Pictures")
+
+        locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
 
         binding.saveNewPostBtn.setOnClickListener {
             uploadImage()
@@ -93,6 +104,52 @@ class AddPostActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        binding.btnLocation.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (PermissionChecker.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) == PermissionChecker.PERMISSION_DENIED
+                ) {
+                    requestPermissions(
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        LOCATION_CODE
+                    )
+                } else if (PermissionChecker.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) == PermissionChecker.PERMISSION_GRANTED
+                ) {
+                    if (checkGPS()) {
+                        val locationClient = LocationServices.getFusedLocationProviderClient(this)
+                        locationClient.lastLocation
+                            .addOnSuccessListener { location ->
+                                if (location != null) {
+                                    latitude = location.latitude
+                                    longitude = location.longitude
+                                    val i = Intent(this, MapAdminActivity::class.java)
+                                    i.putExtra("latitude", latitude)
+                                    i.putExtra("longitude", longitude)
+                                    startActivity(i)
+                                } else {
+                                    Snackbar.make(
+                                        it,
+                                        "Check is GPS enabled !",
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Error wile get location", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                    }
+                }
+            } else {
+                checkGPS()
+            }
+        }
+
     }
 
     @Deprecated("Deprecated in Java")
@@ -113,6 +170,35 @@ class AddPostActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_POST_IMAGE = 100
+        lateinit var binding: ActivityAddPostBinding
+        var latitudeProduct = 0.0
+        var longitudeProduct = 0.0
+        fun setProductLocation(latitude: Double, longitude: Double) {
+            latitudeProduct = latitude
+            longitudeProduct = longitude
+            binding.savedLocation.visibility = View.VISIBLE
+        }
+    }
+
+    private fun checkGPS(): Boolean {
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            return true
+        } else {
+            val dialog = AlertDialog.Builder(this)
+            dialog.setTitle("GPS isn't enabled !")
+            dialog.setMessage("Enable it to be able to locate the product")
+            dialog.setCancelable(true)
+            dialog.setIcon(R.drawable.ic_location_off)
+            dialog.setPositiveButton("OK") { d, _ ->
+                d.dismiss()
+                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+            dialog.setNegativeButton("NO") { d, _ ->
+                d.dismiss()
+            }
+            dialog.show()
+        }
+        return false
     }
 
     @Suppress("DEPRECATION")
@@ -153,6 +239,10 @@ class AddPostActivity : AppCompatActivity() {
 
             binding.etShipping.text.isNullOrEmpty() -> {
                 binding.etShipping.error = "Ongkos pengiriman sapi dibutuhkan!"
+            }
+
+            binding.savedLocation.text.isNullOrEmpty() -> {
+                Toast.makeText(this, "Silahkan pilih lokasi sapi anda!", Toast.LENGTH_LONG).show()
             }
 
             binding.cbCondition.isChecked.not() -> {
@@ -199,6 +289,8 @@ class AddPostActivity : AppCompatActivity() {
                         postMap["desc"] = binding.etDesc.text.toString()
                         postMap["price"] = binding.etPrice.text.toString()
                         postMap["shipping"] = binding.etShipping.text.toString()
+                        postMap["latitude"] = latitudeProduct
+                        postMap["longitude"] = longitudeProduct
                         postMap["dateTime"] = System.currentTimeMillis().toString()
 
                         ref.child(postId).updateChildren(postMap)

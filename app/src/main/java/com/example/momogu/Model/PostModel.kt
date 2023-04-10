@@ -12,6 +12,8 @@ class PostModel {
     private var desc: String? = null
     private var price: String? = null
     private var shipping: String? = null
+    private var latitude: Double? = null
+    private var longitude: Double? = null
     private var dateTime: String? = null
 
     constructor()
@@ -28,6 +30,8 @@ class PostModel {
         desc: String?,
         price: String?,
         shipping: String?,
+        latitude: Double?,
+        longitude: Double?,
         dateTime: String?
     ) {
         this.postid = postid
@@ -41,6 +45,8 @@ class PostModel {
         this.desc = desc
         this.price = price
         this.shipping = shipping
+        this.latitude = latitude
+        this.longitude = longitude
         this.dateTime = dateTime
     }
 
@@ -86,6 +92,14 @@ class PostModel {
 
     fun getShipping(): String? {
         return shipping
+    }
+
+    fun getLatitude(): Double? {
+        return latitude
+    }
+
+    fun getLongitude(): Double? {
+        return longitude
     }
 
     fun getDateTime(): String? {
