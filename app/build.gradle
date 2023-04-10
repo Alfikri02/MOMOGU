@@ -59,6 +59,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.libraries.places:places:3.0.0'
 
     //firebase
     implementation 'com.google.firebase:firebase-analytics:21.2.1'

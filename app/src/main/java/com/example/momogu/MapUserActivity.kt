@@ -3,6 +3,7 @@ package com.example.momogu
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.momogu.databinding.ActivityMapUserBinding
@@ -33,6 +34,37 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback {
         userLatitude = intent.getDoubleExtra("userLatitude",0.0)
         userLongitude = intent.getDoubleExtra("userLongitude",0.0)
 
+        binding.closeMaps.setOnClickListener {
+            finish()
+        }
+
+        binding.menuMaps.setOnClickListener {
+            val popupMenu = PopupMenu(this, it)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.normal_type -> {
+                        mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+                        true
+                    }
+                    R.id.satellite_type -> {
+                        mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                        true
+                    }
+                    R.id.terrain_type -> {
+                        mMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+                        true
+                    }
+                    R.id.hybrid_type -> {
+                        mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.inflate(R.menu.map_options)
+            popupMenu.show()
+        }
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.mapUser) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -47,10 +79,9 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val productLocation = LatLng(productLatitude,productLongitude)
         val userLocation = LatLng(userLatitude,userLongitude)
+
         mMap.addMarker(MarkerOptions().position(productLocation).title("Product here"))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(productLocation,15f))
-
-        mMap.addMarker(MarkerOptions().position(userLocation).title("You here"))
 
         mMap.addPolyline(
             PolylineOptions()

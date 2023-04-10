@@ -211,10 +211,11 @@
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="Biaya Pengiriman"
                 android:layout_marginBottom="30dp"
+                android:hint="Biaya Pengiriman"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ti_price_edit">
 
                 <com.google.android.material.textfield.TextInputEditText
