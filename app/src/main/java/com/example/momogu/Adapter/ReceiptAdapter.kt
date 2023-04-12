@@ -182,10 +182,10 @@ class ReceiptAdapter(
                     product.text = post?.getProduct()
 
                     val price = post?.getPrice()
-                    val getPrice = price?.replace(".", "")?.toInt()
+                    val getPrice = price?.replace(".", "")?.replace(",", "")?.toInt()
 
                     val shipping = post?.getShipping()
-                    val getShipping = shipping?.replace(".", "")?.toInt()
+                    val getShipping = shipping?.replace(".", "")?.replace(",", "")?.toInt()
 
                     val decimalFormat = DecimalFormat("#,##0")
                     val hasil = getPrice!! + getShipping!!

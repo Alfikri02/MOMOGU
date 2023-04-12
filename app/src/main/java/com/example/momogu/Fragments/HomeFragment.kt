@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
 
         })
 
-        binding.maps.setOnClickListener {
+        binding.mapsHome.setOnClickListener {
             startActivity(Intent(context, MapsActivity::class.java))
         }
 

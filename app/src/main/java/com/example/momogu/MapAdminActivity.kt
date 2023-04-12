@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.util.*
 
 class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -94,7 +95,8 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mMap.setOnMapClickListener { latlng ->
             mMap.clear()
-            mMap.addMarker(MarkerOptions().position(latlng).title("Product here"))
+            mMap.addMarker(
+                MarkerOptions().position(latlng).title("Product here"))
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15f))
             latitudeProduct = latlng.latitude
             longitudeProduct = latlng.longitude

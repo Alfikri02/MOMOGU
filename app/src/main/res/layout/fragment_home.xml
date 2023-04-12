@@ -32,7 +32,7 @@
                     android:src="@drawable/momogu_text" />
 
                 <ImageView
-                    android:id="@+id/maps"
+                    android:id="@+id/maps_home"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
