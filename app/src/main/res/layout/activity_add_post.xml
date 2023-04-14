@@ -228,7 +228,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_location"
+                android:id="@+id/btn_select_location"
                 style="@style/greenButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -242,18 +242,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <TextView
-                android:id="@+id/savedLocation"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/preview_location"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:text="Saved"
-                android:textSize="16sp"
-                android:visibility="gone"
-                app:drawableEndCompat="@drawable/ic_cloud_done"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_location" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_select_location">
+
+                <TextView
+                    android:id="@+id/label_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/field_location"
+                    android:text="Lokasi Sapi"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/btn_clear_location"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/content"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_close" />
+
+                <TextView
+                    android:id="@+id/field_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_clear_location"
+                    android:layout_marginTop="8dp"
+                    android:autofillHints=""
+                    android:gravity="start"
+                    android:lineHeight="20dp"
+                    android:padding="8dp"
+                    android:textSize="12sp"
+                    tools:text="Alamat Sapi"
+                    tools:ignore="UnusedAttribute" />
+            </RelativeLayout>
 
             <CheckBox
                 android:id="@+id/cb_condition"
@@ -268,7 +298,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/savedLocation" />
+                app:layout_constraintTop_toBottomOf="@+id/preview_location" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

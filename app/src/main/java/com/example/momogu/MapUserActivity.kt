@@ -7,22 +7,19 @@ import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.momogu.databinding.ActivityMapUserBinding
+import com.example.momogu.utils.Constanta.productLatitude
+import com.example.momogu.utils.Constanta.productLongitude
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
 
 class MapUserActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapUserBinding
-    private var productLatitude = 0.0
-    private var  productLongitude = 0.0
-    private var userLatitude = 0.0
-    private var userLongitude = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +28,6 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback {
 
         productLatitude = intent.getDoubleExtra("productLatitude",0.0)
         productLongitude = intent.getDoubleExtra("productLongitude",0.0)
-        userLatitude = intent.getDoubleExtra("userLatitude",0.0)
-        userLongitude = intent.getDoubleExtra("userLongitude",0.0)
 
         binding.closeMaps.setOnClickListener {
             finish()
@@ -78,17 +73,9 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isMyLocationButtonEnabled = true
 
         val productLocation = LatLng(productLatitude,productLongitude)
-        val userLocation = LatLng(userLatitude,userLongitude)
 
         mMap.addMarker(MarkerOptions().position(productLocation).title("Product here"))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(productLocation,15f))
-
-        mMap.addPolyline(
-            PolylineOptions()
-            .add(productLocation)
-            .add(userLocation)
-            .color(R.color.ijotua)
-        )
 
         getMyLocation()
     }

@@ -1,29 +1,42 @@
 package com.example.momogu
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.momogu.databinding.ActivityMapAdminBinding
+import com.example.momogu.databinding.CustomTooltipPickLocationStoryBinding
+import com.example.momogu.utils.Constanta
+import com.example.momogu.utils.Constanta.PERMISSIONS_REQUEST_LOCATION
+import com.example.momogu.utils.Constanta.coordinateLatitude
+import com.example.momogu.utils.Constanta.coordinateLongitude
+import com.example.momogu.utils.Constanta.isLocationPicked
+import com.example.momogu.utils.Helper
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
 
-class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
 
-    private lateinit var mMap: GoogleMap
+    private lateinit var mAdminMap: GoogleMap
     private lateinit var binding: ActivityMapAdminBinding
-    private var latitudeUser = 0.0
-    private var longitudeUser = 0.0
-    private var latitudeProduct = 0.0
-    private var longitudeProduct = 0.0
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     @SuppressLint("DiscouragedPrivateApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,20 +44,36 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        latitudeUser = intent.getDoubleExtra("latitude", 0.0)
-        longitudeUser = intent.getDoubleExtra("longitude", 0.0)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        binding.btnSaveLocation.setOnClickListener {
-            if (latitudeProduct == 0.0 || longitudeProduct == 0.0) {
-                latitudeProduct = latitudeUser
-                longitudeProduct = longitudeUser
-            }
-            AddPostActivity.setProductLocation(latitudeProduct, longitudeProduct)
+        binding.btnCancel.setOnClickListener {
+            isLocationPicked.postValue(false)
             finish()
         }
 
-        binding.closeMaps.setOnClickListener {
-            finish()
+        binding.btnSelectLocation.setOnClickListener {
+            if (isLocationPicked.value == true) {
+                val intent = Intent()
+                intent.putExtra(
+                    Constanta.LocationPicker.IsPicked.name,
+                    isLocationPicked.value
+                )
+                intent.putExtra(
+                    Constanta.LocationPicker.Latitude.name,
+                    coordinateLatitude
+                )
+                intent.putExtra(
+                    Constanta.LocationPicker.Longitude.name,
+                    coordinateLongitude
+                )
+                setResult(RESULT_OK, intent)
+                finish()
+            } else {
+                Helper.showDialogInfo(
+                    this,
+                    getString(R.string.UI_validation_maps_select_area)
+                )
+            }
         }
 
         binding.menuMaps.setOnClickListener {
@@ -52,19 +81,19 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback {
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.normal_type -> {
-                        mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+                        mAdminMap.mapType = GoogleMap.MAP_TYPE_NORMAL
                         true
                     }
                     R.id.satellite_type -> {
-                        mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                        mAdminMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
                         true
                     }
                     R.id.terrain_type -> {
-                        mMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+                        mAdminMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
                         true
                     }
                     R.id.hybrid_type -> {
-                        mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+                        mAdminMap.mapType = GoogleMap.MAP_TYPE_HYBRID
                         true
                     }
                     else -> false
@@ -74,35 +103,76 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback {
             popupMenu.show()
         }
 
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.mapAdmin) as SupportMapFragment
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.mapAdmin) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+        mAdminMap = googleMap
 
-        mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.uiSettings.isCompassEnabled = true
-        mMap.uiSettings.isMyLocationButtonEnabled = true
+        mAdminMap.uiSettings.isZoomControlsEnabled = true
+        mAdminMap.uiSettings.isCompassEnabled = true
+        mAdminMap.uiSettings.isMyLocationButtonEnabled = true
 
-        mMap.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                LatLng(latitudeUser, longitudeUser),
-                15f
-            )
-        )
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_REQUEST_LOCATION)
+            return
+        }
 
-        mMap.setOnMapClickListener { latlng ->
-            mMap.clear()
-            mMap.addMarker(
-                MarkerOptions().position(latlng).title("Product here"))
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15f))
-            latitudeProduct = latlng.latitude
-            longitudeProduct = latlng.longitude
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                val latLng = LatLng(location.latitude, location.longitude)
+                mAdminMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+            }
+        }
+
+        mAdminMap.setInfoWindowAdapter(this)
+
+        mAdminMap.setOnInfoWindowClickListener { marker ->
+            postLocationSelected(marker.position.latitude, marker.position.longitude)
+            marker.hideInfoWindow()
+        }
+        mAdminMap.setOnMapClickListener {
+            mAdminMap.clear()
+            mAdminMap.addMarker(
+                MarkerOptions()
+                    .position(
+                        LatLng(
+                            it.latitude,
+                            it.longitude
+                        )
+                    )
+            )?.showInfoWindow()
+        }
+        mAdminMap.setOnPoiClickListener {
+            Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+            mAdminMap.clear()
+            mAdminMap.addMarker(
+                MarkerOptions()
+                    .position(
+                        LatLng(
+                            it.latLng.latitude,
+                            it.latLng.longitude
+                        )
+                    )
+            )?.showInfoWindow()
         }
 
         getMyLocation()
+    }
+
+    private fun postLocationSelected(lat: Double, lon: Double) {
+        val address =
+            Helper.parseAddressLocation(
+                this,
+                lat,
+                lon
+            )
+        binding.addressBar.text = address
+        isLocationPicked.postValue(true)
+        coordinateLatitude = lat
+        coordinateLongitude = lon
     }
 
     private val requestPermissionLauncher =
@@ -117,12 +187,39 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun getMyLocation() {
         if (ContextCompat.checkSelfPermission(
                 this.applicationContext,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            mMap.isMyLocationEnabled = true
+            mAdminMap.isMyLocationEnabled = true
         } else {
-            requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
+    override fun getInfoContents(marker: Marker): View? {
+        return null
+    }
+
+    /* while marker touched -> show custom view */
+    override fun getInfoWindow(marker: Marker): View {
+        val bindingTooltips =
+            CustomTooltipPickLocationStoryBinding.inflate(LayoutInflater.from(this))
+        bindingTooltips.location.text = Helper.parseAddressLocation(
+            this,
+            marker.position.latitude, marker.position.longitude
+        )
+        return bindingTooltips.root
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSIONS_REQUEST_LOCATION -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    onMapReady(mAdminMap)
+                }
+                return
+            }
         }
     }
 

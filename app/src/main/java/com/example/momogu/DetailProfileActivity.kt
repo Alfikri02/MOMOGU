@@ -17,7 +17,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.example.momogu.Model.PostModel
 import com.example.momogu.databinding.ActivityDetailProfileBinding
-import com.google.android.gms.location.LocationServices
+import com.example.momogu.utils.Constanta.productLatitude
+import com.example.momogu.utils.Constanta.productLongitude
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -36,10 +37,6 @@ class DetailProfileActivity : AppCompatActivity() {
     private lateinit var builder: AlertDialog.Builder
 
     private lateinit var locationManager: LocationManager
-    var userLatitude = 0.0
-    var userLongitude = 0.0
-    var productLatitude = 0.0
-    var productLongitude = 0.0
 
     @SuppressLint("DiscouragedPrivateApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,7 +82,11 @@ class DetailProfileActivity : AppCompatActivity() {
                                 val fileRef = storagePostPicRef!!.child("$postId.jpg")
                                 fileRef.delete()
 
-                                Toast.makeText(this, "Data sapi berhasil dihapus!", Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    this,
+                                    "Data sapi berhasil dihapus!",
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                                 finish()
                             }.setNegativeButton("Tidak") { dialogInterface, _ ->
@@ -114,38 +115,33 @@ class DetailProfileActivity : AppCompatActivity() {
 
         }
 
-        val checkPermission  = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted->
-            if (isGranted){
-                if(checkGPS()){
-                    val locationClient = LocationServices.getFusedLocationProviderClient(this)
-                    if (ActivityCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                        ) != PackageManager.PERMISSION_GRANTED
-                    ) {
-                        return@registerForActivityResult
-                    }
-                    locationClient.lastLocation
-                        .addOnSuccessListener {location ->
-                            if(location != null){
-                                userLatitude = location.latitude
-                                userLongitude = location.longitude
-                                val i = Intent(this,MapUserActivity::class.java)
-                                i.putExtra("productLatitude",productLatitude)
-                                i.putExtra("productLongitude",productLongitude)
-                                i.putExtra("userLatitude",userLatitude)
-                                i.putExtra("userLongitude",userLongitude)
-                                startActivity(i)
-                            }
+        val checkPermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    if (checkGPS()) {
+                        if (ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            return@registerForActivityResult
                         }
+                        val i = Intent(this, MapUserActivity::class.java)
+                        i.putExtra("productLatitude", productLatitude)
+                        i.putExtra("productLongitude", productLongitude)
+                        startActivity(i)
+                    }
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Please accept permission to view the location",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-            }else{
-                Toast.makeText(this, "Please accept permission to view the location", Toast.LENGTH_SHORT).show()
             }
-        }
 
         binding.btnSeeLocation.setOnClickListener {
             checkPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -153,7 +149,7 @@ class DetailProfileActivity : AppCompatActivity() {
 
     }
 
-    private fun checkGPS():Boolean{
+    private fun checkGPS(): Boolean {
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             return true
         } else {
