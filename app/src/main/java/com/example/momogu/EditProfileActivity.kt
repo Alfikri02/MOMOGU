@@ -2,6 +2,7 @@
 
 package com.example.momogu
 
+import android.Manifest
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
@@ -11,9 +12,19 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityEditProfileBinding
+import com.example.momogu.utils.Constanta
+import com.example.momogu.utils.Constanta.LOCATION_PERMISSION_CODE
+import com.example.momogu.utils.Constanta.coordinateLatitude
+import com.example.momogu.utils.Constanta.coordinateLongitude
+import com.example.momogu.utils.Constanta.isLocationPicked
+import com.example.momogu.utils.Helper
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -41,6 +52,9 @@ class EditProfileActivity : AppCompatActivity() {
     private var storageProfilePicRef: StorageReference? = null
     private lateinit var builder: AlertDialog.Builder
 
+    private var getResult: ActivityResultLauncher<Intent>? = null
+    private var isPicked: Boolean? = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
@@ -51,6 +65,31 @@ class EditProfileActivity : AppCompatActivity() {
         storageProfilePicRef = FirebaseStorage.getInstance().reference.child("Profile Picture")
 
         builder = AlertDialog.Builder(this)
+
+        getResult = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                it.data?.let { res ->
+                    isPicked = res.getBooleanExtra(Constanta.LocationPicker.IsPicked.name, false)
+                    isLocationPicked.postValue(isPicked)
+                    val lat = res.getDoubleExtra(
+                        Constanta.LocationPicker.Latitude.name,
+                        0.0
+                    )
+                    val lon = res.getDoubleExtra(
+                        Constanta.LocationPicker.Longitude.name,
+                        0.0
+                    )
+                    binding.fieldLocation.text = Helper.parseAddressLocation(this, lat, lon)
+                    binding.fieldCity.text = Helper.parseCityLocation(this, lat, lon)
+                    binding.etAddressProfile.setText(binding.fieldLocation.text)
+                    binding.etCityProfile.setText(binding.fieldCity.text)
+                    coordinateLatitude = lat
+                    coordinateLongitude = lon
+                }
+            }
+        }
 
         binding.logoutBtn.setOnClickListener {
             builder.setTitle("Peringatan!")
@@ -93,6 +132,35 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         userInfo()
+
+        isLocationPicked.postValue(false)
+
+        binding.btnClearLocation.setOnClickListener {
+            isLocationPicked.postValue(false)
+        }
+
+        binding.btnSelectLocation.setOnClickListener {
+            /* check permission to granted apps pick user location */
+            if (Helper.isPermissionGranted(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                val intentPickLocation = Intent(this, MapAdminActivity::class.java)
+                getResult?.launch(intentPickLocation)
+            } else {
+                ActivityCompat.requestPermissions(
+                    this@EditProfileActivity,
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ),
+                    LOCATION_PERMISSION_CODE
+                )
+            }
+        }
+
+        isLocationPicked.observe(this) {
+            /* if location picked -> show picked location address, else -> hide address & show pick location button */
+            binding.previewLocation.isVisible = it
+            binding.btnSelectLocation.isVisible = !it
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -160,6 +228,10 @@ class EditProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Full Address is Required!", Toast.LENGTH_LONG).show()
             }
 
+            binding.fieldLocation.text.isNullOrEmpty() -> {
+                Toast.makeText(this, "Silahkan pilih Alamat Lengkap Anda!", Toast.LENGTH_LONG).show()
+            }
+
             else -> {
                 val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
                 val userMap = HashMap<String, Any>()
@@ -169,6 +241,8 @@ class EditProfileActivity : AppCompatActivity() {
                 userMap["wa"] = binding.etWhatsappProfile.text.toString()
                 userMap["city"] = binding.etCityProfile.text.toString()
                 userMap["address"] = binding.etAddressProfile.text.toString()
+                userMap["latitude"] = coordinateLatitude
+                userMap["longitude"] = coordinateLongitude
 
                 usersRef.child(firebaseUser.uid).updateChildren(userMap)
 
@@ -210,6 +284,10 @@ class EditProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Full Address is Required!", Toast.LENGTH_LONG).show()
             }
 
+            binding.fieldLocation.text.isNullOrEmpty() -> {
+                Toast.makeText(this, "Silahkan pilih Alamat Lengkap Anda!", Toast.LENGTH_LONG).show()
+            }
+
             else -> {
                 val progressDialog = ProgressDialog(this)
                 progressDialog.setTitle("Account Settings")
@@ -243,6 +321,8 @@ class EditProfileActivity : AppCompatActivity() {
                         userMap["wa"] = binding.etWhatsappProfile.text.toString()
                         userMap["city"] = binding.etCityProfile.text.toString()
                         userMap["address"] = binding.etAddressProfile.text.toString()
+                        userMap["latitude"] = coordinateLatitude
+                        userMap["longitude"] = coordinateLongitude
                         userMap["image"] = myUrl
 
                         ref.child(firebaseUser.uid).updateChildren(userMap)

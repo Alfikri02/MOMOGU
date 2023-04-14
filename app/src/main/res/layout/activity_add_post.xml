@@ -246,7 +246,9 @@
                 android:id="@+id/preview_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:background="@drawable/border"
                 android:layout_marginHorizontal="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -257,17 +259,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/field_location"
-                    android:text="Lokasi Sapi"
+                    android:layout_alignParentTop="true"
+                    android:text="Lokasi"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/btn_clear_location"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
                     android:contentDescription="@string/content"
-                    android:padding="6dp"
                     android:src="@drawable/ic_close" />
 
                 <TextView
@@ -275,14 +277,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btn_clear_location"
-                    android:layout_marginTop="8dp"
                     android:autofillHints=""
-                    android:gravity="start"
-                    android:lineHeight="20dp"
-                    android:padding="8dp"
+                    android:layout_marginTop="8dp"
                     android:textSize="12sp"
-                    tools:text="Alamat Sapi"
-                    tools:ignore="UnusedAttribute" />
+                    tools:text="Alamat Lengkap"/>
             </RelativeLayout>
 
             <CheckBox
@@ -290,7 +288,7 @@
                 android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginBottom="30dp"
                 android:fontFamily="@font/poppins_light"
                 android:text="@string/guarante"

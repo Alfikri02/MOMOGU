@@ -81,4 +81,6 @@
 
     <string name="UI_validation_maps_select_area">The location must be selected first. Tap on the desired location to select the location</string>
 
+    <string name="indonesia">id</string>
+
 </resources>

@@ -158,7 +158,8 @@
                     android:id="@+id/et_city_profile"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_city"
-                    android:inputType="text" />
+                    android:focusable="false"
+                    android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,16 +171,79 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
                 android:hint="@string/address">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_address_profile"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_city"
-                    android:inputType="text" />
+                    android:focusable="false"
+                    android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_select_location"
+                style="@style/greenButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ti_address_profile"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="20dp"
+                android:text="Pilih Alamat Lengkap"
+                android:textAllCaps="false"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/preview_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:background="@drawable/border"
+                android:layout_marginHorizontal="20dp"
+                android:layout_below="@+id/btn_select_location">
+
+                <TextView
+                    android:id="@+id/label_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/field_location"
+                    android:layout_alignParentTop="true"
+                    android:text="Lokasi"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/btn_clear_location"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_close" />
+
+                <TextView
+                    android:id="@+id/field_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_clear_location"
+                    android:autofillHints=""
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    tools:text="Kota"/>
+
+                <TextView
+                    android:id="@+id/field_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/field_city"
+                    android:autofillHints=""
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    tools:text="Alamat Lengkap"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
@@ -193,6 +257,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:text="@string/logout"
         android:textAllCaps="false"
         android:textSize="16sp" />

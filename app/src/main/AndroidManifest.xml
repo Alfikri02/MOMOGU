@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.momogu">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -24,6 +26,15 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyABqMLY3kCxEUIUpF4rqNDkBqtWC7pfVpQ" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.API_KEY"
+            android:value="AIzaSyABqMLY3kCxEUIUpF4rqNDkBqtWC7pfVpQ" />
+        <meta-data
+            android:name="com.google.android.maps.LANGUAGE"
+            android:value="@string/indonesia" />
 
         <activity android:name=".MapAdminActivity" />
         <activity android:name=".MapsActivity" />
