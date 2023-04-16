@@ -28,11 +28,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Receipt"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorBlack"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_thin"
+                    android:text="Transaksi"
+                    android:textSize="20sp"
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 

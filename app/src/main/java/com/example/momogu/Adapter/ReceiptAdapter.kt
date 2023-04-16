@@ -149,14 +149,24 @@ class ReceiptAdapter(
 
         holder.itemView.setOnClickListener {
             if (receipt.getSellerId().equals(holder.firebaseUser.uid)) {
-                val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
-                editor.putString("postid", receipt.getPostId())
-                editor.apply()
+                val editorPost = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+                editorPost.putString("postid", receipt.getPostId())
+                editorPost.apply()
+
+                val editorProfile = mContext.getSharedPreferences("PROFILE", Context.MODE_PRIVATE).edit()
+                editorProfile.putString("profileId", receipt.getBuyerId())
+                editorProfile.apply()
+
                 mContext.startActivity(Intent(mContext, ReceiptUserActivity::class.java))
             } else {
-                val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
-                editor.putString("postid", receipt.getPostId())
-                editor.apply()
+                val editorPost = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+                editorPost.putString("postid", receipt.getPostId())
+                editorPost.apply()
+
+                val editorProfile = mContext.getSharedPreferences("PROFILE", Context.MODE_PRIVATE).edit()
+                editorProfile.putString("profileId", receipt.getBuyerId())
+                editorProfile.apply()
+
                 mContext.startActivity(Intent(mContext, ReceiptPostActivity::class.java))
             }
         }

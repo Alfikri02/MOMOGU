@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/poppins_thin"
-                    android:text="@string/checkout"
+                    android:text="Kuitansi"
                     android:textSize="20sp"
                     tools:ignore="RelativeOverlap" />
 
@@ -87,28 +87,32 @@
             android:src="@drawable/momogu"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/tv_product"
             android:layout_width="@dimen/zerodp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/product"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_post"
-            app:layout_constraintBottom_toTopOf="@+id/tv_price"/>
+            app:layout_constraintBottom_toTopOf="@+id/tv_price"
+            app:layout_constraintEnd_toStartOf="@+id/forward_product"
+            app:layout_constraintStart_toEndOf="@+id/image_post" />
 
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="@dimen/zerodp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginBottom="4dp"
             android:fontFamily="@font/poppins_thin"
+            android:gravity="center_vertical"
             android:text="@string/price"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_weight"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/forward_product"
             app:layout_constraintStart_toEndOf="@+id/image_post" />
 
         <TextView
@@ -118,8 +122,19 @@
             android:layout_marginStart="10dp"
             android:text="@string/weight"
             app:layout_constraintBottom_toBottomOf="@+id/image_post"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/forward_product"
             app:layout_constraintStart_toEndOf="@+id/image_post" />
+
+        <ImageView
+            android:id="@+id/forward_product"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="-6dp"
+            android:contentDescription="@string/content"
+            android:src="@drawable/ic_forward"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_post"
+            app:layout_constraintBottom_toBottomOf="@+id/image_post"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -142,40 +157,60 @@
         android:text="Tujuan Pengiriman"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tv_city"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_selected_address"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="5dp"
-        android:fontFamily="@font/poppins_thin"
-        android:text="@string/city"
-        android:textSize="18sp" />
+        android:layout_below="@+id/tv_selected_address"
+        android:layout_marginHorizontal="20dp">
 
-    <TextView
-        android:id="@+id/tv_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_city"
-        android:layout_marginHorizontal="20dp"
-        android:text="@string/address"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tv_city"
+            android:layout_width="@dimen/zerodp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_thin"
+            android:text="@string/city"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    <TextView
-        android:id="@+id/tv_whatsapp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_address"
-        android:layout_marginHorizontal="20dp"
-        android:text="@string/whatsapp"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="@dimen/zerodp"
+            android:layout_height="wrap_content"
+            android:text="@string/address"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_city"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_whatsapp"
+            android:layout_width="@dimen/zerodp"
+            android:layout_height="wrap_content"
+            android:text="@string/whatsapp"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_address"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/forward_location"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="-6dp"
+            android:contentDescription="@string/content"
+            android:src="@drawable/ic_forward"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_city"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_whatsapp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/tv_whatsapp"
+        android:layout_below="@+id/constraintLocation"
         android:layout_marginTop="20dp"
         android:background="@android:color/darker_gray" />
 
