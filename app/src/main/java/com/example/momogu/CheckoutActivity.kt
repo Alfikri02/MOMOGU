@@ -8,6 +8,8 @@ import android.view.View
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityCheckoutBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -19,7 +21,7 @@ class CheckoutActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCheckoutBinding
     private var postId: String = ""
-    private lateinit var profileId: String
+    private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +29,14 @@ class CheckoutActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
+
         val preferences = this.getSharedPreferences("POST", Context.MODE_PRIVATE)
         if (preferences != null) {
             postId = preferences.getString("postid", "none")!!
         }
 
         retrievePosts()
-
-        val pref = this.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
-        if (pref != null) {
-            this.profileId = pref.getString("profileId", "none").toString()
-        }
 
         userInfo()
 
@@ -92,7 +91,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun userInfo() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -138,7 +137,7 @@ class CheckoutActivity : AppCompatActivity() {
         val receiptPostRef = FirebaseDatabase.getInstance().reference.child("Receipt")
         val receiptPostMap = HashMap<String, Any>()
 
-        receiptPostMap["buyerid"] = profileId
+        receiptPostMap["buyerid"] = firebaseUser.uid
         receiptPostMap["sellerid"] = publisherId
         receiptPostMap["postid"] = postId
         receiptPostMap["status"] = "Menunggu konfirmasi!"

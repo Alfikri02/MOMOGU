@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -65,94 +66,7 @@ class ReceiptUserActivity : AppCompatActivity() {
         }
 
         binding.menuReceipt.setOnClickListener {
-            val popupMenu = PopupMenu(this, it)
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.confirm_receipt -> {
-                        val builder = AlertDialog.Builder(this)
-                        builder.setTitle("Peringatan!")
-                            .setMessage("Apakah anda ingin mengkonfirmasi pesanan ini?")
-                            .setCancelable(true)
-                            .setPositiveButton("Iya") { _, _ ->
-
-                                setStatusConfirm()
-                                finish()
-                                Toast.makeText(this, "Pesanan telah dikonfirmasi!", Toast.LENGTH_SHORT).show()
-
-                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                                dialogInterface.cancel()
-                            }.show()
-
-                        true
-                    }
-                    R.id.proses_receipt -> {
-                        val builder = AlertDialog.Builder(this)
-                        builder.setTitle("Peringatan!")
-                            .setMessage("Apakah anda ingin memproses pesanan ini?")
-                            .setCancelable(true)
-                            .setPositiveButton("Iya") { _, _ ->
-
-                                setStatusProses()
-                                finish()
-                                Toast.makeText(this, "Pesanan telah diproses!", Toast.LENGTH_SHORT).show()
-
-                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                                dialogInterface.cancel()
-                            }.show()
-
-                        true
-                    }
-                    R.id.order_receipt -> {
-                        val builder = AlertDialog.Builder(this)
-                        builder.setTitle("Peringatan!")
-                            .setMessage("Apakah anda ingin mengantar pesanan ini?")
-                            .setCancelable(true)
-                            .setPositiveButton("Iya") { _, _ ->
-
-                                setStatusOrder()
-                                finish()
-                                Toast.makeText(this, "Pesanan sedang dalam pengantaran!", Toast.LENGTH_SHORT).show()
-
-                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                                dialogInterface.cancel()
-                            }.show()
-
-                        true
-                    }
-                    R.id.done_receipt -> {
-                        val builder = AlertDialog.Builder(this)
-                        builder.setTitle("Peringatan!")
-                            .setMessage("Apakah anda ingin menyelesaikan pesanan ini?")
-                            .setCancelable(true)
-                            .setPositiveButton("Iya") { _, _ ->
-
-                                setStatusDone()
-                                finish()
-                                Toast.makeText(this, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT).show()
-
-                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                                dialogInterface.cancel()
-                            }.show()
-
-                        true
-                    }
-                    else -> false
-                }
-            }
-            popupMenu.inflate(R.menu.receipt_menu)
-
-            try {
-                val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-                fieldMPopup.isAccessible = true
-                val mPopup = fieldMPopup.get(popupMenu)
-                mPopup.javaClass
-                    .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                    .invoke(mPopup, true)
-            } catch (e: Exception) {
-                Log.e("Main", "Error showing menu icons.", e)
-            } finally {
-                popupMenu.show()
-            }
+            menuReceipt(it)
         }
 
         binding.constraintProduct.setOnClickListener {
@@ -274,6 +188,121 @@ class ReceiptUserActivity : AppCompatActivity() {
 
             override fun onCancelled(p0: DatabaseError) {}
         })
+    }
+
+    @SuppressLint("DiscouragedPrivateApi")
+    private fun menuReceipt(it: View){
+        val popupMenu = PopupMenu(this, it)
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.confirm_receipt -> {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Peringatan!")
+                        .setMessage("Apakah anda ingin mengkonfirmasi pesanan ini?")
+                        .setCancelable(true)
+                        .setPositiveButton("Iya") { _, _ ->
+
+                            setStatusConfirm()
+                            finish()
+                            Toast.makeText(this, "Pesanan telah dikonfirmasi!", Toast.LENGTH_SHORT).show()
+
+                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                            dialogInterface.cancel()
+                        }.show()
+
+                    true
+                }
+                R.id.proses_receipt -> {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Peringatan!")
+                        .setMessage("Apakah anda ingin memproses pesanan ini?")
+                        .setCancelable(true)
+                        .setPositiveButton("Iya") { _, _ ->
+
+                            setStatusProses()
+                            finish()
+                            Toast.makeText(this, "Pesanan telah diproses!", Toast.LENGTH_SHORT).show()
+
+                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                            dialogInterface.cancel()
+                        }.show()
+
+                    true
+                }
+                R.id.order_receipt -> {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Peringatan!")
+                        .setMessage("Apakah anda ingin mengantar pesanan ini?")
+                        .setCancelable(true)
+                        .setPositiveButton("Iya") { _, _ ->
+
+                            setStatusOrder()
+                            finish()
+                            Toast.makeText(this, "Pesanan sedang dalam pengantaran!", Toast.LENGTH_SHORT).show()
+
+                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                            dialogInterface.cancel()
+                        }.show()
+
+                    true
+                }
+                R.id.done_receipt -> {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Peringatan!")
+                        .setMessage("Apakah anda ingin menyelesaikan pesanan ini?")
+                        .setCancelable(true)
+                        .setPositiveButton("Iya") { _, _ ->
+
+                            setStatusDone()
+                            finish()
+                            Toast.makeText(this, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT).show()
+
+                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                            dialogInterface.cancel()
+                        }.show()
+
+                    true
+                }
+                R.id.cancel -> {
+                    builder.setTitle("Peringatan!")
+                        .setMessage("Apakah anda ingin membatalkan transaksi ini?")
+                        .setCancelable(true)
+                        .setPositiveButton("Iya") { _, _ ->
+                            val postRef =
+                                FirebaseDatabase.getInstance().getReference("Receipt")
+                                    .child(postId)
+                            postRef.removeValue()
+
+                            Toast.makeText(
+                                this,
+                                "Transaksi berhasil dibatalkan",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            finish()
+                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                            dialogInterface.cancel()
+                        }.show()
+
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.inflate(R.menu.receipt_menu)
+
+        try {
+            val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
+            fieldMPopup.isAccessible = true
+            val mPopup = fieldMPopup.get(popupMenu)
+            mPopup.javaClass
+                .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
+                .invoke(mPopup, true)
+        } catch (e: Exception) {
+            Log.e("Main", "Error showing menu icons.", e)
+        } finally {
+            popupMenu.show()
+        }
     }
 
     private fun setStatusConfirm() {

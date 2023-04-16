@@ -2,6 +2,7 @@ package com.example.momogu
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,6 +10,7 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -57,7 +59,7 @@ class DetailPostActivity : AppCompatActivity() {
         }
 
         binding.btnBuy.setOnClickListener {
-            startActivity(Intent(this, CheckoutActivity::class.java))
+            transVal()
         }
 
         val checkPermission =
@@ -159,6 +161,24 @@ class DetailPostActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun transVal(){
+        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+        receiptRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Toast.makeText(applicationContext, "Transaksi telah berlangsung", Toast.LENGTH_SHORT).show()
+                } else {
+                    startActivity(Intent(applicationContext, CheckoutActivity::class.java))
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
         })
     }
 
