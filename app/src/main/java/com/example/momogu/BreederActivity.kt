@@ -55,6 +55,10 @@ class BreederActivity : AppCompatActivity() {
         retrievePosts()
         myPhotos()
         numberPhoto()
+
+        binding.backBreeder.setOnClickListener{
+            finish()
+        }
     }
 
     private fun retrievePosts() {

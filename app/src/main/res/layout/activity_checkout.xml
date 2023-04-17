@@ -41,8 +41,7 @@
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/poppins_thin"
                     android:text="@string/checkout"
-                    android:textSize="20sp"
-                    tools:ignore="RelativeOverlap" />
+                    android:textSize="20sp"/>
 
             </RelativeLayout>
 
