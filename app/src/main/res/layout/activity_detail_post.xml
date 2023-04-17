@@ -370,4 +370,25 @@
 
     </ScrollView>
 
+    <RelativeLayout
+        android:id="@+id/layoutSoldView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:foregroundGravity="center"
+        android:background="@color/empat"
+        android:visibility="gone"
+        android:layout_below="@+id/app_bar_detail">
+
+        <TextView
+            android:id="@+id/soldTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sapi Terjual!"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>

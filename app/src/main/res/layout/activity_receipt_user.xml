@@ -333,38 +333,4 @@
         android:textColor="@color/g_light_red"
         android:textSize="12sp" />
 
-    <RelativeLayout
-        android:id="@+id/layoutCheckoutView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:foregroundGravity="center_horizontal"
-        android:background="#CC000000"
-        android:visibility="gone">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animCheckoutView"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="100dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"/>
-
-        <TextView
-            android:id="@+id/lblLoadingViewTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Checkout Berhasil!, Pesanan sapi akan diteruskan kepada peternak!"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:lines="3"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_below="@+id/animCheckoutView"/>
-
-    </RelativeLayout>
-
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -15,6 +16,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.DetailPostActivity
 import com.example.momogu.Model.PostModel
+import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.R
 import com.google.firebase.auth.FirebaseAuth
@@ -44,6 +46,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         var weight: TextView
         var location: TextView
         var cardPost: CardView
+        var soldView: RelativeLayout
 
         init {
             postImage = itemView.findViewById(R.id.post_image_home)
@@ -54,6 +57,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
             weight = itemView.findViewById(R.id.tv_weight)
             location = itemView.findViewById(R.id.tv_location)
             cardPost = itemView.findViewById(R.id.cardPost)
+            soldView = itemView.findViewById(R.id.layoutSoldView)
         }
     }
 
@@ -83,7 +87,6 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         holder.timeAgo.text = getTimeAgo(post.getDateTime()!!.toLong())
 
         holder.cardPost.setOnClickListener {
-
             if (post.getPublisher().equals(firebaseUser!!.uid)) {
                 Toast.makeText(mContext, "Sapi ini milik anda!", Toast.LENGTH_SHORT).show()
             } else {
@@ -93,6 +96,24 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
                 mContext.startActivity(Intent(mContext, DetailPostActivity::class.java))
             }
         }
+
+        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(post.getPostid()!!)
+        receiptRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    if (receipt!!.getStatus().equals("Selesai")) {
+                        holder.soldView.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+
+
 
         holder.saveButton.setOnClickListener {
             if (post.getPublisher().equals(firebaseUser!!.uid)) {
@@ -129,6 +150,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
             diff < minuteMillis -> {
                 "just now"
             }
+
             diff < 2 * minuteMillis -> {
                 "a minute ago"
             }
@@ -137,16 +159,20 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
                 val temp = diff / minuteMillis
                 "$temp minutes ago"
             }
+
             diff < 90 * minuteMillis -> {
                 "an hour ago"
             }
+
             diff < 24 * hourMillis -> {
                 val temp = diff / hourMillis
                 "$temp hours ago"
             }
+
             diff < 48 * hourMillis -> {
                 "yesterday"
             }
+
             else -> {
                 val temp = diff / dayMillis
                 "$temp days ago"
@@ -154,16 +180,12 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         }
     }
 
-    private fun locationInfo(location: TextView, publisherId: String?)
-    {
+    private fun locationInfo(location: TextView, publisherId: String?) {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
 
-        usersRef.addValueEventListener(object : ValueEventListener
-        {
-            override fun onDataChange(p0: DataSnapshot)
-            {
-                if (p0.exists())
-                {
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
                     location.text = user!!.getCity()

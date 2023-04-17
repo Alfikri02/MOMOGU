@@ -11,11 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.example.momogu.Model.PostModel
+import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityDetailPostBinding
 import com.example.momogu.utils.Constanta.productLatitude
@@ -48,6 +50,7 @@ class DetailPostActivity : AppCompatActivity() {
         }
 
         retrievePosts()
+        soldVal()
 
         binding.closeDetail.setOnClickListener {
             finish()
@@ -169,7 +172,21 @@ class DetailPostActivity : AppCompatActivity() {
         receiptRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Toast.makeText(applicationContext, "Transaksi telah berlangsung", Toast.LENGTH_SHORT).show()
+                    val receipt = dataSnapshot.getValue(ReceiptModel::class.java)
+
+                    if (receipt!!.getStatus().equals("Selesai")) {
+                        Toast.makeText(
+                            applicationContext,
+                            "Sapi telah terjual!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Transaksi telah berlangsung!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 } else {
                     startActivity(Intent(applicationContext, CheckoutActivity::class.java))
                 }
@@ -179,6 +196,24 @@ class DetailPostActivity : AppCompatActivity() {
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException())
             }
+        })
+    }
+
+    private fun soldVal(){
+        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+        receiptRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    if (receipt!!.getStatus().equals("Selesai")) {
+                        binding.layoutSoldView.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
         })
     }
 

@@ -26,4 +26,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutSoldView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar_detail"
+        android:background="@color/empat"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:visibility="gone">
+
+    </RelativeLayout>
+
 </androidx.cardview.widget.CardView>

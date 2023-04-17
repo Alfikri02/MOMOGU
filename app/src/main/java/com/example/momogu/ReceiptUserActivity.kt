@@ -191,7 +191,7 @@ class ReceiptUserActivity : AppCompatActivity() {
     }
 
     @SuppressLint("DiscouragedPrivateApi")
-    private fun menuReceipt(it: View){
+    private fun menuReceipt(it: View) {
         val popupMenu = PopupMenu(this, it)
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
@@ -204,7 +204,8 @@ class ReceiptUserActivity : AppCompatActivity() {
 
                             setStatusConfirm()
                             finish()
-                            Toast.makeText(this, "Pesanan telah dikonfirmasi!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Pesanan telah dikonfirmasi!", Toast.LENGTH_SHORT)
+                                .show()
 
                         }.setNegativeButton("Tidak") { dialogInterface, _ ->
                             dialogInterface.cancel()
@@ -212,6 +213,7 @@ class ReceiptUserActivity : AppCompatActivity() {
 
                     true
                 }
+
                 R.id.proses_receipt -> {
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Peringatan!")
@@ -221,7 +223,8 @@ class ReceiptUserActivity : AppCompatActivity() {
 
                             setStatusProses()
                             finish()
-                            Toast.makeText(this, "Pesanan telah diproses!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Pesanan telah diproses!", Toast.LENGTH_SHORT)
+                                .show()
 
                         }.setNegativeButton("Tidak") { dialogInterface, _ ->
                             dialogInterface.cancel()
@@ -229,6 +232,7 @@ class ReceiptUserActivity : AppCompatActivity() {
 
                     true
                 }
+
                 R.id.order_receipt -> {
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Peringatan!")
@@ -238,7 +242,11 @@ class ReceiptUserActivity : AppCompatActivity() {
 
                             setStatusOrder()
                             finish()
-                            Toast.makeText(this, "Pesanan sedang dalam pengantaran!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Pesanan sedang dalam pengantaran!",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                         }.setNegativeButton("Tidak") { dialogInterface, _ ->
                             dialogInterface.cancel()
@@ -246,16 +254,18 @@ class ReceiptUserActivity : AppCompatActivity() {
 
                     true
                 }
+
                 R.id.done_receipt -> {
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Peringatan!")
-                        .setMessage("Apakah anda ingin menyelesaikan pesanan ini?")
+                        .setMessage("Apakah anda ingin menyelesaikan pesanan ini?\nJika ya, pesanan akan dinyatakan selesai dan anda tidak dapat merubah apapun lagi.")
                         .setCancelable(true)
                         .setPositiveButton("Iya") { _, _ ->
 
                             setStatusDone()
                             finish()
-                            Toast.makeText(this, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT)
+                                .show()
 
                         }.setNegativeButton("Tidak") { dialogInterface, _ ->
                             dialogInterface.cancel()
@@ -263,6 +273,7 @@ class ReceiptUserActivity : AppCompatActivity() {
 
                     true
                 }
+
                 R.id.cancel -> {
                     builder.setTitle("Peringatan!")
                         .setMessage("Apakah anda ingin membatalkan transaksi ini?")
@@ -286,6 +297,7 @@ class ReceiptUserActivity : AppCompatActivity() {
 
                     true
                 }
+
                 else -> false
             }
         }

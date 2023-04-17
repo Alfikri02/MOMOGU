@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -38,6 +39,7 @@ class ReceiptAdapter(
         var cvStatus: CardView
         var menu: ImageView
         var firebaseUser: FirebaseUser
+        var soldView: RelativeLayout
 
         init {
             postImage = itemView.findViewById(R.id.post_image_receipt)
@@ -48,6 +50,7 @@ class ReceiptAdapter(
             cvStatus = itemView.findViewById(R.id.cv_status)
             menu = itemView.findViewById(R.id.menu_receipt)
             firebaseUser = FirebaseAuth.getInstance().currentUser!!
+            soldView = itemView.findViewById(R.id.layoutSoldView)
         }
     }
 
@@ -147,13 +150,30 @@ class ReceiptAdapter(
             holder.menu.visibility = View.GONE
         }
 
+        if (receipt.getStatus().equals("Selesai")) {
+            holder.soldView.visibility = View.VISIBLE
+        }
+
         holder.itemView.setOnClickListener {
-            if (receipt.getSellerId().equals(holder.firebaseUser.uid)) {
+            if (receipt.getStatus().equals("Selesai")) {
                 val editorPost = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
                 editorPost.putString("postid", receipt.getPostId())
                 editorPost.apply()
 
-                val editorProfile = mContext.getSharedPreferences("PROFILE", Context.MODE_PRIVATE).edit()
+                val editorProfile =
+                    mContext.getSharedPreferences("PROFILE", Context.MODE_PRIVATE).edit()
+                editorProfile.putString("profileId", receipt.getBuyerId())
+                editorProfile.apply()
+
+                mContext.startActivity(Intent(mContext, ReceiptPostActivity::class.java))
+
+            } else if (receipt.getSellerId().equals(holder.firebaseUser.uid)) {
+                val editorPost = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+                editorPost.putString("postid", receipt.getPostId())
+                editorPost.apply()
+
+                val editorProfile =
+                    mContext.getSharedPreferences("PROFILE", Context.MODE_PRIVATE).edit()
                 editorProfile.putString("profileId", receipt.getBuyerId())
                 editorProfile.apply()
 
@@ -163,7 +183,8 @@ class ReceiptAdapter(
                 editorPost.putString("postid", receipt.getPostId())
                 editorPost.apply()
 
-                val editorProfile = mContext.getSharedPreferences("PROFILE", Context.MODE_PRIVATE).edit()
+                val editorProfile =
+                    mContext.getSharedPreferences("PROFILE", Context.MODE_PRIVATE).edit()
                 editorProfile.putString("profileId", receipt.getBuyerId())
                 editorProfile.apply()
 
