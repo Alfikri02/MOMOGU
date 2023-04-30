@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -53,6 +54,8 @@ class AddPostActivity : AppCompatActivity() {
         setContentView(view)
 
         storagePostPicRef = FirebaseStorage.getInstance().reference.child("Post Pictures")
+
+        dropdownItem()
 
         getResult = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -153,7 +156,6 @@ class AddPostActivity : AppCompatActivity() {
         }
 
         isLocationPicked.observe(this) {
-            /* if location picked -> show picked location address, else -> hide address & show pick location button */
             binding.previewLocation.isVisible = it
             binding.btnSelectLocation.isVisible = !it
         }
@@ -174,6 +176,12 @@ class AddPostActivity : AppCompatActivity() {
             imageUri = result.uri
             binding.imagePost.setImageURI(imageUri)
         }
+    }
+
+    private fun dropdownItem(){
+        val gender = resources.getStringArray(R.array.Gender)
+        val arrayGender = ArrayAdapter(this, R.layout.dropdown_item, gender)
+        binding.etGender.setAdapter(arrayGender)
     }
 
     @Suppress("DEPRECATION")

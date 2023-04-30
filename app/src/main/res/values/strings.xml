@@ -83,4 +83,9 @@
 
     <string name="indonesia">id</string>
 
+    <string-array name="Gender">
+        <item>Jantan</item>
+        <item>Betina</item>
+    </string-array>
+
 </resources>

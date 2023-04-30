@@ -155,7 +155,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_gender"
-                style="@style/ti_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusBottomStart="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:boxCornerRadiusTopStart="15dp"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/gender"
@@ -163,11 +169,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ti_color">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/et_gender"
-                    style="@style/et_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_light"
+                    android:textSize="18sp"
+                    android:minHeight="60dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="5dp"
+                    android:drawablePadding="5dp"
                     android:drawableStart="@drawable/ic_name"
-                    android:inputType="text" />
+                    android:inputType="none"
+                    tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
