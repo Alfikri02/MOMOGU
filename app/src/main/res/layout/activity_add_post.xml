@@ -284,11 +284,24 @@
             </RelativeLayout>
 
             <CheckBox
-                android:id="@+id/cb_condition"
+                android:id="@+id/cb_letter"
                 android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="14dp"
+                android:fontFamily="@font/poppins_light"
+                android:text="Saya menjamin sapi ini telah memiliki surat dari kepala desa setempat"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/preview_location" />
+
+            <CheckBox
+                android:id="@+id/cb_condition"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginBottom="30dp"
                 android:fontFamily="@font/poppins_light"
                 android:text="@string/guarante"
@@ -296,7 +309,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/preview_location" />
+                app:layout_constraintTop_toBottomOf="@+id/cb_letter" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

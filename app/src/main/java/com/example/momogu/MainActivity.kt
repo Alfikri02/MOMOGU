@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity()
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         routeToFragment(HomeFragment())
+        navView.selectedItemId = R.id.nav_home
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

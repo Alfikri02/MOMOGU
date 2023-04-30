@@ -220,6 +220,10 @@ class AddPostActivity : AppCompatActivity() {
                 Toast.makeText(this, "Silahkan pilih lokasi sapi anda!", Toast.LENGTH_LONG).show()
             }
 
+            binding.cbLetter.isChecked.not() -> {
+                Toast.makeText(this, "Penjaminan surat sapi dibutuhkan!", Toast.LENGTH_LONG).show()
+            }
+
             binding.cbCondition.isChecked.not() -> {
                 Toast.makeText(this, "Penjaminan sapi dibutuhkan!", Toast.LENGTH_LONG).show()
             }
