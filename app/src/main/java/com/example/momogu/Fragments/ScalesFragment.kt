@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.denzcoskun.imageslider.models.SlideModel
+import com.example.momogu.R
 import com.example.momogu.databinding.FragmentScalesBinding
 
 class ScalesFragment : Fragment() {
@@ -45,6 +47,8 @@ class ScalesFragment : Fragment() {
 
         })
 
+        imageSlider()
+
         return binding.root
     }
 
@@ -54,6 +58,17 @@ class ScalesFragment : Fragment() {
         val b = binding.etBody.text.toString().toDoubleOrNull() ?: 0.0
         val hasilHitung = (a * a * b) / 10840
         binding.etWeight.setText(String.format("%.1f KG", hasilHitung))
+    }
+
+    private fun imageSlider(){
+        val imageList = ArrayList<SlideModel>()
+
+        imageList.add(SlideModel(R.drawable.exterior_sapi))
+        imageList.add(SlideModel(R.drawable.exterior_sapi))
+        imageList.add(SlideModel(R.drawable.exterior_sapi))
+
+        val imageSlider = binding.sliderSclaes
+        imageSlider.setImageList(imageList)
     }
 
     override fun onPause() {

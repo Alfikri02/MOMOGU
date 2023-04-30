@@ -9,10 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.denzcoskun.imageslider.models.SlideModel
 import com.example.momogu.Adapter.PostAdapter
 import com.example.momogu.MapsActivity
 import com.example.momogu.Model.PostModel
+import com.example.momogu.R
 import com.example.momogu.databinding.FragmentHomeBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -36,14 +39,16 @@ class HomeFragment : Fragment() {
 
         //Recycler View Home
         val recyclerView: RecyclerView = binding.recyclerViewHome
-        recyclerView.layoutManager = GridLayoutManager(context,2)
         recyclerView.setHasFixedSize(true)
+        val linearLayoutManager: LinearLayoutManager = GridLayoutManager(context, 2)
+        recyclerView.layoutManager = linearLayoutManager
 
         postList = ArrayList()
         postAdapter = context?.let { PostAdapter(it, postList as ArrayList<PostModel>) }
         recyclerView.adapter = postAdapter
 
         retrievePosts()
+        imageSlider()
 
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -145,6 +150,17 @@ class HomeFragment : Fragment() {
 
             override fun onCancelled(p0: DatabaseError) {}
         })
+    }
+
+    private fun imageSlider(){
+        val imageList = ArrayList<SlideModel>()
+
+        imageList.add(SlideModel(R.drawable.exterior_sapi))
+        imageList.add(SlideModel(R.drawable.exterior_sapi))
+        imageList.add(SlideModel(R.drawable.exterior_sapi))
+
+        val imageSlider = binding.sliderSclaes
+        imageSlider.setImageList(imageList)
     }
 
     private fun startAnimation(isStartAnim: Boolean) {

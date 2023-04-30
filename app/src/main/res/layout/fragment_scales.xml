@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.ScalesFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -51,22 +52,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/image_post"
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/slider_sclaes"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="20dp"
-                android:contentDescription="@string/content"
-                android:scaleType="fitCenter"
-                android:src="@drawable/exterior_sapi" />
+                app:iss_auto_cycle="true"
+                app:iss_delay="2000"
+                app:iss_period="2000"
+                app:iss_text_align="CENTER"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_chest"
                 style="@style/ti_layout"
-                android:layout_below="@+id/image_post"
+                android:layout_below="@+id/slider_sclaes"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="20dp"

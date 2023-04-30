@@ -46,7 +46,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
     testImplementation 'junit:junit:4.13.2'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -73,6 +72,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.2'
 
     //lottie
     implementation 'com.airbnb.android:lottie:5.0.3'
