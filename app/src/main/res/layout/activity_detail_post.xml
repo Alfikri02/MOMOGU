@@ -327,26 +327,26 @@
                 android:id="@+id/btnSeeLocation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/text_field"
-                android:drawableEnd="@drawable/ic_forward"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="20dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/text_field"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
                 android:text="See Location"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line3" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line3"
+                app:drawableEndCompat="@drawable/ic_forward" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_buy"
                 style="@style/greenButtonStyle"
-                android:layout_width="200dp"
+                android:layout_width="250dp"
                 android:layout_height="40dp"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
                 android:text="@string/buy"
@@ -356,15 +356,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/btnSeeLocation" />
 
             <ImageButton
-                android:id="@+id/btn_wa"
+                android:id="@+id/btn_call"
                 style="@style/greenButtonStyle"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:contentDescription="@string/content"
+                android:src="@drawable/ic_call"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_buy"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btn_buy" />
+                app:layout_constraintTop_toTopOf="@+id/btn_buy"
+                app:tint="@color/white" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -374,20 +376,20 @@
         android:id="@+id/layoutSoldView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:foregroundGravity="center"
+        android:layout_below="@+id/app_bar_detail"
         android:background="@color/empat"
-        android:visibility="gone"
-        android:layout_below="@+id/app_bar_detail">
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/soldTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Sapi Terjual!"
-            android:textSize="20sp"
             android:textColor="@android:color/white"
-            android:gravity="center"/>
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

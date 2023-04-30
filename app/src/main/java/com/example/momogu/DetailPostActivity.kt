@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
@@ -63,6 +64,10 @@ class DetailPostActivity : AppCompatActivity() {
 
         binding.btnBuy.setOnClickListener {
             transVal()
+        }
+
+        binding.btnCall.setOnClickListener {
+            phonePost()
         }
 
         val checkPermission =
@@ -167,7 +172,7 @@ class DetailPostActivity : AppCompatActivity() {
         })
     }
 
-    private fun transVal(){
+    private fun transVal() {
         val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
         receiptRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -199,7 +204,7 @@ class DetailPostActivity : AppCompatActivity() {
         })
     }
 
-    private fun soldVal(){
+    private fun soldVal() {
         val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
         receiptRef.addValueEventListener(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
@@ -210,6 +215,40 @@ class DetailPostActivity : AppCompatActivity() {
                     if (receipt!!.getStatus().equals("Selesai")) {
                         binding.layoutSoldView.visibility = View.VISIBLE
                     }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun phonePost() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val post = p0.getValue(PostModel::class.java)
+                    phonePublisher(post!!.getPublisher())
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun phonePublisher(publisherId: String?) {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+
+                    val phoneNumber = user!!.getWa()
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                    startActivity(intent)
                 }
             }
 

@@ -189,9 +189,12 @@
             android:layout_width="@dimen/zerodp"
             android:layout_height="wrap_content"
             android:text="@string/whatsapp"
-            android:textSize="14sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/tv_address"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:drawableEndCompat="@drawable/ic_forward"
+            android:drawablePadding="0dp"/>
 
         <ImageView
             android:id="@+id/forward_location"

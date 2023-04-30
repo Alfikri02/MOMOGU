@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
@@ -71,6 +72,10 @@ class ReceiptUserActivity : AppCompatActivity() {
 
         binding.constraintProduct.setOnClickListener {
             startActivity(Intent(this, DetailPostActivity::class.java))
+        }
+
+        binding.tvWhatsapp.setOnClickListener {
+            phonePublisher()
         }
 
         val checkPermission =
@@ -183,6 +188,26 @@ class ReceiptUserActivity : AppCompatActivity() {
                         productLatitude = user.getLatitude()!!
                         productLongitude = user.getLongitude()!!
                     }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun phonePublisher() {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+
+                    val phoneNumber = user!!.getWa()
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                    startActivity(intent)
+
                 }
             }
 

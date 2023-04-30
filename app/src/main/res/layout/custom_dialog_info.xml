@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/custom_loading_container"
-    android:padding="32dp">
-
+    android:padding="30dp">
 
     <TextView
         android:id="@+id/message"
@@ -31,4 +30,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/message" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
