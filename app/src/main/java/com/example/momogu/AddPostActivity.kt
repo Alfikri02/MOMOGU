@@ -28,14 +28,11 @@ import com.example.momogu.utils.Constanta.coordinateLatitude
 import com.example.momogu.utils.Constanta.coordinateLongitude
 import com.example.momogu.utils.Constanta.isLocationPicked
 import com.example.momogu.utils.Helper
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.StorageTask
-import com.google.firebase.storage.UploadTask
 import com.theartofdev.edmodo.cropper.CropImage
 import java.text.DecimalFormat
 
@@ -44,9 +41,11 @@ class AddPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddPostBinding
 
     private var myUrl = ""
+    private var myVideoUrl = ""
     private var imageUri: Uri? = null
     private var videoUri: Uri? = null
     private var storagePostPicRef: StorageReference? = null
+    private var storagePostVideoRef: StorageReference? = null
     private var getResult: ActivityResultLauncher<Intent>? = null
     private var isPicked: Boolean? = false
 
@@ -59,6 +58,8 @@ class AddPostActivity : AppCompatActivity() {
         setContentView(view)
 
         storagePostPicRef = FirebaseStorage.getInstance().reference.child("Post Pictures")
+
+        storagePostVideoRef = FirebaseStorage.getInstance().reference.child("Post Video")
 
         dropdownItem()
 
@@ -249,6 +250,10 @@ class AddPostActivity : AppCompatActivity() {
                 Toast.makeText(this, "Silahkan pilih foto sapi anda!", Toast.LENGTH_LONG).show()
             }
 
+            videoUri == null -> {
+                Toast.makeText(this, "Silahkan pilih video sapi anda!", Toast.LENGTH_LONG).show()
+            }
+
             binding.etProduct.text.isNullOrEmpty() -> {
                 binding.etProduct.error = "Nama sapi dibutuhkan!"
             }
@@ -302,28 +307,38 @@ class AddPostActivity : AppCompatActivity() {
                 val ref = FirebaseDatabase.getInstance().reference.child("Posts")
                 val postId = ref.push().key
 
-                val fileRef =
-                    storagePostPicRef!!.child("$postId.jpg")
-                val uploadTask: StorageTask<*>
+                val fileRef = storagePostPicRef!!.child("$postId.jpg")
+                val fileVideoRef = storagePostVideoRef!!.child("$postId.mp4")
 
-                uploadTask = fileRef.putFile(imageUri!!)
-                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                val fileRefTask = fileRef.putFile(imageUri!!).continueWithTask { task ->
                     if (!task.isSuccessful) {
                         task.exception?.let {
                             progressDialog.dismiss()
                             throw it
                         }
                     }
-                    return@Continuation fileRef.downloadUrl
-                }).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val downloadUrl = task.result
-                        myUrl = downloadUrl.toString()
+                    fileRef.downloadUrl
+                }
+
+                val fileVideoRefTask = fileVideoRef.putFile(videoUri!!).continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            progressDialog.dismiss()
+                            throw it
+                        }
+                    }
+                    fileVideoRef.downloadUrl
+                }
+                Tasks.whenAllSuccess<Uri>(fileRefTask, fileVideoRefTask)
+                    .addOnSuccessListener { task ->
+                        myUrl = task[0].toString()
+                        myVideoUrl = task[1].toString()
 
                         val postMap = HashMap<String, Any>()
 
                         postMap["postid"] = postId!!
                         postMap["postimage"] = myUrl
+                        postMap["postvideo"] = myVideoUrl
                         postMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
                         postMap["product"] = binding.etProduct.text.toString()
                         postMap["age"] = binding.etAge.text.toString()
@@ -345,10 +360,9 @@ class AddPostActivity : AppCompatActivity() {
 
                         finish()
                         progressDialog.dismiss()
-                    } else {
+                    }.addOnFailureListener { _ ->
                         progressDialog.dismiss()
                     }
-                }
             }
         }
     }

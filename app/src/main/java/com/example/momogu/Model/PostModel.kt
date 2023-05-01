@@ -3,6 +3,7 @@ package com.example.momogu.Model
 class PostModel {
     private var postid: String? = null
     private var postimage: String? = null
+    private var postvideo: String? = null
     private var publisher: String? = null
     private var product: String? = null
     private var age: String? = null
@@ -22,6 +23,7 @@ class PostModel {
     constructor(
         postid: String?,
         postimage: String?,
+        postvideo: String?,
         publisher: String?,
         product: String?,
         age: String?,
@@ -38,6 +40,7 @@ class PostModel {
     ) {
         this.postid = postid
         this.postimage = postimage
+        this.postvideo = postvideo
         this.publisher = publisher
         this.product = product
         this.age = age
@@ -59,6 +62,10 @@ class PostModel {
 
     fun getPostimage(): String? {
         return postimage
+    }
+
+    fun getPostvideo(): String? {
+        return postvideo
     }
 
     fun getPublisher(): String? {
