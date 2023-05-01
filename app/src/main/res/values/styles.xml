@@ -44,10 +44,10 @@
     <style name="ti_layout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">@dimen/zerodp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="boxCornerRadiusBottomEnd">15dp</item>
-        <item name="boxCornerRadiusBottomStart">15dp</item>
-        <item name="boxCornerRadiusTopEnd">15dp</item>
-        <item name="boxCornerRadiusTopStart">15dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
     </style>
 
     <style name="et_layout">

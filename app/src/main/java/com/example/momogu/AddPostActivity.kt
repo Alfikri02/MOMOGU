@@ -1,15 +1,19 @@
 package com.example.momogu
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -19,6 +23,7 @@ import androidx.core.view.isVisible
 import com.example.momogu.databinding.ActivityAddPostBinding
 import com.example.momogu.utils.Constanta
 import com.example.momogu.utils.Constanta.REQUEST_POST_IMAGE
+import com.example.momogu.utils.Constanta.REQUEST_VIDEO_CODE
 import com.example.momogu.utils.Constanta.coordinateLatitude
 import com.example.momogu.utils.Constanta.coordinateLongitude
 import com.example.momogu.utils.Constanta.isLocationPicked
@@ -40,13 +45,13 @@ class AddPostActivity : AppCompatActivity() {
 
     private var myUrl = ""
     private var imageUri: Uri? = null
+    private var videoUri: Uri? = null
     private var storagePostPicRef: StorageReference? = null
-
-
     private var getResult: ActivityResultLauncher<Intent>? = null
     private var isPicked: Boolean? = false
 
 
+    @SuppressLint("IntentReset")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPostBinding.inflate(layoutInflater)
@@ -87,9 +92,27 @@ class AddPostActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.imagePost.setOnClickListener {
+        binding.layoutImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, REQUEST_POST_IMAGE)
+        }
+
+        binding.btnClearImage.setOnClickListener {
+            binding.imagePost.setImageURI(null)
+            binding.cvImage.visibility = View.GONE
+            binding.btnClearImage.visibility = View.GONE
+        }
+
+        binding.layoutVideo.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+            intent.type = "video/*"
+            startActivityForResult(intent, REQUEST_VIDEO_CODE)
+        }
+
+        binding.btnClearVideo.setOnClickListener {
+            binding.tvMaxVideo.visibility = View.VISIBLE
+            binding.tvFileVideo.visibility = View.GONE
+            binding.btnClearVideo.visibility = View.GONE
         }
 
         binding.etPrice.addTextChangedListener(object : TextWatcher {
@@ -175,10 +198,44 @@ class AddPostActivity : AppCompatActivity() {
             val result = CropImage.getActivityResult(data)
             imageUri = result.uri
             binding.imagePost.setImageURI(imageUri)
+            binding.cvImage.visibility = View.VISIBLE
+            binding.btnClearImage.visibility = View.VISIBLE
+        }
+
+        if (requestCode == REQUEST_VIDEO_CODE && resultCode == RESULT_OK && data != null) {
+            videoUri = data.data
+            videoUri?.let {
+                val videoName = getVideoName(videoUri!!)
+
+                val mediaMetadataRetriever = MediaMetadataRetriever()
+                mediaMetadataRetriever.setDataSource(this, it)
+
+                val duration =
+                    mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+                        ?.toLong()
+
+                if (duration != null && duration > 30000) {
+                    Toast.makeText(this, "Video lebih dari 30 detik!", Toast.LENGTH_LONG).show()
+                } else {
+                    binding.tvFileVideo.text = videoName
+                    binding.tvMaxVideo.visibility = View.GONE
+                    binding.tvFileVideo.visibility = View.VISIBLE
+                    binding.btnClearVideo.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
-    private fun dropdownItem(){
+    private fun getVideoName(videoUri: Uri): String {
+        val cursor = contentResolver.query(videoUri, null, null, null, null)
+        cursor?.moveToFirst()
+        val nameIndex = cursor?.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        val videoName = nameIndex?.let { cursor.getString(it) }
+        cursor?.close()
+        return videoName ?: "Unknown"
+    }
+
+    private fun dropdownItem() {
         val gender = resources.getStringArray(R.array.Gender)
         val arrayGender = ArrayAdapter(this, R.layout.dropdown_item, gender)
         binding.etGender.setAdapter(arrayGender)
