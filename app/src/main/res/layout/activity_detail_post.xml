@@ -119,6 +119,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/product_detail" />
 
+            <TextView
+                android:id="@+id/btnSeeVideo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/text_field"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:text="Lihat Kondisi Sapi"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line1"
+                app:drawableEndCompat="@drawable/ic_forward" />
+
             <ImageView
                 android:id="@+id/ic_weight"
                 android:layout_width="32dp"
@@ -128,7 +146,7 @@
                 android:contentDescription="@string/content"
                 android:src="@drawable/ic_profile"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line1" />
+                app:layout_constraintTop_toBottomOf="@+id/btnSeeVideo" />
 
             <TextView
                 android:id="@+id/ti_weight"
@@ -158,7 +176,7 @@
                 android:contentDescription="@string/content"
                 android:src="@drawable/ic_profile"
                 app:layout_constraintStart_toEndOf="@+id/ti_weight"
-                app:layout_constraintTop_toBottomOf="@+id/line1" />
+                app:layout_constraintTop_toBottomOf="@+id/btnSeeVideo" />
 
             <TextView
                 android:id="@+id/ti_age"

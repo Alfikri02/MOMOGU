@@ -23,6 +23,9 @@ import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityDetailPostBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.ui.PlayerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -36,6 +39,7 @@ class DetailPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPostBinding
     private var postId: String = ""
     private lateinit var locationManager: LocationManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +72,10 @@ class DetailPostActivity : AppCompatActivity() {
 
         binding.btnCall.setOnClickListener {
             phonePost()
+        }
+
+        binding.btnSeeVideo.setOnClickListener {
+            retrieveVideo()
         }
 
         val checkPermission =
@@ -136,6 +144,7 @@ class DetailPostActivity : AppCompatActivity() {
 
                     Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.profile)
                         .into(binding.imagePost)
+
                     binding.productDetail.text = post.getProduct()
                     binding.priceDetail.text = "Rp. ${post.getPrice()}"
                     binding.dateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd/MM/yyyy")
@@ -147,6 +156,40 @@ class DetailPostActivity : AppCompatActivity() {
                     productLatitude = post.getLatitude()!!
                     productLongitude = post.getLongitude()!!
                     publisherInfo(post.getPublisher())
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun retrieveVideo() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val post = p0.getValue(PostModel::class.java)
+
+                    val mBuilder = AlertDialog.Builder(this@DetailPostActivity)
+                    val mView = layoutInflater.inflate(R.layout.dialog_layout_video, null)
+
+                    val videoView = mView.findViewById<PlayerView>(R.id.player_view)
+                    val player = ExoPlayer.Builder(this@DetailPostActivity).build()
+                    videoView.player = player
+                    val mediaItem = MediaItem.fromUri(post!!.getPostvideo()!!)
+                    player.setMediaItem(mediaItem)
+                    player.prepare()
+                    player.playWhenReady = false
+
+                    mBuilder.setView(mView)
+                    val mDialog = mBuilder.create()
+
+                    mDialog.setOnDismissListener {
+                        player.stop()
+                    }
+                    mDialog.show()
+
                 }
             }
 
