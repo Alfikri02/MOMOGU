@@ -75,6 +75,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         firebaseUser = FirebaseAuth.getInstance().currentUser
+        holder.soldView.visibility = View.GONE
 
         val post = mPost[position]
         Picasso.get().load(post.getPostimage()).into(holder.postImage)
@@ -106,6 +107,8 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
 
                     if (receipt!!.getStatus().equals("Selesai")) {
                         holder.soldView.visibility = View.VISIBLE
+                    }else{
+                        holder.soldView.visibility = View.GONE
                     }
                 }
             }
