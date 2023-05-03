@@ -46,6 +46,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.android.car.ui:car-ui-lib:2.4.0'
     testImplementation 'junit:junit:4.13.2'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])

@@ -66,6 +66,8 @@
         app:cardCornerRadius="15dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
+        app:strokeColor="@color/ijotua"
+        app:strokeWidth="1dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true">

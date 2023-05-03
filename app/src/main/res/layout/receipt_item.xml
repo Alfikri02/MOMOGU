@@ -7,7 +7,7 @@
     app:cardCornerRadius="14dp"
     app:cardElevation="3dp"
     app:cardUseCompatPadding="true"
-    app:strokeColor="@color/colorBlack"
+    app:strokeColor="@color/ijotua"
     app:strokeWidth="2dp">
 
     <RelativeLayout
