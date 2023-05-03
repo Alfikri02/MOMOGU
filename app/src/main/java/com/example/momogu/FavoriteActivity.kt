@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
@@ -16,12 +17,17 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import com.example.momogu.Fragments.ProfileFragment
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityFavoriteBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
+import com.github.chrisbanes.photoview.PhotoView
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.ui.PlayerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -66,34 +72,26 @@ class FavoriteActivity : AppCompatActivity() {
 
         binding.profileDetail.setOnClickListener {
             startActivity(Intent(this, BreederActivity::class.java))
-            finish()
         }
 
         binding.btnBuy.setOnClickListener {
             transVal()
         }
 
+        binding.btnCall.setOnClickListener {
+            phonePost()
+        }
+
+        binding.btnSeeVideo.setOnClickListener {
+            retrieveVideo()
+        }
+
+        binding.cvImage.setOnClickListener {
+            retrieveImage()
+        }
+
         binding.lineFavorite.setOnClickListener {
-            builder.setTitle("Peringatan!")
-                .setMessage("Apakah anda ingin menghapus sapi ini dari daftar favorit?")
-                .setCancelable(true)
-                .setPositiveButton("Iya") { _, _ ->
-                    val postRef =
-                        FirebaseDatabase.getInstance().getReference("Saves").child(firebaseUser.uid)
-                            .child(postId)
-                    postRef.removeValue()
-
-                    Toast.makeText(
-                        this,
-                        "Berhasil menghapus dari daftar favorit! \nSilahkan buka halaman profil kembali!",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
-                    finish()
-
-                }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                    dialogInterface.cancel()
-                }.show()
+            addFav()
         }
 
         val checkPermission =
@@ -161,8 +159,10 @@ class FavoriteActivity : AppCompatActivity() {
 
                     Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.profile)
                         .into(binding.imagePost)
+
                     binding.productDetail.text = post.getProduct()
                     binding.priceDetail.text = "Rp. ${post.getPrice()}"
+                    binding.tvPriceShipping.text = "Rp. ${post.getShipping()}"
                     binding.dateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd/MM/yyyy")
                     binding.etWeight.text = "${post.getWeight()} KG"
                     binding.etGender.text = post.getGender()
@@ -197,7 +197,95 @@ class FavoriteActivity : AppCompatActivity() {
         })
     }
 
-    private fun transVal(){
+    private fun addFav() {
+        builder.setTitle("Peringatan!")
+            .setMessage("Apakah anda ingin menghapus sapi ini dari daftar favorit?")
+            .setCancelable(true)
+            .setPositiveButton("Iya") { _, _ ->
+                val postRef =
+                    FirebaseDatabase.getInstance().getReference("Saves").child(firebaseUser.uid)
+                        .child(postId)
+                postRef.removeValue()
+
+                Toast.makeText(
+                    this,
+                    "Sapi dihapus dari daftar favorite!",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                finish()
+
+                this.supportFragmentManager.beginTransaction().remove(ProfileFragment()).commit()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+
+
+            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }.show()
+    }
+
+    private fun retrieveVideo() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val post = p0.getValue(PostModel::class.java)
+
+                    val mBuilder = AlertDialog.Builder(this@FavoriteActivity)
+                    val mView = layoutInflater.inflate(R.layout.dialog_layout_video, null)
+
+                    val videoView = mView.findViewById<PlayerView>(R.id.player_view)
+                    val player = ExoPlayer.Builder(this@FavoriteActivity).build()
+                    videoView.player = player
+                    val mediaItem = MediaItem.fromUri(post!!.getPostvideo()!!)
+                    player.setMediaItem(mediaItem)
+                    player.prepare()
+                    player.playWhenReady = false
+
+                    mBuilder.setView(mView)
+                    val mDialog = mBuilder.create()
+
+                    mDialog.setOnDismissListener {
+                        player.stop()
+                    }
+                    mDialog.show()
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun retrieveImage() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val post = p0.getValue(PostModel::class.java)
+
+                    val mBuilder = AlertDialog.Builder(this@FavoriteActivity)
+                    val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
+
+                    val imageView = mView.findViewById<PhotoView>(R.id.imageView)
+                    Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.profile)
+                        .into(imageView)
+
+                    mBuilder.setView(mView)
+                    val mDialog = mBuilder.create()
+                    mDialog.show()
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun transVal() {
         val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
         receiptRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -229,7 +317,7 @@ class FavoriteActivity : AppCompatActivity() {
         })
     }
 
-    private fun soldVal(){
+    private fun soldVal() {
         val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
         receiptRef.addValueEventListener(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
@@ -240,6 +328,40 @@ class FavoriteActivity : AppCompatActivity() {
                     if (receipt!!.getStatus().equals("Selesai")) {
                         binding.layoutSoldView.visibility = View.VISIBLE
                     }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun phonePost() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val post = p0.getValue(PostModel::class.java)
+                    phonePublisher(post!!.getPublisher())
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun phonePublisher(publisherId: String?) {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+
+                    val phoneNumber = user!!.getWa()
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                    startActivity(intent)
                 }
             }
 

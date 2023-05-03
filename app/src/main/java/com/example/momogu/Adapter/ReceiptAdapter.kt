@@ -65,6 +65,7 @@ class ReceiptAdapter(
 
     @SuppressLint("DiscouragedPrivateApi", "SetTextI18n", "ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.soldView.visibility = View.GONE
         val receipt = mReceipt[position]
 
         when {
@@ -152,6 +153,8 @@ class ReceiptAdapter(
 
         if (receipt.getStatus().equals("Selesai")) {
             holder.soldView.visibility = View.VISIBLE
+        }else {
+            holder.soldView.visibility = View.GONE
         }
 
         holder.itemView.setOnClickListener {

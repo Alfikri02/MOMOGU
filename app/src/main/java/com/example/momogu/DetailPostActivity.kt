@@ -23,6 +23,7 @@ import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityDetailPostBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
+import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
@@ -63,7 +64,6 @@ class DetailPostActivity : AppCompatActivity() {
 
         binding.profileDetail.setOnClickListener {
             startActivity(Intent(this, BreederActivity::class.java))
-            finish()
         }
 
         binding.btnBuy.setOnClickListener {
@@ -76,6 +76,10 @@ class DetailPostActivity : AppCompatActivity() {
 
         binding.btnSeeVideo.setOnClickListener {
             retrieveVideo()
+        }
+
+        binding.cvImage.setOnClickListener {
+            retrieveImage()
         }
 
         val checkPermission =
@@ -147,6 +151,7 @@ class DetailPostActivity : AppCompatActivity() {
 
                     binding.productDetail.text = post.getProduct()
                     binding.priceDetail.text = "Rp. ${post.getPrice()}"
+                    binding.tvPriceShipping.text = "Rp. ${post.getShipping()}"
                     binding.dateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd/MM/yyyy")
                     binding.etWeight.text = "${post.getWeight()} KG"
                     binding.etGender.text = post.getGender()
@@ -188,6 +193,32 @@ class DetailPostActivity : AppCompatActivity() {
                     mDialog.setOnDismissListener {
                         player.stop()
                     }
+                    mDialog.show()
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun retrieveImage() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val post = p0.getValue(PostModel::class.java)
+
+                    val mBuilder = AlertDialog.Builder(this@DetailPostActivity)
+                    val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
+
+                    val imageView = mView.findViewById<PhotoView>(R.id.imageView)
+                    Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.profile)
+                        .into(imageView)
+
+                    mBuilder.setView(mView)
+                    val mDialog = mBuilder.create()
                     mDialog.show()
 
                 }

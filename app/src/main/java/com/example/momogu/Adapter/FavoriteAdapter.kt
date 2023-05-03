@@ -48,7 +48,9 @@ class FavoriteAdapter(private val mContext: Context, mPost: List<PostModel>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.soldView.visibility = View.GONE
         val post: PostModel = mPost!![position]
+
         Picasso.get().load(post.getPostimage()).into(holder.postImage)
 
         val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(post.getPostid()!!)
@@ -60,6 +62,8 @@ class FavoriteAdapter(private val mContext: Context, mPost: List<PostModel>) :
 
                     if (receipt!!.getStatus().equals("Selesai")) {
                         holder.soldView.visibility = View.VISIBLE
+                    }else{
+                        holder.soldView.visibility = View.GONE
                     }
                 }
             }
