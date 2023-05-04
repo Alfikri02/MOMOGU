@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".EditProductActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_edit_product"
+        android:id="@+id/app_bar_layout_add_post"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:background="@android:color/white">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/edit_product_toolbar"
+            android:id="@+id/add_post_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="@android:color/white">
 
             <RelativeLayout
@@ -27,7 +27,7 @@
                 android:layout_marginEnd="15dp">
 
                 <ImageView
-                    android:id="@+id/close_edit_product"
+                    android:id="@+id/close_add_post_btn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentStart="true"
@@ -40,12 +40,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/poppins_thin"
-                    android:text="@string/edit_data"
+                    android:text="@string/tambah_data"
                     android:textSize="20sp"
                     tools:ignore="RelativeOverlap" />
 
                 <ImageView
-                    android:id="@+id/save_edit_product"
+                    android:id="@+id/save_new_post_btn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
@@ -59,38 +59,128 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar_edit_product">
+        android:layout_below="@+id/app_bar_layout_add_post">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/image_edit_product"
+            <RelativeLayout
+                android:id="@+id/layout_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:contentDescription="@string/content"
-                android:scaleType="fitCenter"
-                android:src="@drawable/momogu_with_text"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_choose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Pilih Gambar Sapi Anda!"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/btn_clear_image"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_close"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="15dp"
+                    app:cardUseCompatPadding="true"
+                    app:strokeColor="@color/colorBlack"
+                    app:strokeWidth="5dp"
+                    android:layout_below="@+id/tv_choose">
+
+                    <ImageView
+                        android:id="@+id/image_post"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:contentDescription="@string/content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/momogu" />
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_video"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_image">
+
+                <TextView
+                    android:id="@+id/tv_choose_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="Pilih Video Sapi Anda!"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_max_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Maksimal 30 Detik"
+                    android:layout_below="@+id/tv_choose_video"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/btn_clear_video"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_close"/>
+
+                <TextView
+                    android:id="@+id/tv_file_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Text"
+                    android:layout_below="@+id/tv_max_video"
+                    android:textSize="14sp"
+                    android:textAlignment="center"/>
+
+            </RelativeLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_product_edit"
+                android:id="@+id/ti_product"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/type_cow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_edit_product">
+                app:layout_constraintTop_toBottomOf="@+id/layout_video">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_product_edit"
+                    android:id="@+id/et_product"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="text" />
@@ -98,17 +188,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_age_edit"
+                android:id="@+id/ti_age"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/age"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_product_edit">
+                app:layout_constraintTop_toBottomOf="@+id/ti_product">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_age_edit"
+                    android:id="@+id/et_age"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="number" />
@@ -116,17 +206,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_weight_edit"
+                android:id="@+id/ti_weight"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/estimated_weight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_age_edit">
+                app:layout_constraintTop_toBottomOf="@+id/ti_age">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_weight_edit"
+                    android:id="@+id/et_weight"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="numberDecimal" />
@@ -134,17 +224,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_color_edit"
+                android:id="@+id/ti_color"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_weight_edit">
+                app:layout_constraintTop_toBottomOf="@+id/ti_weight">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_color_edit"
+                    android:id="@+id/et_color"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="text" />
@@ -152,35 +242,49 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_gender_edit"
-                style="@style/ti_layout"
+                android:id="@+id/ti_gender"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/gender"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusBottomStart="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:boxCornerRadiusTopStart="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_color_edit">
+                app:layout_constraintTop_toBottomOf="@+id/ti_color">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_gender_edit"
-                    style="@style/et_layout"
+                <AutoCompleteTextView
+                    android:id="@+id/et_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_name"
-                    android:inputType="text" />
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:inputType="none"
+                    android:minHeight="60dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="5dp"
+                    android:textSize="18sp"
+                    tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_desc_edit"
+                android:id="@+id/ti_desc"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/desc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_gender_edit">
+                app:layout_constraintTop_toBottomOf="@+id/ti_gender">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_desc_edit"
+                    android:id="@+id/et_desc"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="textMultiLine" />
@@ -188,17 +292,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_price_edit"
+                android:id="@+id/ti_price"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/prices"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_desc_edit">
+                app:layout_constraintTop_toBottomOf="@+id/ti_desc">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_price_edit"
+                    android:id="@+id/et_price"
                     style="@style/et_layout"
                     android:digits="0123456789.,"
                     android:drawableStart="@drawable/ic_name"
@@ -207,19 +311,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_shipping_edit"
+                android:id="@+id/ti_shipping"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="30dp"
                 android:hint="Biaya Pengiriman"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_price_edit">
+                app:layout_constraintTop_toBottomOf="@+id/ti_price">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_shipping_edit"
+                    android:id="@+id/et_shipping"
                     style="@style/et_layout"
                     android:digits="0123456789.,"
                     android:drawableStart="@drawable/ic_name"
@@ -227,8 +329,68 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_select_location"
+                style="@style/greenButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="20dp"
+                android:text="Pilih Lokasi Sapi"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ti_shipping"
+                android:visibility="gone"/>
+
+            <RelativeLayout
+                android:id="@+id/preview_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_select_location">
+
+                <TextView
+                    android:id="@+id/label_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/field_location"
+                    android:layout_alignParentTop="true"
+                    android:text="Lokasi"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/btn_clear_location"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_close" />
+
+                <TextView
+                    android:id="@+id/field_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_clear_location"
+                    android:layout_marginTop="8dp"
+                    android:autofillHints=""
+                    android:textSize="12sp"
+                    tools:text="Alamat Lengkap" />
+
+            </RelativeLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>
