@@ -59,9 +59,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
         android:layout_below="@+id/app_bar_layout_add_post">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -346,7 +348,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_shipping" />
+                app:layout_constraintTop_toBottomOf="@+id/ti_shipping"/>
 
             <RelativeLayout
                 android:id="@+id/preview_location"
@@ -408,7 +410,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
-                android:layout_marginBottom="30dp"
                 android:fontFamily="@font/poppins_light"
                 android:text="@string/guarante"
                 android:textSize="14sp"
@@ -419,6 +420,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 </RelativeLayout>
