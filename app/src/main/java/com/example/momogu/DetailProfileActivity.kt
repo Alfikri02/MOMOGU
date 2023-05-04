@@ -179,8 +179,8 @@ class DetailProfileActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val post = p0.getValue(PostModel::class.java)
 
-                    Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.profile)
-                        .into(binding.imagePost)
+                    Picasso.get().load(post!!.getPostimage()).into(binding.imagePost)
+
                     binding.productDetail.text = post.getProduct()
                     binding.priceDetail.text = "Rp. ${post.getPrice()}"
                     binding.tvPriceShipping.text = "Rp. ${post.getShipping()}"
@@ -245,8 +245,7 @@ class DetailProfileActivity : AppCompatActivity() {
                     val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
 
                     val imageView = mView.findViewById<PhotoView>(R.id.imageView)
-                    Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.profile)
-                        .into(imageView)
+                    Picasso.get().load(post!!.getPostimage()).into(imageView)
 
                     mBuilder.setView(mView)
                     val mDialog = mBuilder.create()

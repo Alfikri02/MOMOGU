@@ -304,7 +304,7 @@ class SignUpActivity : AppCompatActivity() {
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            saveUserInfo(fullName, userName, whatsapp, email)
+                            saveUserInfo(fullName, userName, email)
 
                         } else {
                             val message = task.exception!!.toString()
@@ -319,7 +319,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUserInfo(fullName: String, userName: String, whatsapp: String, email: String) {
+    private fun saveUserInfo(fullName: String, userName: String, email: String) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
         val userMap = HashMap<String, Any>()
@@ -328,11 +328,10 @@ class SignUpActivity : AppCompatActivity() {
         userMap["fullname"] = fullName
         userMap["username"] = userName
         userMap["email"] = email
-        userMap["wa"] = whatsapp
+        userMap["wa"] = ""
         userMap["city"] = ""
         userMap["address"] = ""
-        userMap["image"] =
-            "https://firebasestorage.googleapis.com/v0/b/instagram-clone-app-7f61a.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=1d051bfb-77fd-4404-9652-95836cfb796f"
+        userMap["image"] = ""
 
         usersRef.child(currentUserID).setValue(userMap)
             .addOnCompleteListener { task ->

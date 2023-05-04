@@ -148,8 +148,8 @@ class EditProductActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val post = p0.getValue(PostModel::class.java)
 
-                    Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.profile)
-                        .into(binding.imagePost)
+                    Picasso.get().load(post!!.getPostimage()).into(binding.imagePost)
+
                     binding.etProduct.setText(post.getProduct())
                     binding.etAge.setText(post.getAge())
                     binding.etWeight.setText(post.getWeight())

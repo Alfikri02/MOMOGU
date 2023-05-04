@@ -192,8 +192,13 @@ class EditProfileActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile)
-                        .into(binding.profileImageViewProfileFrag)
+                    if (user!!.getImage().isNullOrEmpty()){
+                        binding.profileImageViewProfileFrag.setImageResource(R.drawable.profile)
+                    }else{
+                        Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
+                            .into(binding.profileImageViewProfileFrag)
+                    }
+
                     binding.etUsernameProfile.setText(user.getUsername())
                     binding.etFullnameProfile.setText(user.getFullname())
                     binding.etWhatsappProfile.setText(user.getWa())
@@ -226,10 +231,6 @@ class EditProfileActivity : AppCompatActivity() {
 
             TextUtils.isEmpty(binding.etAddressProfile.text.toString()) -> {
                 Toast.makeText(this, "Full Address is Required!", Toast.LENGTH_LONG).show()
-            }
-
-            binding.fieldLocation.text.isNullOrEmpty() -> {
-                Toast.makeText(this, "Silahkan pilih Alamat Lengkap Anda!", Toast.LENGTH_LONG).show()
             }
 
             else -> {
@@ -282,10 +283,6 @@ class EditProfileActivity : AppCompatActivity() {
 
             TextUtils.isEmpty(binding.etAddressProfile.text.toString()) -> {
                 Toast.makeText(this, "Full Address is Required!", Toast.LENGTH_LONG).show()
-            }
-
-            binding.fieldLocation.text.isNullOrEmpty() -> {
-                Toast.makeText(this, "Silahkan pilih Alamat Lengkap Anda!", Toast.LENGTH_LONG).show()
             }
 
             else -> {

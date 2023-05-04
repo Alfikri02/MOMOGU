@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -115,16 +116,51 @@ class ProfileFragment : Fragment() {
         binding.editAccountSettingsBtn.setOnClickListener {
             startActivity(Intent(context, EditProfileActivity::class.java))
         }
-        
+
         binding.btnAdd.setOnClickListener {
-            startActivity(Intent(context, AddPostActivity::class.java))
+            addVal()
         }
 
         binding.receipt.setOnClickListener {
-            (context as FragmentActivity).supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ReceiptFragment()).commit()
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, ReceiptFragment()).commit()
         }
 
         return binding.root
+    }
+
+    private fun addVal() {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+
+                    if (user!!.getWa().isNullOrEmpty()
+                        || user.getAddress().isNullOrEmpty()
+                        || user.getCity().isNullOrEmpty()
+                    ) {
+                        Toast.makeText(
+                            context,
+                            "Silahkan lengkapi data diri anda pada halaman ubah profil!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else if (user.getImage().isNullOrEmpty()) {
+                        Toast.makeText(
+                            context,
+                            "Silahkan tambahkan foto anda pada halaman ubah profil!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        startActivity(Intent(context, AddPostActivity::class.java))
+                    }
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
     }
 
     private fun userInfo() {
@@ -135,11 +171,16 @@ class ProfileFragment : Fragment() {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    Picasso.get().load(user?.getImage()).placeholder(R.drawable.profile)
-                        .into(binding.proImageProfileFrag)
-                    binding.profileFragmentUsername.text = user?.getUsername()
-                    binding.etFullnameProfile.text = user?.getFullname()
-                    binding.etCityProfile.text = user?.getCity()
+                    if (user!!.getImage().isNullOrEmpty()){
+                        binding.proImageProfileFrag.setImageResource(R.drawable.profile)
+                    }else{
+                        Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
+                            .into(binding.proImageProfileFrag)
+                    }
+
+                    binding.profileFragmentUsername.text = user.getUsername()
+                    binding.etFullnameProfile.text = user.getFullname()
+                    binding.etCityProfile.text = user.getCity()
                 }
             }
 
@@ -205,7 +246,7 @@ class ProfileFragment : Fragment() {
                     var favoriteCounter = 0
 
                     for (snapShot in p0.children) {
-                            favoriteCounter++
+                        favoriteCounter++
                     }
 
                     binding.totalFavorite.text = favoriteCounter.toString()

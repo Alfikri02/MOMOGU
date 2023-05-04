@@ -146,8 +146,7 @@ class DetailPostActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val post = p0.getValue(PostModel::class.java)
 
-                    Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.profile)
-                        .into(binding.imagePost)
+                    Picasso.get().load(post!!.getPostimage()).into(binding.imagePost)
 
                     binding.productDetail.text = post.getProduct()
                     binding.priceDetail.text = "Rp. ${post.getPrice()}"
@@ -214,8 +213,7 @@ class DetailPostActivity : AppCompatActivity() {
                     val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
 
                     val imageView = mView.findViewById<PhotoView>(R.id.imageView)
-                    Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.profile)
-                        .into(imageView)
+                    Picasso.get().load(post!!.getPostimage()).into(imageView)
 
                     mBuilder.setView(mView)
                     val mDialog = mBuilder.create()
@@ -236,8 +234,13 @@ class DetailPostActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile)
-                        .into(binding.userProfile)
+                    if (user!!.getImage().isNullOrEmpty()){
+                        binding.userProfile.setImageResource(R.drawable.profile)
+                    }else{
+                        Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
+                            .into(binding.userProfile)
+                    }
+
                     binding.tvFullnameDetail.text = user.getFullname()
                 }
             }

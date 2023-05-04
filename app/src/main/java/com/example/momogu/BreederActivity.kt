@@ -87,8 +87,13 @@ class BreederActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile)
-                        .into(binding.proImageProfileFrag)
+                    if (user!!.getImage().isNullOrEmpty()){
+                        binding.proImageProfileFrag.setImageResource(R.drawable.profile)
+                    }else{
+                        Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
+                            .into(binding.proImageProfileFrag)
+                    }
+
                     binding.profileFragmentUsername.text = user.getUsername()
                     binding.etFullnameProfile.text = user.getFullname()
                     binding.etCityProfile.text = user.getCity()
