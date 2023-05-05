@@ -6,8 +6,7 @@
         android:id="@+id/edit_data"
         android:icon="@drawable/ic_edit"
         android:title="@string/edit_data"
-        app:showAsAction="withText"
-        android:visible="false"/>
+        app:showAsAction="withText"/>
 
     <item
         android:id="@+id/delete_data"

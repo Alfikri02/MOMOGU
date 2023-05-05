@@ -80,16 +80,18 @@ class DetailProfileActivity : AppCompatActivity() {
             retrieveImage()
         }
 
+        binding.deleteDetail.setOnClickListener {
+            valDelete()
+        }
+
         binding.menuDetail.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    /*
                     R.id.edit_data -> {
                         valEdit()
                         true
                     }
-                     */
 
                     R.id.delete_data -> {
                         valDelete()

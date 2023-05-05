@@ -51,7 +51,17 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/content"
-                    android:src="@drawable/ic_menu" />
+                    android:src="@drawable/ic_menu"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/delete_detail"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_delete" />
 
             </RelativeLayout>
 

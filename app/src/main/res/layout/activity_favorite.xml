@@ -44,6 +44,15 @@
                     android:textSize="20sp"
                     tools:ignore="RelativeOverlap" />
 
+                <ImageView
+                    android:id="@+id/remove_fav"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/favorite" />
+
             </RelativeLayout>
 
         </androidx.appcompat.widget.Toolbar>
@@ -132,7 +141,7 @@
                         android:text="@string/product"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/line_favorite"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/price_detail" />
 
@@ -146,28 +155,6 @@
                         app:layout_constraintBottom_toBottomOf="@+id/price_detail"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/price_detail" />
-
-                    <LinearLayout
-                        android:id="@+id/line_favorite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="@drawable/border"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/date_detail">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="2dp"
-                            android:padding="2dp"
-                            android:text="@string/favorite"
-                            android:textSize="14sp"
-                            app:drawableLeftCompat="@drawable/favorite" />
-
-                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

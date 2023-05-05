@@ -90,8 +90,8 @@ class FavoriteActivity : AppCompatActivity() {
             retrieveImage()
         }
 
-        binding.lineFavorite.setOnClickListener {
-            addFav()
+        binding.removeFav.setOnClickListener {
+            removeFav()
         }
 
         val checkPermission =
@@ -201,11 +201,13 @@ class FavoriteActivity : AppCompatActivity() {
         })
     }
 
-    private fun addFav() {
+    private fun removeFav() {
         builder.setTitle("Peringatan!")
             .setMessage("Apakah anda ingin menghapus sapi ini dari daftar favorit?")
             .setCancelable(true)
             .setPositiveButton("Iya") { _, _ ->
+                binding.removeFav.setImageResource(R.drawable.favorite_broder)
+
                 val postRef =
                     FirebaseDatabase.getInstance().getReference("Saves").child(firebaseUser.uid)
                         .child(postId)
@@ -225,6 +227,7 @@ class FavoriteActivity : AppCompatActivity() {
 
 
             }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                binding.removeFav.setImageResource(R.drawable.favorite)
                 dialogInterface.cancel()
             }.show()
     }
