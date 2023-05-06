@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.momogu.Adapter.PostAdapter
@@ -17,6 +16,7 @@ import com.example.momogu.MapsActivity
 import com.example.momogu.Model.PostModel
 import com.example.momogu.R
 import com.example.momogu.databinding.FragmentHomeBinding
+import com.example.momogu.utils.ItemDecorationWithCenterMargin
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -38,10 +38,24 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater)
 
         //Recycler View Home
+
+        val recyclerView: RecyclerView = binding.recyclerViewHome
+        val layoutManager = GridLayoutManager(context, 2)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position % 2 == 0) 1 else 0
+            }
+        }
+        recyclerView.layoutManager = layoutManager
+        val itemDecoration = ItemDecorationWithCenterMargin(requireContext(), R.dimen.activity_vertical_margin)
+        recyclerView.addItemDecoration(itemDecoration)
+
+        /*
         val recyclerView: RecyclerView = binding.recyclerViewHome
         recyclerView.setHasFixedSize(true)
         val linearLayoutManager: LinearLayoutManager = GridLayoutManager(context, 2)
         recyclerView.layoutManager = linearLayoutManager
+         */
 
         postList = ArrayList()
         postAdapter = context?.let { PostAdapter(it, postList as ArrayList<PostModel>) }

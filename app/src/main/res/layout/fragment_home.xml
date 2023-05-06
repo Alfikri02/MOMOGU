@@ -6,125 +6,135 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/home_toolbar"
-                android:layout_width="match_parent"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/logo"
-                        android:layout_width="120dp"
-                        android:layout_height="60dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:contentDescription="@null"
-                        android:src="@drawable/momogu_text" />
-
-                    <ImageView
-                        android:id="@+id/maps_home"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignTop="@+id/logo"
-                        android:layout_alignBottom="@+id/logo"
-                        android:layout_marginEnd="20dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_map"
-                        android:visibility="gone"/>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardViewSearch"
-                        android:layout_width="@dimen/zerodp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/logo"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginTop="-10dp"
-                        android:layout_marginStart="-6dp"
-                        app:cardCornerRadius="15dp"
-                        app:cardElevation="5dp"
-                        app:cardUseCompatPadding="true"
-                        app:strokeColor="@color/ijotua"
-                        app:strokeWidth="1dp">
-
-                        <SearchView
-                            android:id="@+id/search"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:iconifiedByDefault="false"
-                            android:queryBackground="@android:color/transparent"
-                            android:queryHint="Cari sapi yang anda inginkan!" />
-
-                    </com.google.android.material.card.MaterialCardView>
-                </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScroll"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/home_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cardViewSearch"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true">
+            android:background="@android:color/white"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="120dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="@null"
+                    android:src="@drawable/momogu_text" />
+
+                <ImageView
+                    android:id="@+id/maps_home"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignTop="@+id/logo"
+                    android:layout_alignBottom="@+id/logo"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_map"
+                    android:visibility="gone" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardViewSearch"
+                    android:layout_width="@dimen/zerodp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/logo"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="-6dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="12dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="5dp"
+                    app:cardUseCompatPadding="true"
+                    app:strokeColor="@color/ijotua"
+                    app:strokeWidth="1dp">
+
+                    <SearchView
+                        android:id="@+id/search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:iconifiedByDefault="false"
+                        android:queryBackground="@android:color/transparent"
+                        android:queryHint="Cari sapi yang anda inginkan!" />
+
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardViewSearch"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_imageSlider"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="6dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
                 <com.denzcoskun.imageslider.ImageSlider
                     android:id="@+id/slider_sclaes"
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
+                    android:layout_height="match_parent"
                     app:iss_auto_cycle="true"
                     app:iss_delay="2000"
-                    app:iss_period="2000"
-                    app:iss_text_align="CENTER" />
+                    app:iss_period="2000" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/slider_sclaes"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true">
+            </androidx.cardview.widget.CardView>
 
-                </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_imageSlider"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-20dp"
+                android:clipToPadding="false">
 
-            </RelativeLayout>
+            </androidx.recyclerview.widget.RecyclerView>
 
-        </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animLoadingView_home"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="50dp"
-            android:gravity="center_horizontal"
-            android:visibility="gone" />
+    </androidx.core.widget.NestedScrollView>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animLoadingView_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="center_horizontal"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
