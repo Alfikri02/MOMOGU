@@ -66,7 +66,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -74,13 +74,13 @@
                 android:id="@+id/cv_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="-6dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:cardUseCompatPadding="true">
 
                 <ImageView
                     android:id="@+id/image_post"
@@ -107,13 +107,13 @@
                 android:id="@+id/cv_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_image"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="-20dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_image">
+                app:cardUseCompatPadding="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -164,13 +164,13 @@
                 android:id="@+id/cv_seevideo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_header"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="-20dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_header">
+                app:cardUseCompatPadding="true">
 
                 <TextView
                     android:id="@+id/btnSeeVideo"
@@ -190,13 +190,13 @@
                 android:id="@+id/cv_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_seevideo"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="-20dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_seevideo">
+                app:cardUseCompatPadding="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -353,13 +353,13 @@
                 android:id="@+id/cv_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_detail"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="-20dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_detail">
+                app:cardUseCompatPadding="true">
 
                 <RelativeLayout
                     android:id="@+id/profile_detail"
@@ -409,13 +409,13 @@
                 android:id="@+id/cv_seeLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_profile"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="-20dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_profile">
+                app:cardUseCompatPadding="true">
 
                 <TextView
                     android:id="@+id/btnSeeLocation"
@@ -435,13 +435,13 @@
                 android:id="@+id/cv_shipper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_seeLocation"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="-20dp"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_seeLocation">
+                app:cardUseCompatPadding="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -515,30 +515,29 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_buy"
                 style="@style/greenButtonStyle"
-                android:layout_width="250dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
+                android:layout_below="@+id/cv_shipper"
+                android:layout_alignParentStart="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="20dp"
+                android:layout_toStartOf="@+id/btn_call"
                 android:text="@string/buy"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_shipper" />
+                android:textSize="16sp" />
 
             <ImageButton
                 android:id="@+id/btn_call"
                 style="@style/greenButtonStyle"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:layout_marginHorizontal="10dp"
+                android:layout_below="@+id/cv_shipper"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
                 android:contentDescription="@string/content"
                 android:src="@drawable/ic_call"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_buy"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btn_buy"
                 app:tint="@color/white" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
     </ScrollView>
 
