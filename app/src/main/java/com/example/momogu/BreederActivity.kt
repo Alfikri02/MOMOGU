@@ -11,11 +11,14 @@ import com.example.momogu.Adapter.DetailImagesAdapter
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityBreederBinding
+import com.github.marlonlom.utilities.timeago.TimeAgo
+import com.github.marlonlom.utilities.timeago.TimeAgoMessages
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import java.util.Locale
 
 class BreederActivity : AppCompatActivity() {
 
@@ -54,9 +57,8 @@ class BreederActivity : AppCompatActivity() {
 
         retrievePosts()
         myPhotos()
-        numberPhoto()
 
-        binding.backBreeder.setOnClickListener{
+        binding.backBreeder.setOnClickListener {
             finish()
         }
     }
@@ -70,7 +72,6 @@ class BreederActivity : AppCompatActivity() {
                     val post = p0.getValue(PostModel::class.java)
 
                     publisherInfo(post?.getPublisher())
-                    profileId = post?.getPublisher().toString()
 
                 }
             }
@@ -83,15 +84,25 @@ class BreederActivity : AppCompatActivity() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
 
         usersRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    if (user!!.getImage().isNullOrEmpty()){
+                    if (user!!.getImage().isNullOrEmpty()) {
                         binding.proImageProfileFrag.setImageResource(R.drawable.profile)
-                    }else{
+                    } else {
                         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
                             .into(binding.proImageProfileFrag)
+                    }
+
+                    if (user.getStatusOn().equals("Aktif")) {
+                        binding.statusOn.text = user.getStatusOn()
+                    } else {
+                        val messages = TimeAgoMessages.Builder()
+                            .withLocale(Locale("in")) // Set Indonesian locale
+                            .build()
+                        binding.statusOn.text = "Aktif ${TimeAgo.using(user.getLastOnline()!!.toLong(), messages)}"
                     }
 
                     binding.profileFragmentUsername.text = user.getUsername()
@@ -122,30 +133,6 @@ class BreederActivity : AppCompatActivity() {
                             (postList as ArrayList<PostModel>).add(post!!)
                         }
                     }
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-    }
-
-    private fun numberPhoto() {
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
-
-        postsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    var postCounter = 0
-
-                    for (snapShot in p0.children) {
-                        val post = snapShot.getValue(PostModel::class.java)
-
-                        if (post?.getPublisher() == profileId) {
-                            postCounter++
-                        }
-                    }
-
-                    binding.totalPosts.text = postCounter.toString()//" $postCounter"
                 }
             }
 

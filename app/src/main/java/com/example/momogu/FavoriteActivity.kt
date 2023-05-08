@@ -26,6 +26,8 @@ import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
 import com.example.momogu.utils.Helper.getDate
 import com.github.chrisbanes.photoview.PhotoView
+import com.github.marlonlom.utilities.timeago.TimeAgo
+import com.github.marlonlom.utilities.timeago.TimeAgoMessages
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
@@ -182,6 +184,7 @@ class FavoriteActivity : AppCompatActivity() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
 
         usersRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
@@ -191,6 +194,16 @@ class FavoriteActivity : AppCompatActivity() {
                     } else {
                         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
                             .into(binding.userProfile)
+                    }
+
+                    if (user.getStatusOn().equals("Aktif")) {
+                        binding.tvStatusDetail.text = user.getStatusOn()
+                    } else {
+                        val messages = TimeAgoMessages.Builder()
+                            .withLocale(Locale("in")) // Set Indonesian locale
+                            .build()
+                        binding.tvStatusDetail.text =
+                            "Aktif ${TimeAgo.using(user.getLastOnline()!!.toLong(), messages)}"
                     }
 
                     binding.tvFullnameDetail.text = user.getFullname()

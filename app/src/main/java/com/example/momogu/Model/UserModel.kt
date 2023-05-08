@@ -10,6 +10,9 @@ class UserModel {
     private var address: String? = null
     private var image: String? = null
     private var uid: String? = null
+    private var statusOn: String? = null
+    private var lastOnline: String? = null
+
 
     constructor()
 
@@ -22,7 +25,9 @@ class UserModel {
         longitude: Double?,
         address: String,
         image: String,
-        uid: String
+        uid: String,
+        statusOn: String,
+        lastOnline: String
     ) {
         this.username = username
         this.fullname = fullname
@@ -33,6 +38,8 @@ class UserModel {
         this.address = address
         this.image = image
         this.uid = uid
+        this.statusOn = statusOn
+        this.lastOnline = lastOnline
     }
 
     fun getUsername(): String? {
@@ -70,4 +77,13 @@ class UserModel {
     fun getUID(): String? {
         return uid
     }
+
+    fun getStatusOn(): String? {
+        return statusOn
+    }
+
+    fun getLastOnline(): String? {
+        return lastOnline
+    }
+
 }

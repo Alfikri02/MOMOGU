@@ -23,11 +23,15 @@ class WelcomeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
+
         binding.animLoadingViewWelcome.setAnimation("welcome.json")
         binding.animLoadingViewWelcome.playAnimation()
         binding.animLoadingViewWelcome.loop(true)
 
-        firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        setOnline()
+        setStatusDT()
+
         val usersRef =
             FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
@@ -56,5 +60,20 @@ class WelcomeActivity : AppCompatActivity() {
             }
         }
         timer.start()
+    }
+
+    private fun setOnline() {
+        val ref = FirebaseDatabase.getInstance().reference.child("Users")
+        val map = HashMap<String, Any>()
+        map["statusOn"] = "Aktif"
+        ref.child(firebaseUser.uid).updateChildren(map)
+    }
+
+    private fun setStatusDT() {
+        val ref = FirebaseDatabase.getInstance().reference.child("Users")
+        val map = HashMap<String, Any>()
+        map["statusOn"] = "Tidak Aktif"
+        map["lastOnline"] = System.currentTimeMillis().toString()
+        ref.child(firebaseUser.uid).onDisconnect().updateChildren(map)
     }
 }
