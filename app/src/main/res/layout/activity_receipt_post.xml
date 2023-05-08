@@ -151,7 +151,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_cancel"
+                        android:id="@+id/tv_dateCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/cancel"
@@ -171,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cv_status"
                 android:layout_marginStart="20dp"
-                android:fontFamily="@font/poppins_light"
+                android:fontFamily="@font/poppins_thin"
                 android:text="Detail Produk"
                 android:textSize="16sp" />
 
@@ -273,7 +273,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cv_product"
                 android:layout_marginStart="20dp"
-                android:fontFamily="@font/poppins_light"
+                android:fontFamily="@font/poppins_thin"
                 android:text="Tujuan Pengiriman"
                 android:textSize="16sp" />
 
@@ -353,7 +353,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cv_phone"
                 android:layout_marginStart="20dp"
-                android:fontFamily="@font/poppins_light"
+                android:fontFamily="@font/poppins_thin"
                 android:text="Rincian Pembayaran"
                 android:textSize="16sp" />
 

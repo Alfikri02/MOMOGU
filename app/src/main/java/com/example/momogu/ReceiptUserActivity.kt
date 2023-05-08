@@ -56,6 +56,7 @@ class ReceiptUserActivity : AppCompatActivity() {
 
         retrievePosts()
         retrieveBuyer()
+        deleteOtomation()
 
         binding.backCheckout.setOnClickListener {
             finish()
@@ -197,8 +198,8 @@ class ReceiptUserActivity : AppCompatActivity() {
                     val receipt = p0.getValue(ReceiptModel::class.java)
 
                     binding.tvInvoice.text = receipt!!.getPostId()
-                    binding.tvDate.text =
-                        " ${getDate(receipt.getDateTime()!!.toLong(), "dd MMM yyyy, HH:mm")} WIB"
+                    binding.tvDate.text = "${getDate(receipt.getDateTime()!!.toLong(), "dd MMM yyyy, HH:mm")} WIB"
+                    binding.tvDateCancel.text = "${getDate(receipt.getdtCancel()!!.toLong(),"dd MMM yyyy, HH:mm")} WIB"
 
                     when {
                         receipt.getStatus()
@@ -295,6 +296,33 @@ class ReceiptUserActivity : AppCompatActivity() {
                     val phoneNumber = user!!.getWa()
                     val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
                     startActivity(intent)
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun deleteOtomation() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    val waitConfirm = receipt!!.getStatus().equals("Menunggu konfirmasi!")
+                    val currentTime = System.currentTimeMillis()
+                    val timeCancel = receipt.getdtCancel()!!.toLong()
+
+                    if (waitConfirm && currentTime == timeCancel){
+                        val postRef =
+                            FirebaseDatabase.getInstance().getReference("Receipt")
+                                .child(postId)
+                        postRef.removeValue()
+                    }
 
                 }
             }

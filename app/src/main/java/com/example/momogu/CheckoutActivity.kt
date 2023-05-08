@@ -143,6 +143,11 @@ class CheckoutActivity : AppCompatActivity() {
         receiptPostMap["status"] = "Menunggu konfirmasi!"
         receiptPostMap["dateTime"] = System.currentTimeMillis().toString()
 
+        val currentTime = System.currentTimeMillis()
+        val oneDay = 24 * 60 * 60 * 1000
+        val newTime = currentTime + oneDay
+        receiptPostMap["dtCancel"] = newTime.toString()
+
         receiptPostRef.child(postId).setValue(receiptPostMap)
     }
 

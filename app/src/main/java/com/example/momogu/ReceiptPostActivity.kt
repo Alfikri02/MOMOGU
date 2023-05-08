@@ -166,7 +166,8 @@ class ReceiptPostActivity : AppCompatActivity() {
                     val receipt = p0.getValue(ReceiptModel::class.java)
 
                     binding.tvInvoice.text = receipt!!.getPostId()
-                    binding.tvDate.text = " ${getDate(receipt.getDateTime()!!.toLong(),"dd MMM yyyy, HH:mm")} WIB"
+                    binding.tvDate.text = "${getDate(receipt.getDateTime()!!.toLong(),"dd MMM yyyy, HH:mm")} WIB"
+                    binding.tvDateCancel.text = "${getDate(receipt.getdtCancel()!!.toLong(),"dd MMM yyyy, HH:mm")} WIB"
 
                     when {
                         receipt.getStatus()
