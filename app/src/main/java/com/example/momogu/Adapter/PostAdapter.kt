@@ -19,6 +19,8 @@ import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.R
+import com.github.marlonlom.utilities.timeago.TimeAgo
+import com.github.marlonlom.utilities.timeago.TimeAgoMessages
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -32,10 +34,6 @@ import java.util.*
 class PostAdapter(private val mContext: Context, private val mPost: List<PostModel>) :
     RecyclerView.Adapter<PostAdapter.ViewHolder>() {
     private var firebaseUser: FirebaseUser? = null
-    private val secondMillis = 1000
-    private val minuteMillis = 60 * secondMillis
-    private val hourMillis = 60 * minuteMillis
-    private val dayMillis = 24 * hourMillis
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var postImage: ImageView
@@ -85,7 +83,11 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         holder.product.text = post.getProduct()
         holder.price.text = "Rp. ${post.getPrice()}"
         holder.weight.text = "${post.getWeight()} KG"
-        holder.timeAgo.text = getTimeAgo(post.getDateTime()!!.toLong())
+
+        val messages = TimeAgoMessages.Builder()
+            .withLocale(Locale("in")) // Set Indonesian locale
+            .build()
+        holder.timeAgo.text = TimeAgo.using(post.getDateTime()!!.toLong(), messages)
 
         holder.cardPost.setOnClickListener {
             if (post.getPublisher().equals(firebaseUser!!.uid)) {
@@ -131,54 +133,6 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
                     .child(firebaseUser!!.uid)
                     .child(post.getPostid()!!)
                     .removeValue()
-            }
-        }
-    }
-
-    private fun getTimeAgo(time: Long): String? {
-        var tempTime = time
-        val now = System.currentTimeMillis()
-
-        if (tempTime < 1000000000000L) {
-            tempTime *= 1000
-        }
-
-        if (tempTime > now || tempTime <= 0) {
-            return null
-        }
-
-        val diff: Int = now.toInt() - tempTime.toInt()
-
-        return when {
-            diff < minuteMillis -> {
-                "just now"
-            }
-
-            diff < 2 * minuteMillis -> {
-                "a minute ago"
-            }
-
-            diff < 50 * minuteMillis -> {
-                val temp = diff / minuteMillis
-                "$temp minutes ago"
-            }
-
-            diff < 90 * minuteMillis -> {
-                "an hour ago"
-            }
-
-            diff < 24 * hourMillis -> {
-                val temp = diff / hourMillis
-                "$temp hours ago"
-            }
-
-            diff < 48 * hourMillis -> {
-                "yesterday"
-            }
-
-            else -> {
-                val temp = diff / dayMillis
-                "$temp days ago"
             }
         }
     }

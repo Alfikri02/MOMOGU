@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.*
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.ReceiptModel
+import com.example.momogu.utils.Helper.getDate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -23,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 class ReceiptAdapter(
@@ -142,7 +142,7 @@ class ReceiptAdapter(
             }
         }
 
-        holder.date.text = getDate(receipt.getDateTime()!!.toLong(), "dd/MM/yyyy")
+        holder.date.text = getDate(receipt.getDateTime()!!.toLong(), "dd MMM yyyy")
         getPostImage(holder.postImage, holder.product, holder.total, receipt.getPostId()!!)
 
         if (receipt.getSellerId().equals(holder.firebaseUser.uid)) {
@@ -219,15 +219,6 @@ class ReceiptAdapter(
 
             override fun onCancelled(p0: DatabaseError) {}
         })
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun getDate(milliSeconds: Long, dateFormat: String?): String? {
-        val formatter = SimpleDateFormat(dateFormat)
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.timeInMillis = milliSeconds
-
-        return formatter.format(calendar.time)
     }
 
 }

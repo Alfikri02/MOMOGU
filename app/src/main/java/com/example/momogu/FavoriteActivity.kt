@@ -24,6 +24,7 @@ import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityFavoriteBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
+import com.example.momogu.utils.Helper.getDate
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -35,7 +36,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
 import java.util.*
 
 class FavoriteActivity : AppCompatActivity() {
@@ -162,7 +162,7 @@ class FavoriteActivity : AppCompatActivity() {
                     binding.productDetail.text = post.getProduct()
                     binding.priceDetail.text = "Rp. ${post.getPrice()}"
                     binding.tvPriceShipping.text = "Rp. ${post.getShipping()}"
-                    binding.dateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd/MM/yyyy")
+                    binding.dateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd MMM yyyy")
                     binding.etWeight.text = "${post.getWeight()} KG"
                     binding.etGender.text = post.getGender()
                     binding.etAge.text = "${post.getAge()} Bulan"
@@ -375,12 +375,4 @@ class FavoriteActivity : AppCompatActivity() {
         })
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun getDate(milliSeconds: Long, dateFormat: String?): String? {
-        val formatter = SimpleDateFormat(dateFormat)
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.timeInMillis = milliSeconds
-
-        return formatter.format(calendar.time)
-    }
 }

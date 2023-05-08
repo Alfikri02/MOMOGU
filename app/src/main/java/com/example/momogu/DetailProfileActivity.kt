@@ -22,6 +22,7 @@ import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.databinding.ActivityDetailProfileBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
+import com.example.momogu.utils.Helper.getDate
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -33,7 +34,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailProfileActivity : AppCompatActivity() {
@@ -186,7 +186,7 @@ class DetailProfileActivity : AppCompatActivity() {
                     binding.productDetail.text = post.getProduct()
                     binding.priceDetail.text = "Rp. ${post.getPrice()}"
                     binding.tvPriceShipping.text = "Rp. ${post.getShipping()}"
-                    binding.dateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd/MM/yyyy")
+                    binding.dateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd MMM yyyy")
                     binding.etWeight.text = "${post.getWeight()} KG"
                     binding.etGender.text = post.getGender()
                     binding.etAge.text = "${post.getAge()} Bulan"
@@ -364,15 +364,6 @@ class DetailProfileActivity : AppCompatActivity() {
 
             override fun onCancelled(p0: DatabaseError) {}
         })
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun getDate(milliSeconds: Long, dateFormat: String?): String? {
-        val formatter = SimpleDateFormat(dateFormat)
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.timeInMillis = milliSeconds
-
-        return formatter.format(calendar.time)
     }
 
 }
