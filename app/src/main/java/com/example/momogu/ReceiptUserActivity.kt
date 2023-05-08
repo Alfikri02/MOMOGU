@@ -18,10 +18,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.example.momogu.Model.PostModel
+import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityReceiptUserBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
+import com.example.momogu.utils.Helper.getDate
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -33,7 +35,6 @@ class ReceiptUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReceiptUserBinding
     private var postId: String = ""
-    private lateinit var profileId: String
     private lateinit var builder: AlertDialog.Builder
     private lateinit var locationManager: LocationManager
 
@@ -54,13 +55,7 @@ class ReceiptUserActivity : AppCompatActivity() {
         }
 
         retrievePosts()
-
-        val pref = this.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
-        if (pref != null) {
-            this.profileId = pref.getString("profileId", "none").toString()
-        }
-
-        userInfo()
+        retrieveBuyer()
 
         binding.backCheckout.setOnClickListener {
             finish()
@@ -70,12 +65,32 @@ class ReceiptUserActivity : AppCompatActivity() {
             menuReceipt(it)
         }
 
+        binding.btnConfirm.setOnClickListener{
+            setStatusConfirm()
+        }
+
+        binding.btnProses.setOnClickListener{
+            setStatusProses()
+        }
+
+        binding.btnDelivery.setOnClickListener{
+            setStatusDelivery()
+        }
+
+        binding.btnDone.setOnClickListener{
+            setStatusDone()
+        }
+
+        binding.btnCancel.setOnClickListener {
+            cancelReceipt()
+        }
+
         binding.constraintProduct.setOnClickListener {
             startActivity(Intent(this, DetailPostActivity::class.java))
         }
 
-        binding.tvWhatsapp.setOnClickListener {
-            phonePublisher()
+        binding.cvPhone.setOnClickListener {
+            phoneBuyer()
         }
 
         val checkPermission =
@@ -172,8 +187,63 @@ class ReceiptUserActivity : AppCompatActivity() {
         })
     }
 
-    private fun userInfo() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+    private fun retrieveBuyer() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    binding.tvInvoice.text = receipt!!.getPostId()
+                    binding.tvDate.text =
+                        " ${getDate(receipt.getDateTime()!!.toLong(), "dd MMM yyyy, HH:mm")} WIB"
+
+                    when {
+                        receipt.getStatus()
+                            .equals("Dikonfirmasi") -> {
+                            binding.tvStatus.text = "Pesanan Dikonfirmasi!"
+                            binding.btnConfirm.visibility = View.GONE
+                            binding.btnProses.visibility = View.VISIBLE
+                        }
+
+                        receipt.getStatus()
+                            .equals("Diproses") -> {
+                            binding.tvStatus.text = "Pesanan Diproses!"
+                            binding.btnProses.visibility = View.GONE
+                            binding.btnDelivery.visibility = View.VISIBLE
+                        }
+
+                        receipt.getStatus()
+                            .equals("Pengantaran") -> {
+                            binding.tvStatus.text = "Dalam Pengantaran!"
+                            binding.btnDelivery.visibility = View.GONE
+                            binding.btnDone.visibility = View.VISIBLE
+                        }
+
+                        receipt.getStatus()
+                            .equals("Selesai") -> {
+                            binding.tvStatus.text = "Selesai"
+                        }
+
+                        else -> {
+                            binding.tvStatus.text = receipt.getStatus()
+                            binding.btnConfirm.visibility = View.VISIBLE
+                        }
+                    }
+
+                    userInfo(receipt.getBuyerId())
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun userInfo(buyerId: String?) {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(buyerId!!)
 
         usersRef.addValueEventListener(object : ValueEventListener {
             @SuppressLint("SetTextI18n")
@@ -182,7 +252,7 @@ class ReceiptUserActivity : AppCompatActivity() {
                     val user = p0.getValue(UserModel::class.java)
 
                     if (user != null) {
-                        binding.tvCity.text = user.getCity()
+                        binding.tvName.text = user.getFullname()
                         binding.tvAddress.text = user.getAddress()
                         binding.tvWhatsapp.text = "Telp: ${user.getWa()}"
                         productLatitude = user.getLatitude()!!
@@ -195,8 +265,26 @@ class ReceiptUserActivity : AppCompatActivity() {
         })
     }
 
-    private fun phonePublisher() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+    private fun phoneBuyer() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    phoneInfo(receipt!!.getBuyerId())
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun phoneInfo(buyerId: String?) {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(buyerId!!)
 
         usersRef.addValueEventListener(object : ValueEventListener {
             @SuppressLint("SetTextI18n")
@@ -221,105 +309,28 @@ class ReceiptUserActivity : AppCompatActivity() {
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.confirm_receipt -> {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Peringatan!")
-                        .setMessage("Apakah anda ingin mengkonfirmasi pesanan ini?")
-                        .setCancelable(true)
-                        .setPositiveButton("Iya") { _, _ ->
-
-                            setStatusConfirm()
-                            finish()
-                            Toast.makeText(this, "Pesanan telah dikonfirmasi!", Toast.LENGTH_SHORT)
-                                .show()
-
-                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                            dialogInterface.cancel()
-                        }.show()
-
+                    setStatusConfirm()
                     true
                 }
 
                 R.id.proses_receipt -> {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Peringatan!")
-                        .setMessage("Apakah anda ingin memproses pesanan ini?")
-                        .setCancelable(true)
-                        .setPositiveButton("Iya") { _, _ ->
-
-                            setStatusProses()
-                            finish()
-                            Toast.makeText(this, "Pesanan telah diproses!", Toast.LENGTH_SHORT)
-                                .show()
-
-                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                            dialogInterface.cancel()
-                        }.show()
-
+                    setStatusProses()
                     true
                 }
 
                 R.id.order_receipt -> {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Peringatan!")
-                        .setMessage("Apakah anda ingin mengantar pesanan ini?")
-                        .setCancelable(true)
-                        .setPositiveButton("Iya") { _, _ ->
-
-                            setStatusOrder()
-                            finish()
-                            Toast.makeText(
-                                this,
-                                "Pesanan sedang dalam pengantaran!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                            dialogInterface.cancel()
-                        }.show()
+                    setStatusDelivery()
 
                     true
                 }
 
                 R.id.done_receipt -> {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Peringatan!")
-                        .setMessage("Apakah anda ingin menyelesaikan pesanan ini?\nJika ya, pesanan akan dinyatakan selesai dan anda tidak dapat merubah apapun lagi.")
-                        .setCancelable(true)
-                        .setPositiveButton("Iya") { _, _ ->
-
-                            setStatusDone()
-                            finish()
-                            Toast.makeText(this, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT)
-                                .show()
-
-                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                            dialogInterface.cancel()
-                        }.show()
-
+                    setStatusDone()
                     true
                 }
 
                 R.id.cancel -> {
-                    builder.setTitle("Peringatan!")
-                        .setMessage("Apakah anda ingin membatalkan transaksi ini?")
-                        .setCancelable(true)
-                        .setPositiveButton("Iya") { _, _ ->
-                            val postRef =
-                                FirebaseDatabase.getInstance().getReference("Receipt")
-                                    .child(postId)
-                            postRef.removeValue()
-
-                            Toast.makeText(
-                                this,
-                                "Transaksi berhasil dibatalkan",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            finish()
-                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                            dialogInterface.cancel()
-                        }.show()
-
+                    cancelReceipt()
                     true
                 }
 
@@ -343,39 +354,121 @@ class ReceiptUserActivity : AppCompatActivity() {
     }
 
     private fun setStatusConfirm() {
-        val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
-        val receiptMap = HashMap<String, Any>()
 
-        receiptMap["status"] = "Dikonfirmasi"
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Peringatan!")
+            .setMessage("Apakah anda ingin mengkonfirmasi pesanan ini?")
+            .setCancelable(true)
+            .setPositiveButton("Iya") { _, _ ->
 
-        ref.child(postId).updateChildren(receiptMap)
+                val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+                val receiptMap = HashMap<String, Any>()
+                receiptMap["status"] = "Dikonfirmasi"
+                ref.child(postId).updateChildren(receiptMap)
+
+                finish()
+                Toast.makeText(this, "Pesanan telah dikonfirmasi!", Toast.LENGTH_SHORT)
+                    .show()
+
+            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }.show()
+
     }
 
     private fun setStatusProses() {
-        val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
-        val receiptMap = HashMap<String, Any>()
 
-        receiptMap["status"] = "Diproses"
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Peringatan!")
+            .setMessage("Apakah anda ingin memproses pesanan ini?")
+            .setCancelable(true)
+            .setPositiveButton("Iya") { _, _ ->
 
-        ref.child(postId).updateChildren(receiptMap)
+                val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+                val receiptMap = HashMap<String, Any>()
+                receiptMap["status"] = "Diproses"
+                ref.child(postId).updateChildren(receiptMap)
+
+                finish()
+                Toast.makeText(this, "Pesanan telah diproses!", Toast.LENGTH_SHORT)
+                    .show()
+
+            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }.show()
+
     }
 
-    private fun setStatusOrder() {
-        val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
-        val receiptMap = HashMap<String, Any>()
+    private fun setStatusDelivery() {
 
-        receiptMap["status"] = "Pengantaran"
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Peringatan!")
+            .setMessage("Apakah anda ingin mengantar pesanan ini?")
+            .setCancelable(true)
+            .setPositiveButton("Iya") { _, _ ->
 
-        ref.child(postId).updateChildren(receiptMap)
+                val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+                val receiptMap = HashMap<String, Any>()
+                receiptMap["status"] = "Pengantaran"
+                ref.child(postId).updateChildren(receiptMap)
+
+                finish()
+                Toast.makeText(
+                    this,
+                    "Pesanan sedang dalam pengantaran!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }.show()
+
     }
 
     private fun setStatusDone() {
-        val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
-        val receiptMap = HashMap<String, Any>()
 
-        receiptMap["status"] = "Selesai"
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Peringatan!")
+            .setMessage("Apakah anda ingin menyelesaikan pesanan ini?\nJika ya, pesanan akan dinyatakan selesai dan anda tidak dapat merubah apapun lagi.")
+            .setCancelable(true)
+            .setPositiveButton("Iya") { _, _ ->
 
-        ref.child(postId).updateChildren(receiptMap)
+                val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+                val receiptMap = HashMap<String, Any>()
+                receiptMap["status"] = "Selesai"
+                ref.child(postId).updateChildren(receiptMap)
+
+                finish()
+                Toast.makeText(this, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT)
+                    .show()
+
+            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }.show()
+
+    }
+
+    private fun cancelReceipt() {
+        builder.setTitle("Peringatan!")
+            .setMessage("Apakah anda ingin membatalkan transaksi ini?")
+            .setCancelable(true)
+            .setPositiveButton("Iya") { _, _ ->
+
+                val postRef =
+                    FirebaseDatabase.getInstance().getReference("Receipt")
+                        .child(postId)
+                postRef.removeValue()
+
+                Toast.makeText(
+                    this,
+                    "Transaksi berhasil dibatalkan",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                finish()
+            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }.show()
     }
 
 }

@@ -32,7 +32,6 @@ class ReceiptPostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReceiptPostBinding
     private var postId: String = ""
-    private lateinit var profileId: String
     private lateinit var locationManager: LocationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,12 +48,6 @@ class ReceiptPostActivity : AppCompatActivity() {
         }
 
         retrievePosts()
-
-        val pref = this.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
-        if (pref != null) {
-            this.profileId = pref.getString("profileId", "none").toString()
-        }
-
         retrieveBuyer()
 
         binding.backCheckout.setOnClickListener {
@@ -173,7 +166,7 @@ class ReceiptPostActivity : AppCompatActivity() {
                     val receipt = p0.getValue(ReceiptModel::class.java)
 
                     binding.tvInvoice.text = receipt!!.getPostId()
-                    binding.tvDate.text = " ${getDate(receipt.getDateTime()!!.toLong(),"dd MMM yyyy, hh:HH")} WIB"
+                    binding.tvDate.text = " ${getDate(receipt.getDateTime()!!.toLong(),"dd MMM yyyy, HH:mm")} WIB"
 
                     when {
                         receipt.getStatus()
