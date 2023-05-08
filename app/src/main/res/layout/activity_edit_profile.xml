@@ -58,7 +58,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/logout_btn"
@@ -76,7 +76,7 @@
                 android:layout_height="130dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:src="@drawable/profile" />
 
             <TextView
@@ -145,28 +145,9 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_city_profile"
-                style="@style/ti_layout"
-                android:layout_below="@+id/ti_whatsapp_profile"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
-                android:hint="@string/city">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_city_profile"
-                    style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_city"
-                    android:focusable="false"
-                    android:inputType="none" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_address_profile"
                 style="@style/ti_layout"
-                android:layout_below="@+id/ti_city_profile"
+                android:layout_below="@+id/preview_location"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="20dp"
@@ -187,11 +168,11 @@
                 style="@style/greenButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ti_address_profile"
+                android:layout_below="@+id/ti_whatsapp_profile"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:paddingHorizontal="20dp"
-                android:text="Pilih Alamat Lengkap"
+                android:text="Pilih Alamat"
                 android:textAllCaps="false"
                 android:textSize="16sp" />
 
@@ -212,7 +193,7 @@
                     android:layout_above="@id/field_location"
                     android:layout_alignParentTop="true"
                     android:text="Lokasi"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -230,7 +211,7 @@
                     android:layout_below="@+id/btn_clear_location"
                     android:autofillHints=""
                     android:layout_marginTop="8dp"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     tools:text="Kota"/>
 
                 <TextView
@@ -239,14 +220,13 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/field_city"
                     android:autofillHints=""
-                    android:layout_marginTop="8dp"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     tools:text="Alamat Lengkap"/>
 
             </RelativeLayout>
 
         </RelativeLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logout_btn"

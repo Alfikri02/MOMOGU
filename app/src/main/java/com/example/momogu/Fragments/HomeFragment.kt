@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
         /*
         val recyclerView: RecyclerView = binding.recyclerViewHome
         recyclerView.setHasFixedSize(true)
-        val linearLayoutManager: LinearLayoutManager = GridLayoutManager(context, 2)
+        val linearLayoutManager = GridLayoutManager(context, 2)
         recyclerView.layoutManager = linearLayoutManager
          */
 
@@ -169,9 +169,9 @@ class HomeFragment : Fragment() {
     private fun imageSlider(){
         val imageList = ArrayList<SlideModel>()
 
-        imageList.add(SlideModel(R.drawable.exterior_sapi))
-        imageList.add(SlideModel(R.drawable.exterior_sapi))
-        imageList.add(SlideModel(R.drawable.exterior_sapi))
+        imageList.add(SlideModel(R.drawable.satu))
+        imageList.add(SlideModel(R.drawable.dua))
+        imageList.add(SlideModel(R.drawable.tiga))
 
         val imageSlider = binding.sliderSclaes
         imageSlider.setImageList(imageList)

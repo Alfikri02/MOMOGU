@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
@@ -14,10 +15,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.example.momogu.Model.PostModel
+import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityReceiptPostBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
+import com.example.momogu.utils.Helper.getDate
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -52,7 +55,7 @@ class ReceiptPostActivity : AppCompatActivity() {
             this.profileId = pref.getString("profileId", "none").toString()
         }
 
-        userInfo()
+        retrieveBuyer()
 
         binding.backCheckout.setOnClickListener {
             finish()
@@ -60,6 +63,10 @@ class ReceiptPostActivity : AppCompatActivity() {
 
         binding.constraintProduct.setOnClickListener {
             startActivity(Intent(this, DetailPostActivity::class.java))
+        }
+
+        binding.cvPhone.setOnClickListener {
+            phoneBuyer()
         }
 
         val checkPermission =
@@ -156,8 +163,55 @@ class ReceiptPostActivity : AppCompatActivity() {
         })
     }
 
-    private fun userInfo() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+    private fun retrieveBuyer() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    binding.tvInvoice.text = receipt!!.getPostId()
+                    binding.tvDate.text = " ${getDate(receipt.getDateTime()!!.toLong(),"dd MMM yyyy, hh:HH")} WIB"
+
+                    when {
+                        receipt.getStatus()
+                            .equals("Dikonfirmasi") -> {
+                            binding.tvStatus.text = "Pesanan Dikonfirmasi!"
+                        }
+
+                        receipt.getStatus()
+                            .equals("Diproses") -> {
+                            binding.tvStatus.text = "Pesanan Diproses!"
+                        }
+
+                        receipt.getStatus()
+                            .equals("Pengantaran") -> {
+                            binding.tvStatus.text = "Dalam Pengantaran!"
+                        }
+
+                        receipt.getStatus()
+                            .equals("Selesai") -> {
+                            binding.tvStatus.text = "Selesai"
+                        }
+
+                        else -> {
+                            binding.tvStatus.text = receipt.getStatus()
+                        }
+                    }
+
+                    userInfo(receipt.getBuyerId())
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun userInfo(buyerId: String?) {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(buyerId!!)
 
         usersRef.addValueEventListener(object : ValueEventListener {
             @SuppressLint("SetTextI18n")
@@ -166,12 +220,50 @@ class ReceiptPostActivity : AppCompatActivity() {
                     val user = p0.getValue(UserModel::class.java)
 
                     if (user != null) {
-                        binding.tvCity.text = user.getCity()
+                        binding.tvName.text = user.getFullname()
                         binding.tvAddress.text = user.getAddress()
                         binding.tvWhatsapp.text = "Telp: ${user.getWa()}"
                         productLatitude = user.getLatitude()!!
                         productLongitude = user.getLongitude()!!
                     }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun phoneBuyer() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    phoneInfo(receipt!!.getBuyerId())
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun phoneInfo(buyerId: String?) {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(buyerId!!)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+
+                    val phoneNumber = user!!.getWa()
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                    startActivity(intent)
+
                 }
             }
 

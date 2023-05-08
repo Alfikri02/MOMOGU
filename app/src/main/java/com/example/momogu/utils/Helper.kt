@@ -1,5 +1,6 @@
 package com.example.momogu.utils
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
@@ -12,8 +13,18 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.momogu.R
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 object Helper {
+
+    @SuppressLint("SimpleDateFormat")
+    fun getDate(milliSeconds: Long, dateFormat: String?): String? {
+        val formatter = SimpleDateFormat(dateFormat)
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.timeInMillis = milliSeconds
+        return formatter.format(calendar.time)
+    }
 
     fun isPermissionGranted(context: Context, permission: String) =
         ContextCompat.checkSelfPermission(

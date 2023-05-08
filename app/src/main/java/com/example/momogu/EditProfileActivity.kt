@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -83,8 +84,6 @@ class EditProfileActivity : AppCompatActivity() {
                     )
                     binding.fieldLocation.text = Helper.parseAddressLocation(this, lat, lon)
                     binding.fieldCity.text = Helper.parseCityLocation(this, lat, lon)
-                    binding.etAddressProfile.setText(binding.fieldLocation.text)
-                    binding.etCityProfile.setText(binding.fieldCity.text)
                     coordinateLatitude = lat
                     coordinateLongitude = lon
                 }
@@ -137,6 +136,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         binding.btnClearLocation.setOnClickListener {
             isLocationPicked.postValue(false)
+            binding.tiAddressProfile.visibility = View.VISIBLE
         }
 
         binding.btnSelectLocation.setOnClickListener {
@@ -144,6 +144,7 @@ class EditProfileActivity : AppCompatActivity() {
             if (Helper.isPermissionGranted(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 val intentPickLocation = Intent(this, MapAdminActivity::class.java)
                 getResult?.launch(intentPickLocation)
+                binding.tiAddressProfile.visibility = View.GONE
             } else {
                 ActivityCompat.requestPermissions(
                     this@EditProfileActivity,
@@ -202,7 +203,6 @@ class EditProfileActivity : AppCompatActivity() {
                     binding.etUsernameProfile.setText(user.getUsername())
                     binding.etFullnameProfile.setText(user.getFullname())
                     binding.etWhatsappProfile.setText(user.getWa())
-                    binding.etCityProfile.setText(user.getCity())
                     binding.etAddressProfile.setText(user.getAddress())
                 }
             }
@@ -225,14 +225,6 @@ class EditProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Whatsapp Number is Required!", Toast.LENGTH_LONG).show()
             }
 
-            TextUtils.isEmpty(binding.etCityProfile.text.toString()) -> {
-                Toast.makeText(this, "City is Required!", Toast.LENGTH_LONG).show()
-            }
-
-            TextUtils.isEmpty(binding.etAddressProfile.text.toString()) -> {
-                Toast.makeText(this, "Full Address is Required!", Toast.LENGTH_LONG).show()
-            }
-
             else -> {
                 val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
                 val userMap = HashMap<String, Any>()
@@ -240,10 +232,6 @@ class EditProfileActivity : AppCompatActivity() {
                 userMap["fullname"] = binding.etFullnameProfile.text.toString()
                 userMap["username"] = binding.etUsernameProfile.text.toString().lowercase()
                 userMap["wa"] = binding.etWhatsappProfile.text.toString()
-                userMap["city"] = binding.etCityProfile.text.toString()
-                userMap["address"] = binding.etAddressProfile.text.toString()
-                userMap["latitude"] = coordinateLatitude
-                userMap["longitude"] = coordinateLongitude
 
                 usersRef.child(firebaseUser.uid).updateChildren(userMap)
 
@@ -277,11 +265,7 @@ class EditProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Whatsapp Number is Required!", Toast.LENGTH_LONG).show()
             }
 
-            TextUtils.isEmpty(binding.etCityProfile.text.toString()) -> {
-                Toast.makeText(this, "City is Required!", Toast.LENGTH_LONG).show()
-            }
-
-            TextUtils.isEmpty(binding.etAddressProfile.text.toString()) -> {
+            TextUtils.isEmpty(binding.fieldLocation.text.toString()) -> {
                 Toast.makeText(this, "Full Address is Required!", Toast.LENGTH_LONG).show()
             }
 
@@ -316,8 +300,8 @@ class EditProfileActivity : AppCompatActivity() {
                         userMap["username"] =
                             binding.etUsernameProfile.text.toString().lowercase()
                         userMap["wa"] = binding.etWhatsappProfile.text.toString()
-                        userMap["city"] = binding.etCityProfile.text.toString()
-                        userMap["address"] = binding.etAddressProfile.text.toString()
+                        userMap["city"] = binding.fieldCity.text.toString()
+                        userMap["address"] = binding.fieldLocation.text.toString()
                         userMap["latitude"] = coordinateLatitude
                         userMap["longitude"] = coordinateLongitude
                         userMap["image"] = myUrl

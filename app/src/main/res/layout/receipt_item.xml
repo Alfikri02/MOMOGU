@@ -18,7 +18,8 @@
             android:id="@+id/cons_receipt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true">
@@ -60,7 +61,6 @@
                 app:cardCornerRadius="5dp"
                 app:cardElevation="4dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="-10dp"
                 app:cardUseCompatPadding="true"
                 android:background="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/menu_receipt"
@@ -87,7 +87,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/content"
-                android:layout_marginEnd="-10dp"
                 android:src="@drawable/ic_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/cv_status"
@@ -118,9 +117,10 @@
             <ImageView
                 android:id="@+id/post_image_receipt"
                 android:layout_width="70dp"
-                android:layout_height="50dp"
+                android:layout_height="52dp"
                 android:src="@drawable/momogu"
-                android:contentDescription="@string/content"/>
+                android:contentDescription="@string/content"
+                android:scaleType="centerCrop"/>
 
         </androidx.cardview.widget.CardView>
 

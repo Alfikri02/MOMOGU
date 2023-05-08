@@ -57,147 +57,181 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_bar"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar_layout_profile_frag"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:padding="16dp">
+        app:cardCornerRadius="15dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/pro_image_profile_frag"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:src="@drawable/profile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/et_fullname_profile"
-            android:layout_width="@dimen/zerodp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:fontFamily="@font/poppins_thin"
-            android:text="@string/full_name"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
-            app:layout_constraintTop_toTopOf="@+id/pro_image_profile_frag" />
-
-        <TextView
-            android:id="@+id/et_city_profile"
-            android:layout_width="@dimen/zerodp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:drawablePadding="2dp"
-            android:fontFamily="@font/poppins_light"
-            android:text="@string/city"
-            android:textSize="16sp"
-            app:drawableStartCompat="@drawable/ic_city"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
-            app:layout_constraintTop_toBottomOf="@id/et_fullname_profile" />
-
-        <TextView
-            android:id="@+id/total_posts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:drawablePadding="2dp"
-            android:text="@string/zero"
-            android:textSize="16sp"
-            app:drawableStartCompat="@drawable/ic_grid"
-            app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
-            app:layout_constraintTop_toBottomOf="@+id/et_city_profile" />
-
-        <TextView
-            android:id="@+id/total_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:drawablePadding="2dp"
-            android:text="@string/zero"
-            android:textSize="16sp"
-            android:visibility="invisible"
-            app:drawableStartCompat="@drawable/favorite_broder"
-            app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
-            app:layout_constraintTop_toBottomOf="@+id/et_city_profile" />
-
-        <ImageView
-            android:id="@+id/edit_account_settings_btn"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:contentDescription="@string/content"
-            android:src="@drawable/ic_edit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/et_city_profile" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:id="@+id/btn_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_below="@+id/top_bar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button_black_background"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/images_grid_view_btn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@null"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_grid"
-            app:tint="@color/blackColor" />
-
-        <ImageButton
-            android:id="@+id/images_save_btn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="1dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:contentDescription="@null"
-            android:scaleType="fitCenter"
-            android:src="@drawable/favorite"
-            app:tint="@color/colorBlack" />
+            android:paddingVertical="16dp">
 
-    </LinearLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/pro_image_profile_frag"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/profile"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_upload_pic"
+            <TextView
+                android:id="@+id/et_fullname_profile"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:fontFamily="@font/poppins_thin"
+                android:text="@string/full_name"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
+                app:layout_constraintTop_toTopOf="@+id/pro_image_profile_frag" />
+
+            <TextView
+                android:id="@+id/et_city_profile"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="2dp"
+                android:fontFamily="@font/poppins_light"
+                android:text="@string/city"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_city"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
+                app:layout_constraintTop_toBottomOf="@id/et_fullname_profile" />
+
+            <TextView
+                android:id="@+id/total_posts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="2dp"
+                android:text="@string/zero"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_grid"
+                app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
+                app:layout_constraintTop_toBottomOf="@+id/et_city_profile" />
+
+            <TextView
+                android:id="@+id/total_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="2dp"
+                android:text="@string/zero"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                app:drawableStartCompat="@drawable/favorite_broder"
+                app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
+                app:layout_constraintTop_toBottomOf="@+id/et_city_profile" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-8dp"
+                android:background="@drawable/border"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="6dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/et_city_profile">
+
+                <ImageView
+                    android:id="@+id/edit_account_settings_btn"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_settings" />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_btnHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_horizontal"
+        android:layout_below="@+id/cv_header"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true">
+        android:layout_marginTop="-22dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:id="@+id/btn_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/cv_header"
+            android:orientation="horizontal">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_saved_pic"
+            <ImageButton
+                android:id="@+id/images_grid_view_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_grid"
+                app:tint="@color/blackColor" />
+
+            <ImageButton
+                android:id="@+id/images_save_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/favorite"
+                app:tint="@color/colorBlack" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rv_post"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_horizontal"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cv_btnHorizontal"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:visibility="gone">
+        android:layout_marginTop="-22dp"
+        android:layout_marginBottom="-6dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_upload_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_saved_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add"
@@ -206,7 +240,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/ijotua"
         android:contentDescription="@string/content"
         android:src="@drawable/ic_add"
