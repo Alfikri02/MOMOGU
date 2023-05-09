@@ -7,6 +7,10 @@ class ReceiptModel {
     private var status: String? = null
     private var dateTime: String? = null
     private var dtCancel: String? = null
+    private var dtConfirm: String? = null
+    private var dtProses: String? = null
+    private var dtDelivery: String? = null
+    private var dtFinish: String? = null
 
     constructor()
 
@@ -16,7 +20,11 @@ class ReceiptModel {
         postid: String?,
         status: String?,
         dateTime: String?,
-        dtCancel: String?
+        dtCancel: String?,
+        dtConfirm: String?,
+        dtProses: String?,
+        dtDelivery: String?,
+        dtFinish: String?
     ) {
         this.buyerid = buyerid
         this.sellerid = sellerid
@@ -24,6 +32,10 @@ class ReceiptModel {
         this.status = status
         this.dateTime = dateTime
         this.dtCancel = dtCancel
+        this.dtConfirm = dtConfirm
+        this.dtProses = dtProses
+        this.dtDelivery = dtDelivery
+        this.dtFinish = dtFinish
     }
 
     fun getBuyerId(): String? {
@@ -48,6 +60,22 @@ class ReceiptModel {
 
     fun getdtCancel(): String? {
         return dtCancel
+    }
+
+    fun getdtConfirm(): String? {
+        return dtConfirm
+    }
+
+    fun getdtProses(): String? {
+        return dtProses
+    }
+
+    fun getdtDelivery(): String? {
+        return dtDelivery
+    }
+
+    fun getdtFinish(): String? {
+        return dtFinish
     }
 
 }

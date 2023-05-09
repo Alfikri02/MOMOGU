@@ -118,8 +118,6 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
             override fun onCancelled(p0: DatabaseError) {}
         })
 
-
-
         holder.saveButton.setOnClickListener {
             if (post.getPublisher().equals(firebaseUser!!.uid)) {
                 Toast.makeText(mContext, "Sapi ini milik anda!", Toast.LENGTH_SHORT).show()

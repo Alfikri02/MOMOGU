@@ -62,11 +62,54 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cv_status"
+                android:id="@+id/cv_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="-14dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="6dp"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <ImageButton
+                        android:id="@+id/btn_report"
+                        style="@style/greenButtonStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="10dp"
+                        android:contentDescription="@string/content"
+                        android:src="@drawable/ic_report"
+                        app:tint="@color/white"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_done"
+                        style="@style/greenButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/btn_report"
+                        android:text="Selesaikan Pesanan!"
+                        android:textSize="16sp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_menu"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="6dp"
@@ -161,6 +204,30 @@
                         android:text="@string/zero"
                         android:textAlignment="textEnd"
                         android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/finish"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/cancel"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="4dp"
+                        android:text="Selesai Otomatis"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_dateFinish"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/finish"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/cancel"
+                        android:text="@string/zero"
+                        android:textAlignment="textEnd"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

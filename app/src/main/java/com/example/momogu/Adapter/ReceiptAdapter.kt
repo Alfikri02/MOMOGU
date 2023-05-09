@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -155,6 +156,17 @@ class ReceiptAdapter(
             holder.soldView.visibility = View.VISIBLE
         }else {
             holder.soldView.visibility = View.GONE
+        }
+
+        val waitConfirm = receipt.getStatus().equals("Menunggu konfirmasi!")
+        val currentTime = System.currentTimeMillis()
+        val timeCancel = receipt.getdtCancel()!!.toLong()
+        if (waitConfirm && currentTime == timeCancel) {
+            Toast.makeText(
+                mContext,
+                "Dikarenakan tidak ada konfirmasi, maka pesanan sapi anda telah dibatalkan secara otomatis!",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         holder.itemView.setOnClickListener {

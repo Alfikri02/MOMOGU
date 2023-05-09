@@ -10,6 +10,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -49,9 +50,14 @@ class ReceiptPostActivity : AppCompatActivity() {
 
         retrievePosts()
         retrieveBuyer()
+        finishOtomation()
 
         binding.backCheckout.setOnClickListener {
             finish()
+        }
+
+        binding.btnDone.setOnClickListener {
+            setStatusFinish()
         }
 
         binding.constraintProduct.setOnClickListener {
@@ -166,28 +172,56 @@ class ReceiptPostActivity : AppCompatActivity() {
                     val receipt = p0.getValue(ReceiptModel::class.java)
 
                     binding.tvInvoice.text = receipt!!.getPostId()
-                    binding.tvDate.text = "${getDate(receipt.getDateTime()!!.toLong(),"dd MMM yyyy, HH:mm")} WIB"
-                    binding.tvDateCancel.text = "${getDate(receipt.getdtCancel()!!.toLong(),"dd MMM yyyy, HH:mm")} WIB"
+                    binding.tvDate.text =
+                        "${getDate(receipt.getDateTime()!!.toLong(), "dd MMM yyyy, HH:mm")} WIB"
+                    binding.tvDateCancel.text =
+                        "${getDate(receipt.getdtCancel()!!.toLong(), "dd MMM yyyy, HH:mm")} WIB"
 
                     when {
                         receipt.getStatus()
                             .equals("Dikonfirmasi") -> {
                             binding.tvStatus.text = "Pesanan Dikonfirmasi!"
+                            binding.cancel.visibility = View.GONE
+                            binding.tvDateCancel.visibility = View.GONE
                         }
 
                         receipt.getStatus()
                             .equals("Diproses") -> {
                             binding.tvStatus.text = "Pesanan Diproses!"
+                            binding.cancel.visibility = View.GONE
+                            binding.tvDateCancel.visibility = View.GONE
                         }
 
                         receipt.getStatus()
                             .equals("Pengantaran") -> {
                             binding.tvStatus.text = "Dalam Pengantaran!"
+                            binding.tvDateFinish.text = "${
+                                getDate(
+                                    receipt.getdtFinish()!!.toLong(),
+                                    "dd MMM yyyy, HH:mm"
+                                )
+                            } WIB"
+                            binding.finish.visibility = View.VISIBLE
+                            binding.tvDateFinish.visibility = View.VISIBLE
+                            binding.cancel.visibility = View.GONE
+                            binding.tvDateCancel.visibility = View.GONE
                         }
 
                         receipt.getStatus()
                             .equals("Selesai") -> {
                             binding.tvStatus.text = "Selesai"
+                            binding.finish.text = "Selesai"
+                            binding.tvDateFinish.text = "${
+                                getDate(
+                                    receipt.getdtFinish()!!.toLong(),
+                                    "dd MMM yyyy, HH:mm"
+                                )
+                            } WIB"
+                            binding.cvMenu.visibility = View.GONE
+                            binding.cancel.visibility = View.GONE
+                            binding.tvDateCancel.visibility = View.GONE
+                            binding.finish.visibility = View.VISIBLE
+                            binding.tvDateFinish.visibility = View.VISIBLE
                         }
 
                         else -> {
@@ -257,6 +291,58 @@ class ReceiptPostActivity : AppCompatActivity() {
                     val phoneNumber = user!!.getWa()
                     val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
                     startActivity(intent)
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun setStatusFinish() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Peringatan!")
+            .setMessage("Apakah anda ingin menyelesaikan pesanan ini?\nJika ya, pesanan akan dinyatakan selesai dan anda tidak dapat merubah apapun lagi.")
+            .setCancelable(true)
+            .setPositiveButton("Iya") { _, _ ->
+
+                val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+                val receiptMap = HashMap<String, Any>()
+                receiptMap["status"] = "Selesai"
+                receiptMap["dtFinish"] = System.currentTimeMillis().toString()
+                ref.child(postId).updateChildren(receiptMap)
+
+                finish()
+                Toast.makeText(this, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT)
+                    .show()
+
+            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }.show()
+
+    }
+
+    private fun finishOtomation() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    if (receipt!!.getStatus().equals("Pengantaran")) {
+                        val currentTime = System.currentTimeMillis()
+                        val timeFinish = receipt.getdtFinish()!!.toLong()
+
+                        if (currentTime == timeFinish) {
+                            val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+                            val receiptMap = HashMap<String, Any>()
+                            receiptMap["status"] = "Selesai"
+                            ref.child(postId).updateChildren(receiptMap)
+                        }
+                    }
 
                 }
             }

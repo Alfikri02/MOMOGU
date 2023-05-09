@@ -2,7 +2,6 @@ package com.example.momogu.Fragments
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +14,8 @@ import com.airbnb.lottie.LottieDrawable
 import com.example.momogu.Adapter.ReceiptAdapter
 import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.databinding.FragmentReceiptBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -25,11 +26,10 @@ import kotlin.collections.ArrayList
 class ReceiptFragment : Fragment() {
 
     private lateinit var binding: FragmentReceiptBinding
-    private var postId: String = ""
-    private lateinit var profileId: String
 
     private var receiptList: List<ReceiptModel>? = null
     private var receiptAdapter: ReceiptAdapter? = null
+    private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,15 +38,7 @@ class ReceiptFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentReceiptBinding.inflate(inflater)
 
-        val preferences = context?.getSharedPreferences("POST", Context.MODE_PRIVATE)
-        if (preferences != null) {
-            postId = preferences.getString("postid", "none")!!
-        }
-
-        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
-        if (pref != null) {
-            this.profileId = pref.getString("profileId", "none").toString()
-        }
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
         val recyclerView: RecyclerView = binding.recyclerViewNotifications
         recyclerView.setHasFixedSize(true)
@@ -74,10 +66,10 @@ class ReceiptFragment : Fragment() {
                     for (snapshot in p0.children) {
                         val notification = snapshot.getValue(ReceiptModel::class.java)
 
-                        if (notification?.getSellerId().equals(profileId)) {
+                        if (notification?.getSellerId().equals(firebaseUser.uid)) {
                             (receiptList as ArrayList<ReceiptModel>).sortByDescending { it.getDateTime() }
                             (receiptList as ArrayList<ReceiptModel>).add(notification!!)
-                        } else if (notification?.getBuyerId().equals(profileId)) {
+                        } else if (notification?.getBuyerId().equals(firebaseUser.uid)) {
                             (receiptList as ArrayList<ReceiptModel>).sortByDescending { it.getDateTime() }
                             (receiptList as ArrayList<ReceiptModel>).add(notification!!)
                         }
