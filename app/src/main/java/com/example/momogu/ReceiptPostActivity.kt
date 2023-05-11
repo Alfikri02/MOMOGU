@@ -50,6 +50,7 @@ class ReceiptPostActivity : AppCompatActivity() {
 
         retrievePosts()
         retrieveBuyer()
+        cancelOtomation()
         finishOtomation()
 
         binding.backCheckout.setOnClickListener {
@@ -323,6 +324,34 @@ class ReceiptPostActivity : AppCompatActivity() {
 
     }
 
+    private fun cancelOtomation() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    if (receipt!!.getStatus().equals("Menunggu konfirmasi!")) {
+                        val currentTime = System.currentTimeMillis()
+                        val timeCancel = receipt.getdtCancel()!!.toLong()
+
+                        if (currentTime >= timeCancel) {
+                            val postRef =
+                                FirebaseDatabase.getInstance().getReference("Receipt")
+                                    .child(postId)
+                            postRef.removeValue()
+                        }
+                    }
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
     private fun finishOtomation() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
 
@@ -336,7 +365,7 @@ class ReceiptPostActivity : AppCompatActivity() {
                         val currentTime = System.currentTimeMillis()
                         val timeFinish = receipt.getdtFinish()!!.toLong()
 
-                        if (currentTime == timeFinish) {
+                        if (currentTime >= timeFinish) {
                             val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
                             val receiptMap = HashMap<String, Any>()
                             receiptMap["status"] = "Selesai"

@@ -54,7 +54,8 @@ class ReceiptUserActivity : AppCompatActivity() {
 
         retrievePosts()
         retrieveBuyer()
-        deleteOtomation()
+        cancelOtomation()
+        finishOtomation()
 
         binding.backCheckout.setOnClickListener {
             finish()
@@ -77,8 +78,7 @@ class ReceiptUserActivity : AppCompatActivity() {
         }
 
         binding.btnCancel.setOnClickListener {
-            //cancelVal()
-            cancelReceipt()
+            cancelVal()
         }
 
         binding.constraintProduct.setOnClickListener {
@@ -307,7 +307,7 @@ class ReceiptUserActivity : AppCompatActivity() {
         })
     }
 
-    private fun deleteOtomation() {
+    private fun cancelOtomation() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
 
         postsRef.addValueEventListener(object : ValueEventListener {
@@ -316,15 +316,44 @@ class ReceiptUserActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val receipt = p0.getValue(ReceiptModel::class.java)
 
-                    val waitConfirm = receipt!!.getStatus().equals("Menunggu konfirmasi!")
-                    val currentTime = System.currentTimeMillis()
-                    val timeCancel = receipt.getdtCancel()!!.toLong()
+                    if (receipt!!.getStatus().equals("Menunggu konfirmasi!")) {
+                        val currentTime = System.currentTimeMillis()
+                        val timeCancel = receipt.getdtCancel()!!.toLong()
 
-                    if (waitConfirm && currentTime == timeCancel) {
-                        val postRef =
-                            FirebaseDatabase.getInstance().getReference("Receipt")
-                                .child(postId)
-                        postRef.removeValue()
+                        if (currentTime >= timeCancel) {
+                            val postRef =
+                                FirebaseDatabase.getInstance().getReference("Receipt")
+                                    .child(postId)
+                            postRef.removeValue()
+                        }
+                    }
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun finishOtomation() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    if (receipt!!.getStatus().equals("Pengantaran")) {
+                        val currentTime = System.currentTimeMillis()
+                        val timeFinish = receipt.getdtFinish()!!.toLong()
+
+                        if (currentTime >= timeFinish) {
+                            val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+                            val receiptMap = HashMap<String, Any>()
+                            receiptMap["status"] = "Selesai"
+                            ref.child(postId).updateChildren(receiptMap)
+                        }
                     }
 
                 }
@@ -434,59 +463,44 @@ class ReceiptUserActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val receipt = p0.getValue(ReceiptModel::class.java)
 
-                    when {
-                        receipt!!.getStatus()
-                            .equals("Menunggu konfirmasi!") -> {
-                            cancelReceipt()
-                        }
+                    val waitConfirm = receipt!!.getStatus().equals("Menunggu konfirmasi!")
+                    val confirm = receipt.getStatus().equals("Dikonfirmasi")
 
-                        receipt.getStatus()
-                            .equals("Dikonfirmasi") -> {
-                            cancelReceipt()
-                        }
+                    if (waitConfirm || confirm) {
+                        builder.setTitle("Peringatan!")
+                            .setMessage("Apakah anda ingin membatalkan transaksi ini?")
+                            .setCancelable(true)
+                            .setPositiveButton("Iya") { _, _ ->
 
-                        receipt.getStatus()
-                            .equals("Diproses") -> {
-                            cancelReceipt()
-                        }
+                                val postRef =
+                                    FirebaseDatabase.getInstance().getReference("Receipt")
+                                        .child(postId)
+                                postRef.removeValue()
 
-                        else -> {
-                            Toast.makeText(
-                                applicationContext,
-                                "Transaksi terlalu jauh!, Laporkan transaksi melalui pembeli untuk membatalkan transaksi ini!",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Transaksi berhasil dibatalkan",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                finish()
+                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                                dialogInterface.cancel()
+                            }.show()
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Transaksi terlalu jauh!, Laporkan transaksi melalui pembeli untuk membatalkan transaksi ini!",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
+
 
                 }
             }
 
             override fun onCancelled(p0: DatabaseError) {}
         })
-    }
-
-    private fun cancelReceipt() {
-        builder.setTitle("Peringatan!")
-            .setMessage("Apakah anda ingin membatalkan transaksi ini?")
-            .setCancelable(true)
-            .setPositiveButton("Iya") { _, _ ->
-
-                val postRef =
-                    FirebaseDatabase.getInstance().getReference("Receipt")
-                        .child(postId)
-                postRef.removeValue()
-
-                Toast.makeText(
-                    applicationContext,
-                    "Transaksi berhasil dibatalkan",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-                finish()
-            }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                dialogInterface.cancel()
-            }.show()
     }
 
 }

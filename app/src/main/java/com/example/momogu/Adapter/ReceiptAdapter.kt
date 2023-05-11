@@ -158,15 +158,30 @@ class ReceiptAdapter(
             holder.soldView.visibility = View.GONE
         }
 
-        val waitConfirm = receipt.getStatus().equals("Menunggu konfirmasi!")
-        val currentTime = System.currentTimeMillis()
-        val timeCancel = receipt.getdtCancel()!!.toLong()
-        if (waitConfirm && currentTime == timeCancel) {
-            Toast.makeText(
-                mContext,
-                "Dikarenakan tidak ada konfirmasi, maka pesanan sapi anda telah dibatalkan secara otomatis!",
-                Toast.LENGTH_LONG
-            ).show()
+        if (receipt.getStatus().equals("Menunggu konfirmasi!")) {
+            val currentTime = System.currentTimeMillis()
+            val timeCancel = receipt.getdtCancel()!!.toLong()
+
+            if (currentTime >= timeCancel) {
+                Toast.makeText(
+                    mContext,
+                    "Dikarenakan tidak ada konfirmasi, maka pesanan sapi telah dibatalkan secara otomatis!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        if (receipt.getStatus().equals("Pengantaran")) {
+            val currentTime = System.currentTimeMillis()
+            val timeFinish = receipt.getdtFinish()!!.toLong()
+
+            if (currentTime >= timeFinish) {
+                Toast.makeText(
+                    mContext,
+                    "Dikarenakan pesanan tidak diselesaikan pembeli, maka pesanan sapi telah diselesaikan secara otomatis!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         holder.itemView.setOnClickListener {
