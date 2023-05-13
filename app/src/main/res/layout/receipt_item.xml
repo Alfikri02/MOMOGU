@@ -59,10 +59,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="4dp"
+                app:cardElevation="2dp"
                 android:layout_marginTop="5dp"
                 app:cardUseCompatPadding="true"
-                android:background="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/menu_receipt"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
@@ -177,25 +176,31 @@
             android:text="@string/zero"
             android:textSize="16sp" />
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/layoutSoldView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:foregroundGravity="center"
-        android:background="@color/empat"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/soldTitle"
-            android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_BtnStatus"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sapi Terjual!"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:gravity="center" />
+            app:cardCornerRadius="5dp"
+            app:cardElevation="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/ijotua"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/line2">
+
+            <TextView
+                android:id="@+id/btn_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:fontFamily="@font/poppins_thin"
+                android:text="Status"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 

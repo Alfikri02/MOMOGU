@@ -34,6 +34,7 @@ class ReceiptPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReceiptPostBinding
     private var postId: String = ""
     private lateinit var locationManager: LocationManager
+    private lateinit var builder: AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,8 @@ class ReceiptPostActivity : AppCompatActivity() {
         setContentView(view)
 
         locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
+
+        builder = AlertDialog.Builder(this)
 
         val preferences = this.getSharedPreferences("POST", Context.MODE_PRIVATE)
         if (preferences != null) {
@@ -58,7 +61,11 @@ class ReceiptPostActivity : AppCompatActivity() {
         }
 
         binding.btnDone.setOnClickListener {
-            setStatusFinish()
+            finishVal()
+        }
+
+        binding.tvStatus.setOnClickListener{
+            startActivity(Intent(this, StatusActivity::class.java))
         }
 
         binding.constraintProduct.setOnClickListener {
@@ -300,28 +307,51 @@ class ReceiptPostActivity : AppCompatActivity() {
         })
     }
 
-    private fun setStatusFinish() {
+    private fun finishVal() {
 
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Peringatan!")
-            .setMessage("Apakah anda ingin menyelesaikan pesanan ini?\nJika ya, pesanan akan dinyatakan selesai dan anda tidak dapat merubah apapun lagi.")
-            .setCancelable(true)
-            .setPositiveButton("Iya") { _, _ ->
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
 
-                val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
-                val receiptMap = HashMap<String, Any>()
-                receiptMap["status"] = "Selesai"
-                receiptMap["dtFinish"] = System.currentTimeMillis().toString()
-                ref.child(postId).updateChildren(receiptMap)
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
 
-                finish()
-                Toast.makeText(this, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT)
-                    .show()
+                    val shipping = receipt!!.getStatus().equals("Pengantaran")
 
-            }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                dialogInterface.cancel()
-            }.show()
+                    if (shipping) {
+                        builder.setTitle("Peringatan!")
+                            .setMessage("Apakah anda ingin menyelesaikan pesanan ini?\nJika ya, pesanan akan dinyatakan selesai dan anda tidak dapat merubah apapun lagi.")
+                            .setCancelable(true)
+                            .setPositiveButton("Iya") { _, _ ->
 
+                                val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
+                                val receiptMap = HashMap<String, Any>()
+                                receiptMap["status"] = "Selesai"
+                                receiptMap["dtFinish"] = System.currentTimeMillis().toString()
+                                ref.child(postId).updateChildren(receiptMap)
+
+                                finish()
+                                Toast.makeText(applicationContext, "Pesanan telah diselesaikan!", Toast.LENGTH_SHORT)
+                                    .show()
+
+                            }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                                dialogInterface.cancel()
+                            }.show()
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Transaksi hanya dapat diselesaikan setelah pengantaran!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
     }
 
     private fun cancelOtomation() {

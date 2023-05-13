@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StatusActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_status"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp">
+
+                <ImageView
+                    android:id="@+id/back_status"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_thin"
+                    android:text="Detail Status"
+                    android:textSize="20sp"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar_status"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/ic_confirm"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_confirm"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/ic_process"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorBlack" />
+
+                <ImageView
+                    android:id="@+id/check_confirm"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_adjust"
+                    app:layout_constraintEnd_toEndOf="@+id/ic_confirm"
+                    app:layout_constraintStart_toStartOf="@+id/ic_confirm"
+                    app:layout_constraintTop_toBottomOf="@+id/ic_confirm"
+                    app:tint="@color/colorBlack" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="@dimen/zerodp"
+                    android:layout_height="1dp"
+                    android:background="@color/abugelap"
+                    app:layout_constraintBottom_toBottomOf="@+id/check_confirm"
+                    app:layout_constraintEnd_toStartOf="@+id/check_process"
+                    app:layout_constraintStart_toEndOf="@+id/check_confirm"
+                    app:layout_constraintTop_toTopOf="@+id/check_confirm" />
+
+                <ImageView
+                    android:id="@+id/ic_process"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_process"
+                    app:layout_constraintLeft_toRightOf="@+id/ic_confirm"
+                    app:layout_constraintRight_toLeftOf="@+id/ic_shipping"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorBlack" />
+
+                <ImageView
+                    android:id="@+id/check_process"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_adjust"
+                    app:layout_constraintEnd_toEndOf="@+id/ic_process"
+                    app:layout_constraintStart_toStartOf="@+id/ic_process"
+                    app:layout_constraintTop_toBottomOf="@+id/ic_process"
+                    app:tint="@color/colorBlack" />
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="@dimen/zerodp"
+                    android:layout_height="1dp"
+                    android:background="@color/abugelap"
+                    app:layout_constraintBottom_toBottomOf="@+id/check_process"
+                    app:layout_constraintEnd_toStartOf="@+id/check_shipping"
+                    app:layout_constraintStart_toEndOf="@+id/check_process"
+                    app:layout_constraintTop_toTopOf="@+id/check_process" />
+
+                <ImageView
+                    android:id="@+id/ic_shipping"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_shipping"
+                    app:layout_constraintLeft_toRightOf="@+id/ic_process"
+                    app:layout_constraintRight_toLeftOf="@+id/ic_finish"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorBlack" />
+
+                <ImageView
+                    android:id="@+id/check_shipping"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_adjust"
+                    app:layout_constraintEnd_toEndOf="@+id/ic_shipping"
+                    app:layout_constraintStart_toStartOf="@+id/ic_shipping"
+                    app:layout_constraintTop_toBottomOf="@+id/ic_shipping"
+                    app:tint="@color/colorBlack" />
+
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="@dimen/zerodp"
+                    android:layout_height="1dp"
+                    android:background="@color/abugelap"
+                    app:layout_constraintBottom_toBottomOf="@+id/check_shipping"
+                    app:layout_constraintEnd_toStartOf="@+id/check_finish"
+                    app:layout_constraintStart_toEndOf="@+id/check_shipping"
+                    app:layout_constraintTop_toTopOf="@+id/check_shipping" />
+
+                <ImageView
+                    android:id="@+id/ic_finish"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_finish"
+                    app:layout_constraintLeft_toRightOf="@+id/ic_shipping"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorBlack" />
+
+                <ImageView
+                    android:id="@+id/check_finish"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_adjust"
+                    app:layout_constraintEnd_toEndOf="@+id/ic_finish"
+                    app:layout_constraintStart_toStartOf="@+id/ic_finish"
+                    app:layout_constraintTop_toBottomOf="@+id/ic_finish"
+                    app:tint="@color/colorBlack" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/header_status"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:text="Status"
+                android:textAlignment="center"
+                android:textColor="@color/ijotua"
+                android:textSize="16sp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/rv_post"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv_status"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="6dp"
+                app:cardUseCompatPadding="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/con_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/status_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="Status Pemesanan"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/line_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/abugelap"
+                        app:layout_constraintTop_toBottomOf="@+id/status_header" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/line_status">
+
+                        <ImageView
+                            android:id="@+id/dotFinish"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:contentDescription="@string/content"
+                            android:src="@drawable/ic_dot"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/colorBlack"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/finish"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text="Sistem Otomatis - Date"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotFinish"
+                            app:layout_constraintEnd_toStartOf="@+id/timeFinish"
+                            app:layout_constraintStart_toEndOf="@+id/dotFinish"
+                            app:layout_constraintTop_toTopOf="@+id/dotFinish"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/timeFinish"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotFinish"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/dotFinish"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/detailFinish"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2dp"
+                            android:paddingBottom="20dp"
+                            android:text="Transaksi selesai"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@+id/finish"
+                            app:layout_constraintStart_toStartOf="@+id/finish"
+                            app:layout_constraintTop_toBottomOf="@+id/finish"
+                            android:visibility="gone"/>
+
+                        <View
+                            android:id="@+id/lineFinish"
+                            android:layout_width="1dp"
+                            android:layout_height="@dimen/zerodp"
+                            android:background="@color/abugelap"
+                            app:layout_constraintBottom_toTopOf="@+id/dotBuyerFinish"
+                            app:layout_constraintEnd_toEndOf="@+id/dotFinish"
+                            app:layout_constraintStart_toStartOf="@+id/dotFinish"
+                            app:layout_constraintTop_toBottomOf="@+id/dotFinish"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/dotBuyerFinish"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:contentDescription="@string/content"
+                            android:src="@drawable/ic_dot"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detailFinish"
+                            app:tint="@color/colorBlack"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/buyerFinish"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text="Pembeli - Date"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotBuyerFinish"
+                            app:layout_constraintEnd_toStartOf="@+id/timeBuyerFinish"
+                            app:layout_constraintStart_toEndOf="@+id/dotBuyerFinish"
+                            app:layout_constraintTop_toTopOf="@+id/dotBuyerFinish"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/timeBuyerFinish"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotBuyerFinish"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/dotBuyerFinish"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/detailBuyerFinish"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2dp"
+                            android:paddingBottom="20dp"
+                            android:text="Sapi telah diterima dengan baik dan pesanan selesai."
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@+id/buyerFinish"
+                            app:layout_constraintStart_toStartOf="@+id/buyerFinish"
+                            app:layout_constraintTop_toBottomOf="@+id/buyerFinish"
+                            android:visibility="gone"/>
+
+                        <View
+                            android:id="@+id/lineBuyerFinish"
+                            android:layout_width="1dp"
+                            android:layout_height="@dimen/zerodp"
+                            android:background="@color/abugelap"
+                            app:layout_constraintBottom_toTopOf="@+id/dotShipping"
+                            app:layout_constraintEnd_toEndOf="@+id/dotBuyerFinish"
+                            app:layout_constraintStart_toStartOf="@+id/dotBuyerFinish"
+                            app:layout_constraintTop_toBottomOf="@+id/dotBuyerFinish"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/dotShipping"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:contentDescription="@string/content"
+                            android:src="@drawable/ic_dot"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detailBuyerFinish"
+                            app:tint="@color/colorBlack"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/shipping"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text="Penjual - Date"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotShipping"
+                            app:layout_constraintEnd_toStartOf="@+id/timeShipping"
+                            app:layout_constraintStart_toEndOf="@+id/dotShipping"
+                            app:layout_constraintTop_toTopOf="@+id/dotShipping"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/timeShipping"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotShipping"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/dotShipping"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/detailShipping"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2dp"
+                            android:paddingBottom="20dp"
+                            android:text="Sapi dalam proses pengiriman oleh penjual ke alamat pembeli."
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@+id/shipping"
+                            app:layout_constraintStart_toStartOf="@+id/shipping"
+                            app:layout_constraintTop_toBottomOf="@+id/shipping"
+                            android:visibility="gone"/>
+
+                        <View
+                            android:id="@+id/lineShipping"
+                            android:layout_width="1dp"
+                            android:layout_height="@dimen/zerodp"
+                            android:background="@color/abugelap"
+                            app:layout_constraintBottom_toTopOf="@+id/dotProcess"
+                            app:layout_constraintEnd_toEndOf="@+id/dotShipping"
+                            app:layout_constraintStart_toStartOf="@+id/dotShipping"
+                            app:layout_constraintTop_toBottomOf="@+id/dotShipping"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/dotProcess"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:contentDescription="@string/content"
+                            android:src="@drawable/ic_dot"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detailShipping"
+                            app:tint="@color/colorBlack"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/process"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text="Penjual - Date"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotProcess"
+                            app:layout_constraintEnd_toStartOf="@+id/timeProcess"
+                            app:layout_constraintStart_toEndOf="@+id/dotProcess"
+                            app:layout_constraintTop_toTopOf="@+id/dotProcess"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/timeProcess"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotProcess"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/dotProcess"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/detailProcess"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2dp"
+                            android:paddingBottom="20dp"
+                            android:text="Pesanan sapi sedang dalam pemrosesan oleh penjual."
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@+id/process"
+                            app:layout_constraintStart_toStartOf="@+id/process"
+                            app:layout_constraintTop_toBottomOf="@+id/process"
+                            android:visibility="gone"/>
+
+                        <View
+                            android:id="@+id/lineProcess"
+                            android:layout_width="1dp"
+                            android:layout_height="@dimen/zerodp"
+                            android:background="@color/abugelap"
+                            app:layout_constraintBottom_toTopOf="@+id/dotConfirm"
+                            app:layout_constraintEnd_toEndOf="@+id/dotProcess"
+                            app:layout_constraintStart_toStartOf="@+id/dotProcess"
+                            app:layout_constraintTop_toBottomOf="@+id/dotProcess"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/dotConfirm"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:contentDescription="@string/content"
+                            android:src="@drawable/ic_dot"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detailProcess"
+                            app:tint="@color/colorBlack"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/confirm"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text="Penjual - Date"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotConfirm"
+                            app:layout_constraintEnd_toStartOf="@+id/timeConfirm"
+                            app:layout_constraintStart_toEndOf="@+id/dotConfirm"
+                            app:layout_constraintTop_toTopOf="@+id/dotConfirm"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/timeConfirm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotConfirm"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/dotConfirm"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/detailConfirm"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2dp"
+                            android:paddingBottom="20dp"
+                            android:text="Pesanan sapi telah dikonfirmasi oleh penjual."
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@+id/confirm"
+                            app:layout_constraintStart_toStartOf="@+id/confirm"
+                            app:layout_constraintTop_toBottomOf="@+id/confirm"
+                            android:visibility="gone"/>
+
+                        <View
+                            android:id="@+id/lineConfirm"
+                            android:layout_width="1dp"
+                            android:layout_height="@dimen/zerodp"
+                            android:background="@color/abugelap"
+                            app:layout_constraintBottom_toTopOf="@+id/dotWaitConfirm"
+                            app:layout_constraintEnd_toEndOf="@+id/dotConfirm"
+                            app:layout_constraintStart_toStartOf="@+id/dotConfirm"
+                            app:layout_constraintTop_toBottomOf="@+id/dotConfirm"/>
+
+                        <ImageView
+                            android:id="@+id/dotWaitConfirm"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:contentDescription="@string/content"
+                            android:src="@drawable/ic_dot"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detailConfirm"
+                            app:tint="@color/ijotua" />
+
+                        <TextView
+                            android:id="@+id/waitConfirm"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text="Pembeli - Date"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotWaitConfirm"
+                            app:layout_constraintEnd_toStartOf="@+id/timeWaitConfirm"
+                            app:layout_constraintStart_toEndOf="@+id/dotWaitConfirm"
+                            app:layout_constraintTop_toTopOf="@+id/dotWaitConfirm" />
+
+                        <TextView
+                            android:id="@+id/timeWaitConfirm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotWaitConfirm"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/dotWaitConfirm" />
+
+                        <TextView
+                            android:id="@+id/detailWaitConfirm"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2dp"
+                            android:paddingBottom="20dp"
+                            android:text="Sapi dipesan, menunggu konfirmasi oleh penjual."
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@+id/waitConfirm"
+                            app:layout_constraintStart_toStartOf="@+id/waitConfirm"
+                            app:layout_constraintTop_toBottomOf="@+id/waitConfirm" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -40,7 +39,8 @@ class ReceiptAdapter(
         var cvStatus: CardView
         var menu: ImageView
         var firebaseUser: FirebaseUser
-        var soldView: RelativeLayout
+        var cvBtnStatus: CardView
+        var tvBtnStatus: TextView
 
         init {
             postImage = itemView.findViewById(R.id.post_image_receipt)
@@ -51,7 +51,8 @@ class ReceiptAdapter(
             cvStatus = itemView.findViewById(R.id.cv_status)
             menu = itemView.findViewById(R.id.menu_receipt)
             firebaseUser = FirebaseAuth.getInstance().currentUser!!
-            soldView = itemView.findViewById(R.id.layoutSoldView)
+            cvBtnStatus = itemView.findViewById(R.id.cv_BtnStatus)
+            tvBtnStatus = itemView.findViewById(R.id.btn_status)
         }
     }
 
@@ -66,7 +67,6 @@ class ReceiptAdapter(
 
     @SuppressLint("DiscouragedPrivateApi", "SetTextI18n", "ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.soldView.visibility = View.GONE
         val receipt = mReceipt[position]
 
         when {
@@ -136,6 +136,7 @@ class ReceiptAdapter(
                         R.color.ijotua
                     )
                 )
+                holder.tvBtnStatus.text = "Beli Lagi"
             }
 
             else -> {
@@ -150,12 +151,6 @@ class ReceiptAdapter(
             holder.menu.visibility = View.VISIBLE
         } else {
             holder.menu.visibility = View.GONE
-        }
-
-        if (receipt.getStatus().equals("Selesai")) {
-            holder.soldView.visibility = View.VISIBLE
-        }else {
-            holder.soldView.visibility = View.GONE
         }
 
         if (receipt.getStatus().equals("Menunggu konfirmasi!")) {
@@ -204,6 +199,18 @@ class ReceiptAdapter(
                 editorPost.apply()
 
                 mContext.startActivity(Intent(mContext, ReceiptPostActivity::class.java))
+            }
+        }
+
+        holder.cvBtnStatus.setOnClickListener {
+            if (receipt.getStatus().equals("Selesai")){
+                mContext.startActivity(Intent(mContext, MainActivity::class.java))
+            } else {
+                val editorPost = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+                editorPost.putString("postid", receipt.getPostId())
+                editorPost.apply()
+
+                mContext.startActivity(Intent(mContext, StatusActivity::class.java))
             }
         }
     }

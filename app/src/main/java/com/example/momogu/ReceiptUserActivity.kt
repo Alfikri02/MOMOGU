@@ -81,6 +81,10 @@ class ReceiptUserActivity : AppCompatActivity() {
             cancelVal()
         }
 
+        binding.tvStatus.setOnClickListener {
+            startActivity(Intent(this, StatusActivity::class.java))
+        }
+
         binding.constraintProduct.setOnClickListener {
             startActivity(Intent(this, DetailPostActivity::class.java))
         }
@@ -398,7 +402,7 @@ class ReceiptUserActivity : AppCompatActivity() {
                 val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
                 val receiptMap = HashMap<String, Any>()
                 receiptMap["status"] = "Diproses"
-                receiptMap["dtProses"] = System.currentTimeMillis().toString()
+                receiptMap["dtProcess"] = System.currentTimeMillis().toString()
                 ref.child(postId).updateChildren(receiptMap)
 
                 finish()

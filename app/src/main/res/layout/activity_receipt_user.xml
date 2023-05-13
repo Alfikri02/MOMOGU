@@ -110,8 +110,8 @@
                         android:layout_toEndOf="@+id/btn_cancel"
                         android:text="Proses Pesanan!"
                         android:textSize="16sp"
-                        tools:ignore="TouchTargetSizeCheck"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_delivery"
@@ -122,8 +122,8 @@
                         android:layout_toEndOf="@+id/btn_cancel"
                         android:text="Antar Pesanan!"
                         android:textSize="16sp"
-                        tools:ignore="TouchTargetSizeCheck"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_finish"
@@ -134,8 +134,8 @@
                         android:layout_toEndOf="@+id/btn_cancel"
                         android:text="Menunggu Penyelesaian!"
                         android:textSize="16sp"
-                        tools:ignore="TouchTargetSizeCheck"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -154,8 +154,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginVertical="10dp">
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginStart="10dp">
 
                     <TextView
                         android:id="@+id/tv_status"
@@ -163,10 +163,12 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginEnd="10dp"
+                        android:layout_alignParentEnd="true"
                         android:fontFamily="@font/poppins_thin"
+                        android:paddingEnd="4dp"
                         android:text="Status"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        app:drawableEndCompat="@drawable/ic_forward" />
 
                     <View
                         android:id="@+id/line_status"
@@ -174,6 +176,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/tv_status"
                         android:layout_marginBottom="6dp"
+                        android:layout_marginTop="6dp"
                         android:background="@android:color/darker_gray" />
 
                     <TextView
@@ -191,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/invoice"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginHorizontal="10dp"
                         android:layout_toEndOf="@+id/invoice"
                         android:text="@string/zero"
                         android:textAlignment="textEnd"
@@ -213,7 +216,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/date"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginHorizontal="10dp"
                         android:layout_toEndOf="@+id/date"
                         android:text="@string/zero"
                         android:textAlignment="textEnd"
@@ -235,7 +238,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/cancel"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginHorizontal="10dp"
                         android:layout_toEndOf="@+id/cancel"
                         android:text="@string/zero"
                         android:textAlignment="textEnd"

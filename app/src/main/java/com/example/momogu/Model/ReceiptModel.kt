@@ -8,7 +8,7 @@ class ReceiptModel {
     private var dateTime: String? = null
     private var dtCancel: String? = null
     private var dtConfirm: String? = null
-    private var dtProses: String? = null
+    private var dtProcess: String? = null
     private var dtDelivery: String? = null
     private var dtFinish: String? = null
 
@@ -22,7 +22,7 @@ class ReceiptModel {
         dateTime: String?,
         dtCancel: String?,
         dtConfirm: String?,
-        dtProses: String?,
+        dtProcess: String?,
         dtDelivery: String?,
         dtFinish: String?
     ) {
@@ -33,7 +33,7 @@ class ReceiptModel {
         this.dateTime = dateTime
         this.dtCancel = dtCancel
         this.dtConfirm = dtConfirm
-        this.dtProses = dtProses
+        this.dtProcess = dtProcess
         this.dtDelivery = dtDelivery
         this.dtFinish = dtFinish
     }
@@ -66,8 +66,8 @@ class ReceiptModel {
         return dtConfirm
     }
 
-    fun getdtProses(): String? {
-        return dtProses
+    fun getdtProcess(): String? {
+        return dtProcess
     }
 
     fun getdtDelivery(): String? {
