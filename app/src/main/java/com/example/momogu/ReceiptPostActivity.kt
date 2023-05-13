@@ -64,6 +64,10 @@ class ReceiptPostActivity : AppCompatActivity() {
             finishVal()
         }
 
+        binding.btnReport.setOnClickListener {
+            startActivity(Intent(this, ReportActivity::class.java))
+        }
+
         binding.tvStatus.setOnClickListener{
             startActivity(Intent(this, StatusActivity::class.java))
         }

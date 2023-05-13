@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/tv_dropdown"
-    android:text="@string/gender"
+    android:text="Item"
     android:textSize="18sp"
     android:paddingStart="30dp"
     android:paddingEnd="8dp"

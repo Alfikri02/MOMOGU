@@ -88,4 +88,11 @@
         <item>Betina</item>
     </string-array>
 
+    <string-array name="Kop">
+        <item>Batalkan Transaksi</item>
+        <item>Sapi Tidak Sampai</item>
+        <item>Sapi Tidak Sesuai Deskripsi</item>
+        <item>Biaya Transaksi Tidak Sesuai</item>
+    </string-array>
+
 </resources>
