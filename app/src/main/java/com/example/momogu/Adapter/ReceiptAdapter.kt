@@ -122,6 +122,23 @@ class ReceiptAdapter(
             }
 
             receipt.getStatus()
+                .equals("Sampai") -> {
+                holder.status.text = "Telah Sampai!"
+                holder.status.setTextColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.ijotua
+                    )
+                )
+                holder.cvStatus.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.tea
+                    )
+                )
+            }
+
+            receipt.getStatus()
                 .equals("Selesai") -> {
                 holder.status.text = "Selesai"
                 holder.status.setTextColor(
@@ -166,11 +183,11 @@ class ReceiptAdapter(
             }
         }
 
-        if (receipt.getStatus().equals("Pengantaran")) {
+        if (receipt.getStatus().equals("Sampai")) {
             val currentTime = System.currentTimeMillis()
-            val timeFinish = receipt.getdtFinish()!!.toLong()
+            val timeFinishOto = receipt.getdtFinishOto()!!.toLong()
 
-            if (currentTime >= timeFinish) {
+            if (currentTime >= timeFinishOto) {
                 Toast.makeText(
                     mContext,
                     "Dikarenakan pesanan tidak diselesaikan pembeli, maka pesanan sapi telah diselesaikan secara otomatis!",

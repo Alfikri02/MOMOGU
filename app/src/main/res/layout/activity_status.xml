@@ -360,10 +360,68 @@
                             android:layout_width="1dp"
                             android:layout_height="@dimen/zerodp"
                             android:background="@color/abugelap"
-                            app:layout_constraintBottom_toTopOf="@+id/dotShipping"
+                            app:layout_constraintBottom_toTopOf="@+id/dotArrived"
                             app:layout_constraintEnd_toEndOf="@+id/dotBuyerFinish"
                             app:layout_constraintStart_toStartOf="@+id/dotBuyerFinish"
                             app:layout_constraintTop_toBottomOf="@+id/dotBuyerFinish"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/dotArrived"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:contentDescription="@string/content"
+                            android:src="@drawable/ic_dot"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/detailBuyerFinish"
+                            app:tint="@color/colorBlack"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/arrived"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:text="Penjual - Date"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotArrived"
+                            app:layout_constraintEnd_toStartOf="@+id/timeArrived"
+                            app:layout_constraintStart_toEndOf="@+id/dotArrived"
+                            app:layout_constraintTop_toTopOf="@+id/dotArrived"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/timeArrived"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time"
+                            app:layout_constraintBottom_toBottomOf="@+id/dotArrived"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/dotArrived"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/detailArrived"
+                            android:layout_width="@dimen/zerodp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2dp"
+                            android:paddingBottom="20dp"
+                            android:text="Sapi telah sampai di alamat tujuan"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@+id/arrived"
+                            app:layout_constraintStart_toStartOf="@+id/arrived"
+                            app:layout_constraintTop_toBottomOf="@+id/arrived"
+                            android:visibility="gone"/>
+
+                        <View
+                            android:id="@+id/lineArrived"
+                            android:layout_width="1dp"
+                            android:layout_height="@dimen/zerodp"
+                            android:background="@color/abugelap"
+                            app:layout_constraintBottom_toTopOf="@+id/dotShipping"
+                            app:layout_constraintEnd_toEndOf="@+id/dotArrived"
+                            app:layout_constraintStart_toStartOf="@+id/dotArrived"
+                            app:layout_constraintTop_toBottomOf="@+id/dotArrived"
                             android:visibility="gone"/>
 
                         <ImageView
@@ -373,7 +431,7 @@
                             android:contentDescription="@string/content"
                             android:src="@drawable/ic_dot"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/detailBuyerFinish"
+                            app:layout_constraintTop_toBottomOf="@+id/detailArrived"
                             app:tint="@color/colorBlack"
                             android:visibility="gone"/>
 
@@ -464,7 +522,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginTop="2dp"
                             android:paddingBottom="20dp"
-                            android:text="Pesanan sapi sedang dalam pemrosesan oleh penjual."
+                            android:text="Pesanan sapi sedang di proses oleh penjual."
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/process"
                             app:layout_constraintStart_toStartOf="@+id/process"

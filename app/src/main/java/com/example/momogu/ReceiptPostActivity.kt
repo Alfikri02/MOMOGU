@@ -61,11 +61,11 @@ class ReceiptPostActivity : AppCompatActivity() {
         }
 
         binding.btnDone.setOnClickListener {
-            finishVal()
+            setStatusFinish()
         }
 
         binding.btnReport.setOnClickListener {
-            startActivity(Intent(this, ReportActivity::class.java))
+            reportTrans()
         }
 
         binding.tvStatus.setOnClickListener{
@@ -195,6 +195,8 @@ class ReceiptPostActivity : AppCompatActivity() {
                             binding.tvStatus.text = "Pesanan Dikonfirmasi!"
                             binding.cancel.visibility = View.GONE
                             binding.tvDateCancel.visibility = View.GONE
+                            binding.finishOto.visibility = View.GONE
+                            binding.tvDateFinishOto.visibility = View.GONE
                         }
 
                         receipt.getStatus()
@@ -202,19 +204,30 @@ class ReceiptPostActivity : AppCompatActivity() {
                             binding.tvStatus.text = "Pesanan Diproses!"
                             binding.cancel.visibility = View.GONE
                             binding.tvDateCancel.visibility = View.GONE
+                            binding.finishOto.visibility = View.GONE
+                            binding.tvDateFinishOto.visibility = View.GONE
                         }
 
                         receipt.getStatus()
                             .equals("Pengantaran") -> {
                             binding.tvStatus.text = "Dalam Pengantaran!"
-                            binding.tvDateFinish.text = "${
+                            binding.cancel.visibility = View.GONE
+                            binding.tvDateCancel.visibility = View.GONE
+                            binding.finishOto.visibility = View.GONE
+                            binding.tvDateFinishOto.visibility = View.GONE
+                        }
+
+                        receipt.getStatus()
+                            .equals("Sampai") -> {
+                            binding.tvStatus.text = "Telah Sampai!"
+                            binding.tvDateFinishOto.text = "${
                                 getDate(
-                                    receipt.getdtFinish()!!.toLong(),
+                                    receipt.getdtFinishOto()!!.toLong(),
                                     "dd MMM yyyy, HH:mm"
                                 )
                             } WIB"
-                            binding.finish.visibility = View.VISIBLE
-                            binding.tvDateFinish.visibility = View.VISIBLE
+                            binding.finishOto.visibility = View.VISIBLE
+                            binding.tvDateFinishOto.visibility = View.VISIBLE
                             binding.cancel.visibility = View.GONE
                             binding.tvDateCancel.visibility = View.GONE
                         }
@@ -232,12 +245,16 @@ class ReceiptPostActivity : AppCompatActivity() {
                             binding.cvMenu.visibility = View.GONE
                             binding.cancel.visibility = View.GONE
                             binding.tvDateCancel.visibility = View.GONE
+                            binding.finishOto.visibility = View.GONE
+                            binding.tvDateFinishOto.visibility = View.GONE
                             binding.finish.visibility = View.VISIBLE
                             binding.tvDateFinish.visibility = View.VISIBLE
                         }
 
                         else -> {
                             binding.tvStatus.text = receipt.getStatus()
+                            binding.finishOto.visibility = View.GONE
+                            binding.tvDateFinishOto.visibility = View.GONE
                         }
                     }
 
@@ -311,7 +328,7 @@ class ReceiptPostActivity : AppCompatActivity() {
         })
     }
 
-    private fun finishVal() {
+    private fun setStatusFinish() {
 
         val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
 
@@ -321,9 +338,9 @@ class ReceiptPostActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val receipt = p0.getValue(ReceiptModel::class.java)
 
-                    val shipping = receipt!!.getStatus().equals("Pengantaran")
+                    val arrived = receipt!!.getStatus().equals("Sampai")
 
-                    if (shipping) {
+                    if (arrived) {
                         builder.setTitle("Peringatan!")
                             .setMessage("Apakah anda ingin menyelesaikan pesanan ini?\nJika ya, pesanan akan dinyatakan selesai dan anda tidak dapat merubah apapun lagi.")
                             .setCancelable(true)
@@ -345,7 +362,39 @@ class ReceiptPostActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             applicationContext,
-                            "Transaksi hanya dapat diselesaikan setelah pengantaran!",
+                            "Transaksi hanya dapat diselesaikan setelah sapi sampai di tujuan!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun reportTrans() {
+
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    val arrived = receipt!!.getStatus().equals("Sampai")
+                    val delivery = receipt.getStatus().equals("Pengantaran")
+
+                    if (delivery || arrived) {
+                        val intent = Intent(this@ReceiptPostActivity, ReportActivity::class.java)
+                        this@ReceiptPostActivity.startActivity(intent)
+                    }else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Transaksi hanya dapat dilaporkan setelah sapi sampai di tujuan!",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -395,14 +444,15 @@ class ReceiptPostActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val receipt = p0.getValue(ReceiptModel::class.java)
 
-                    if (receipt!!.getStatus().equals("Pengantaran")) {
+                    if (receipt!!.getStatus().equals("Sampai")) {
                         val currentTime = System.currentTimeMillis()
-                        val timeFinish = receipt.getdtFinish()!!.toLong()
+                        val timeArrived = receipt.getdtFinishOto()!!.toLong()
 
-                        if (currentTime >= timeFinish) {
+                        if (currentTime >= timeArrived) {
                             val ref = FirebaseDatabase.getInstance().reference.child("Receipt")
                             val receiptMap = HashMap<String, Any>()
                             receiptMap["status"] = "Selesai"
+                            receiptMap["dtFinish"] = System.currentTimeMillis().toString()
                             ref.child(postId).updateChildren(receiptMap)
                         }
                     }

@@ -118,8 +118,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginVertical="10dp">
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginStart="10dp">
 
                     <TextView
                         android:id="@+id/tv_status"
@@ -128,18 +128,18 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:fontFamily="@font/poppins_thin"
+                        android:paddingEnd="4dp"
                         android:text="Status"
                         android:textSize="18sp"
-                        android:paddingEnd="4dp"
-                        app:drawableEndCompat="@drawable/ic_forward"/>
+                        app:drawableEndCompat="@drawable/ic_forward" />
 
                     <View
                         android:id="@+id/line_status"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/tv_status"
-                        android:layout_marginBottom="6dp"
                         android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
                         android:background="@android:color/darker_gray" />
 
                     <TextView
@@ -203,6 +203,28 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginHorizontal="10dp"
                         android:layout_toEndOf="@+id/cancel"
+                        android:text="@string/zero"
+                        android:textAlignment="textEnd"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/finishOto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/cancel"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="4dp"
+                        android:text="Selesai Otomatis"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_dateFinishOto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/finishOto"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_toEndOf="@+id/finishOto"
                         android:text="@string/zero"
                         android:textAlignment="textEnd"
                         android:textSize="16sp" />

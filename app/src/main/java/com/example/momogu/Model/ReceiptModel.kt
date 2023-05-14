@@ -10,6 +10,8 @@ class ReceiptModel {
     private var dtConfirm: String? = null
     private var dtProcess: String? = null
     private var dtDelivery: String? = null
+    private var dtArrived: String? = null
+    private var dtFinishOto: String? = null
     private var dtFinish: String? = null
 
     constructor()
@@ -24,6 +26,8 @@ class ReceiptModel {
         dtConfirm: String?,
         dtProcess: String?,
         dtDelivery: String?,
+        dtArrived: String?,
+        dtFinishOto: String?,
         dtFinish: String?
     ) {
         this.buyerid = buyerid
@@ -35,6 +39,8 @@ class ReceiptModel {
         this.dtConfirm = dtConfirm
         this.dtProcess = dtProcess
         this.dtDelivery = dtDelivery
+        this.dtArrived = dtArrived
+        this.dtFinishOto = dtFinishOto
         this.dtFinish = dtFinish
     }
 
@@ -72,6 +78,14 @@ class ReceiptModel {
 
     fun getdtDelivery(): String? {
         return dtDelivery
+    }
+
+    fun getdtArrived(): String? {
+        return dtArrived
+    }
+
+    fun getdtFinishOto(): String? {
+        return dtFinishOto
     }
 
     fun getdtFinish(): String? {

@@ -176,6 +176,69 @@ class StatusActivity : AppCompatActivity() {
                         }
 
                         receipt.getStatus()
+                            .equals("Sampai") -> {
+                            binding.tvStatus.text = "Telah Sampai!"
+
+                            binding.icConfirm.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+                            binding.checkConfirm.setImageResource(R.drawable.ic_check)
+                            binding.checkConfirm.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+
+                            binding.icProcess.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+                            binding.checkProcess.setImageResource(R.drawable.ic_check)
+                            binding.checkProcess.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+                            binding.line1.setBackgroundColor(resources.getColor(R.color.ijotua))
+
+                            binding.icShipping.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+                            binding.checkShipping.setImageResource(R.drawable.ic_check)
+                            binding.checkShipping.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+                            binding.line2.setBackgroundColor(resources.getColor(R.color.ijotua))
+                            binding.line3.setBackgroundColor(resources.getColor(R.color.ijotua))
+                            binding.icFinish.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+
+                            //status Detail
+                            binding.dotWaitConfirm.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
+                            binding.dotConfirm.visibility = View.VISIBLE
+                            binding.dotConfirm.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
+                            binding.confirm.visibility = View.VISIBLE
+                            binding.confirm.text = "Penjual - ${getDate(receipt.getdtConfirm()!!.toLong(), "dd MMM yyyy")}"
+                            binding.timeConfirm.visibility = View.VISIBLE
+                            binding.timeConfirm.text = "${getDate(receipt.getdtConfirm()!!.toLong(), "HH:mm")} WIB"
+                            binding.detailConfirm.visibility = View.VISIBLE
+                            binding.lineConfirm.visibility = View.VISIBLE
+                            binding.lineConfirm.setBackgroundColor(resources.getColor(R.color.colorBlack))
+
+                            binding.dotProcess.visibility = View.VISIBLE
+                            binding.dotProcess.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
+                            binding.process.visibility = View.VISIBLE
+                            binding.process.text = "Penjual - ${getDate(receipt.getdtProcess()!!.toLong(), "dd MMM yyyy")}"
+                            binding.timeProcess.visibility = View.VISIBLE
+                            binding.timeProcess.text = "${getDate(receipt.getdtProcess()!!.toLong(), "HH:mm")} WIB"
+                            binding.detailProcess.visibility = View.VISIBLE
+                            binding.lineProcess.visibility = View.VISIBLE
+                            binding.lineProcess.setBackgroundColor(resources.getColor(R.color.colorBlack))
+
+                            binding.dotShipping.visibility = View.VISIBLE
+                            binding.dotShipping.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
+                            binding.shipping.visibility = View.VISIBLE
+                            binding.shipping.text = "Penjual - ${getDate(receipt.getdtDelivery()!!.toLong(), "dd MMM yyyy")}"
+                            binding.timeShipping.visibility = View.VISIBLE
+                            binding.timeShipping.text = "${getDate(receipt.getdtDelivery()!!.toLong(), "HH:mm")} WIB"
+                            binding.detailShipping.visibility = View.VISIBLE
+                            binding.lineShipping.visibility = View.VISIBLE
+                            binding.lineShipping.setBackgroundColor(resources.getColor(R.color.colorBlack))
+
+                            binding.dotArrived.visibility = View.VISIBLE
+                            binding.dotArrived.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+                            binding.arrived.visibility = View.VISIBLE
+                            binding.arrived.text = "Penjual - ${getDate(receipt.getdtArrived()!!.toLong(), "dd MMM yyyy")}"
+                            binding.timeArrived.visibility = View.VISIBLE
+                            binding.timeArrived.text = "${getDate(receipt.getdtArrived()!!.toLong(), "HH:mm")} WIB"
+                            binding.detailArrived.visibility = View.VISIBLE
+                            binding.lineArrived.visibility = View.VISIBLE
+                            binding.lineArrived.setBackgroundColor(resources.getColor(R.color.ijotua))
+                        }
+
+                        receipt.getStatus()
                             .equals("Selesai") -> {
                             binding.tvStatus.text = "Selesai"
 
@@ -229,6 +292,16 @@ class StatusActivity : AppCompatActivity() {
                             binding.detailShipping.visibility = View.VISIBLE
                             binding.lineShipping.visibility = View.VISIBLE
                             binding.lineShipping.setBackgroundColor(resources.getColor(R.color.colorBlack))
+
+                            binding.dotArrived.visibility = View.VISIBLE
+                            binding.dotArrived.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
+                            binding.arrived.visibility = View.VISIBLE
+                            binding.arrived.text = "Penjual - ${getDate(receipt.getdtArrived()!!.toLong(), "dd MMM yyyy")}"
+                            binding.timeArrived.visibility = View.VISIBLE
+                            binding.timeArrived.text = "${getDate(receipt.getdtArrived()!!.toLong(), "HH:mm")} WIB"
+                            binding.detailArrived.visibility = View.VISIBLE
+                            binding.lineArrived.visibility = View.VISIBLE
+                            binding.lineArrived.setBackgroundColor(resources.getColor(R.color.colorBlack))
 
                             binding.dotBuyerFinish.visibility = View.VISIBLE
                             binding.dotBuyerFinish.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
