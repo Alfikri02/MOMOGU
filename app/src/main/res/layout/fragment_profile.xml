@@ -206,32 +206,26 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/rv_post"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/cv_btnHorizontal"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="-22dp"
-        android:layout_marginBottom="-6dp"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="6dp"
-        app:cardUseCompatPadding="true">
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_upload_pic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/cv_btnHorizontal"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="-10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_saved_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"/>
-
-    </androidx.cardview.widget.CardView>
+            android:visibility="gone"
+            android:layout_below="@+id/cv_btnHorizontal"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="-10dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add"
