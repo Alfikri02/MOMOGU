@@ -1,13 +1,25 @@
 package com.example.momogu
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityCheckoutBinding
+import com.example.momogu.utils.Constanta.userLatitude
+import com.example.momogu.utils.Constanta.userLongitude
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -22,12 +34,15 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCheckoutBinding
     private var postId: String = ""
     private lateinit var firebaseUser: FirebaseUser
+    private lateinit var locationManager: LocationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCheckoutBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
@@ -49,6 +64,63 @@ class CheckoutActivity : AppCompatActivity() {
             startLoadingView()
         }
 
+        binding.cvPhone.setOnClickListener {
+            phoneBuyer()
+        }
+
+        val checkPermission =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    if (checkGPS()) {
+                        if (ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            return@registerForActivityResult
+                        }
+                        val i = Intent(this, MapUserActivity::class.java)
+                        i.putExtra("productLatitude", userLatitude)
+                        i.putExtra("productLongitude", userLongitude)
+                        startActivity(i)
+                    }
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Please accept permission to view the location",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+        binding.constraintLocation.setOnClickListener {
+            checkPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+    }
+
+    private fun checkGPS(): Boolean {
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            return true
+        } else {
+            val dialog = AlertDialog.Builder(this)
+            dialog.setTitle("GPS isn't enabled !")
+            dialog.setMessage("Enable it to see the distance between you and the product.")
+            dialog.setCancelable(true)
+            dialog.setIcon(R.drawable.ic_location_off)
+            dialog.setPositiveButton("OK") { d, _ ->
+                d.dismiss()
+                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+            dialog.setNegativeButton("NO") { d, _ ->
+                d.dismiss()
+            }
+            dialog.show()
+        }
+        return false
     }
 
     private fun retrievePosts() {
@@ -98,9 +170,32 @@ class CheckoutActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    binding.tvCity.text = user?.getCity()
-                    binding.tvAddress.text = user?.getAddress()
-                    binding.tvWhatsapp.text = user?.getWa()
+                    binding.tvName.text = user!!.getFullname()
+                    binding.tvAddress.text = user.getAddress()
+                    binding.tvWhatsapp.text = user.getWa()
+                    userLatitude = user.getLatitude()!!
+                    userLongitude = user.getLongitude()!!
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun phoneBuyer() {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+
+                    val phoneNumber = user!!.getWa()
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                    startActivity(intent)
+
                 }
             }
 

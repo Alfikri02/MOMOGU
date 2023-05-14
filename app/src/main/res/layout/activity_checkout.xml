@@ -56,237 +56,305 @@
         android:layout_below="@+id/app_bar_checkout"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="Product Items"
-        android:textSize="14sp" />
+        android:fontFamily="@font/poppins_thin"
+        android:text="Detail Produk"
+        android:textSize="16sp" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintProduct"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_product_item"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-14dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
-        <ImageView
-            android:id="@+id/image_post"
-            android:layout_width="140dp"
-            android:layout_height="100dp"
-            android:contentDescription="@string/content"
-            android:src="@drawable/momogu"
-            android:scaleType="fitCenter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintProduct"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_product"
-            android:layout_width="@dimen/zerodp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/product"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_post"
-            app:layout_constraintBottom_toTopOf="@+id/tv_price"/>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="4dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="@dimen/zerodp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/poppins_thin"
-            android:text="@string/price"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_weight"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_post" />
+                <ImageView
+                    android:id="@+id/image_post"
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="@string/content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/momogu" />
 
-        <TextView
-            android:id="@+id/tv_weight"
-            android:layout_width="@dimen/zerodp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/weight"
-            app:layout_constraintBottom_toBottomOf="@+id/image_post"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_post" />
+            </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_product"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/product"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/cv_image"
+                app:layout_constraintTop_toTopOf="@+id/cv_image"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-    <View
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/constraintProduct"
-        android:layout_marginTop="20dp"
-        android:background="@android:color/darker_gray" />
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:fontFamily="@font/poppins_thin"
+                android:gravity="center_vertical"
+                android:text="@string/price"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_weight"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cv_image"
+                app:layout_constraintTop_toBottomOf="@+id/tv_product" />
+
+            <TextView
+                android:id="@+id/tv_weight"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/weight"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/cv_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cv_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tv_selected_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line1"
+        android:layout_below="@+id/cv_product"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/poppins_light"
+        android:fontFamily="@font/poppins_thin"
         android:text="Tujuan Pengiriman"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/tv_city"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_selected_address"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/poppins_thin"
-        android:text="@string/city"
-        android:textSize="18sp" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-14dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/tv_address"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_thin"
+                android:text="@string/full_name"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-6dp"
+                android:paddingEnd="4dp"
+                android:text="@string/address"
+                android:textSize="16sp"
+                app:drawableEndCompat="@drawable/ic_forward"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_city"
-        android:layout_marginHorizontal="20dp"
-        android:text="@string/address"
-        android:textSize="16sp" />
+        android:layout_below="@+id/cv_address"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-24dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/tv_whatsapp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_address"
-        android:layout_marginHorizontal="20dp"
-        android:text="@string/whatsapp"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_whatsapp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="4dp"
+            android:text="Telp"
+            android:textAlignment="textStart"
+            android:textSize="16sp"
+            app:drawableEndCompat="@drawable/ic_forward" />
 
-    <View
-        android:id="@+id/line2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/tv_whatsapp"
-        android:layout_marginTop="20dp"
-        android:background="@android:color/darker_gray" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/items"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line2"
+        android:layout_below="@+id/cv_phone"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="Items Receipt"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/items"
-        android:layout_alignParentStart="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp"
-        android:text="Harga Sapi"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/tv_price_items"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/items"
-        android:layout_alignParentEnd="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/zero"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/shipping"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/price"
-        android:layout_alignParentStart="true"
-        android:layout_marginHorizontal="20dp"
-        android:text="Pengiriman"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/tv_price_shipping"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_price_items"
-        android:layout_alignParentEnd="true"
-        android:layout_marginHorizontal="20dp"
-        android:text="@string/zero"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/shipping"
-        android:layout_alignParentStart="true"
-        android:layout_marginHorizontal="20dp"
         android:fontFamily="@font/poppins_thin"
-        android:text="Total Harga"
-        android:textSize="18sp" />
+        android:text="Rincian Pembayaran"
+        android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/tv_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_price_shipping"
-        android:layout_alignParentEnd="true"
-        android:layout_marginHorizontal="20dp"
-        android:fontFamily="@font/poppins_thin"
-        android:text="@string/zero"
-        android:textSize="18sp" />
-
-    <View
-        android:id="@+id/line3"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_item"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/total"
-        android:layout_marginTop="20dp"
-        android:background="@android:color/darker_gray" />
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line3"
+        android:layout_below="@+id/items"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="Metode Pembayaran"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/On"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/line3"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="@font/poppins_thin"
-        android:text="Ditempat"
-        android:textSize="16sp" />
+        android:layout_marginTop="-14dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/On"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="Mohon sediakan uang pas"
-        android:textColor="@color/g_light_red"
-        android:textSize="12sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp">
+
+            <TextView
+                android:id="@+id/payment_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/poppins_light"
+                android:text="Metode Pembayaran"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/payment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/payment_method"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/payment_method"
+                android:fontFamily="@font/poppins_thin"
+                android:text="Di Tempat"
+                android:textAlignment="textEnd"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/payment_method"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/tv_price_items"
+                android:text="Harga Sapi"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_price_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/price"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
+                android:text="@string/zero"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/shipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="4dp"
+                android:layout_toStartOf="@+id/tv_price_shipping"
+                android:text="Pengiriman"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_price_shipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/shipping"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
+                android:text="@string/zero"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/shipping"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="6dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line2"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/tv_total"
+                android:fontFamily="@font/poppins_thin"
+                android:text="Total Harga"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/total"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/poppins_thin"
+                android:text="@string/zero"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_checkout"

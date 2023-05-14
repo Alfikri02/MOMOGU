@@ -24,4 +24,7 @@ object Constanta {
     var productLatitude = 0.0
     var productLongitude = 0.0
 
+    var userLatitude = 0.0
+    var userLongitude = 0.0
+
 }

@@ -19,8 +19,8 @@ import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityReceiptUserBinding
-import com.example.momogu.utils.Constanta.productLatitude
-import com.example.momogu.utils.Constanta.productLongitude
+import com.example.momogu.utils.Constanta.userLatitude
+import com.example.momogu.utils.Constanta.userLongitude
 import com.example.momogu.utils.Helper.getDate
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -112,8 +112,8 @@ class ReceiptUserActivity : AppCompatActivity() {
                             return@registerForActivityResult
                         }
                         val i = Intent(this, MapUserActivity::class.java)
-                        i.putExtra("productLatitude", productLatitude)
-                        i.putExtra("productLongitude", productLongitude)
+                        i.putExtra("productLatitude", userLatitude)
+                        i.putExtra("productLongitude", userLongitude)
                         startActivity(i)
                     }
                 } else {
@@ -292,8 +292,8 @@ class ReceiptUserActivity : AppCompatActivity() {
                         binding.tvName.text = user.getFullname()
                         binding.tvAddress.text = user.getAddress()
                         binding.tvWhatsapp.text = "Telp: ${user.getWa()}"
-                        productLatitude = user.getLatitude()!!
-                        productLongitude = user.getLongitude()!!
+                        userLatitude = user.getLatitude()!!
+                        userLongitude = user.getLongitude()!!
                     }
                 }
             }
