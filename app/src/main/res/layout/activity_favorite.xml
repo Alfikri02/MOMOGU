@@ -371,6 +371,7 @@
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginStart="6dp"
+                        android:layout_marginVertical="4dp"
                         android:padding="5dp"
                         android:src="@drawable/profile"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -382,33 +383,45 @@
                         android:layout_width="@dimen/zerodp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="5dp"
-                        android:layout_marginBottom="-4dp"
+                        android:layout_marginBottom="-8dp"
                         android:fontFamily="@font/poppins_thin"
                         android:text="@string/full_name"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toTopOf="@+id/tv_status_detail"
                         app:layout_constraintEnd_toStartOf="@+id/forward_detail"
                         app:layout_constraintStart_toEndOf="@+id/user_profile" />
+                    '
+                    <ImageView
+                        android:id="@+id/dotStatus"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/content"
+                        android:src="@drawable/ic_dot"
+                        android:layout_marginTop="-10dp"
+                        app:layout_constraintTop_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/user_profile"
+                        app:layout_constraintBottom_toTopOf="parent"
+                        app:tint="@color/colorBlack" />
 
                     <TextView
                         android:id="@+id/tv_status_detail"
                         android:layout_width="@dimen/zerodp"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="5dp"
-                        android:fontFamily="@font/poppins_light"
+                        android:layout_marginStart="-6dp"
+                        android:padding="6dp"
                         android:text="Status"
                         android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/dotStatus"
+                        app:layout_constraintStart_toEndOf="@+id/dotStatus"
                         app:layout_constraintEnd_toStartOf="@+id/forward_detail"
-                        app:layout_constraintStart_toEndOf="@+id/user_profile"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@+id/dotStatus" />
 
                     <TextView
                         android:id="@+id/tv_city_detail"
                         android:layout_width="@dimen/zerodp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="5dp"
-                        android:layout_marginTop="-2dp"
+                        android:layout_marginTop="-4dp"
                         android:fontFamily="@font/poppins_light"
                         android:text="City"
                         android:textSize="12sp"

@@ -1,7 +1,10 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,14 +14,11 @@ import com.example.momogu.Adapter.DetailImagesAdapter
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityBreederBinding
-import com.github.marlonlom.utilities.timeago.TimeAgo
-import com.github.marlonlom.utilities.timeago.TimeAgoMessages
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import java.util.Locale
 
 class BreederActivity : AppCompatActivity() {
 
@@ -97,12 +97,10 @@ class BreederActivity : AppCompatActivity() {
                     }
 
                     if (user.getStatusOn().equals("Aktif")) {
-                        binding.statusOn.text = user.getStatusOn()
+                        binding.dotStatus.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+
                     } else {
-                        val messages = TimeAgoMessages.Builder()
-                            .withLocale(Locale("in")) // Set Indonesian locale
-                            .build()
-                        binding.statusOn.text = "Aktif ${TimeAgo.using(user.getLastOnline()!!.toLong(), messages)}"
+                        binding.dotStatus.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
                     }
 
                     binding.profileFragmentUsername.text = user.getUsername()

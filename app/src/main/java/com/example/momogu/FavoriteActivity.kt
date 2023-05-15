@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu
 
 import android.Manifest
@@ -6,6 +8,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.PorterDuff
 import android.location.LocationManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -198,12 +201,14 @@ class FavoriteActivity : AppCompatActivity() {
 
                     if (user.getStatusOn().equals("Aktif")) {
                         binding.tvStatusDetail.text = user.getStatusOn()
+                        binding.dotStatus.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
                     } else {
                         val messages = TimeAgoMessages.Builder()
                             .withLocale(Locale("in")) // Set Indonesian locale
                             .build()
                         binding.tvStatusDetail.text =
                             "Aktif ${TimeAgo.using(user.getLastOnline()!!.toLong(), messages)}"
+                        binding.dotStatus.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
                     }
 
                     binding.tvFullnameDetail.text = user.getFullname()

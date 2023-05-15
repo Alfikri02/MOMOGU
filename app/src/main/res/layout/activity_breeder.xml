@@ -37,14 +37,36 @@
                     android:contentDescription="@string/content"
                     android:src="@drawable/ic_back" />
 
-                <TextView
-                    android:id="@+id/profile_fragment_username"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/poppins_thin"
-                    android:text="@string/username"
-                    android:textSize="18sp" />
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:id="@+id/dotStatus"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/content"
+                        android:src="@drawable/ic_dot"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/colorBlack" />
+
+                    <TextView
+                        android:id="@+id/profile_fragment_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-6dp"
+                        android:fontFamily="@font/poppins_thin"
+                        android:padding="6dp"
+                        android:text="@string/username"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/dotStatus"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </RelativeLayout>
 
@@ -52,99 +74,119 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_bar"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar_layout_profile_frag"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:paddingVertical="16dp">
+        app:cardCornerRadius="15dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/pro_image_profile_frag"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/profile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="16dp">
 
-        <TextView
-            android:id="@+id/et_fullname_profile"
-            android:layout_width="@dimen/zerodp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="4dp"
-            android:fontFamily="@font/poppins_thin"
-            android:text="@string/full_name"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/et_city_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/pro_image_profile_frag"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/profile"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/et_city_profile"
-            android:layout_width="@dimen/zerodp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins_light"
-            android:text="@string/city"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/pro_image_profile_frag"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
-            app:layout_constraintTop_toTopOf="@+id/pro_image_profile_frag" />
+            <TextView
+                android:id="@+id/et_fullname_profile"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:fontFamily="@font/poppins_thin"
+                android:text="@string/full_name"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
+                app:layout_constraintTop_toTopOf="@+id/pro_image_profile_frag" />
 
-        <TextView
-            android:id="@+id/statusOn"
-            android:layout_width="@dimen/zerodp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/poppins_light"
-            android:text="Status"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
-            app:layout_constraintTop_toBottomOf="@+id/et_city_profile" />
+            <TextView
+                android:id="@+id/et_city_profile"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="2dp"
+                android:fontFamily="@font/poppins_light"
+                android:text="@string/city"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_city"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
+                app:layout_constraintTop_toBottomOf="@id/et_fullname_profile" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/total_posts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="2dp"
+                android:text="@string/zero"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_grid"
+                app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
+                app:layout_constraintTop_toBottomOf="@+id/et_city_profile" />
 
-    <LinearLayout
-        android:id="@+id/btn_horizontal"
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_btnHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_below="@+id/top_bar"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cv_header"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button_black_background"
-        android:orientation="horizontal">
+        android:layout_marginTop="-22dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
-        <ImageButton
-            android:id="@+id/images_grid_view_btn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@null"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_grid"
-            app:tint="@color/blackColor" />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btn_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/cv_header"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/images_grid_view_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_grid"
+                app:tint="@color/blackColor" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_upload_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_horizontal"
+        android:layout_below="@+id/cv_btnHorizontal"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="-10dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
