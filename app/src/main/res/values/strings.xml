@@ -83,12 +83,22 @@
 
     <string name="indonesia">id</string>
 
+    <string-array name="TypeCow">
+        <item>Sapi Aceh</item>
+        <item>Sapi Bali</item>
+        <item>Sapi Madura</item>
+        <item>Sapi Simental</item>
+        <item>Sapi Brahman</item>
+        <item>Sapi Ongole</item>
+        <item>Sapi Peranakan Ongole</item>
+    </string-array>
+
     <string-array name="Gender">
         <item>Jantan</item>
         <item>Betina</item>
     </string-array>
 
-    <string-array name="Kop">
+    <string-array name="Report">
         <item>Batalkan Transaksi</item>
         <item>Sapi Tidak Sampai</item>
         <item>Sapi Tidak Sesuai Deskripsi</item>

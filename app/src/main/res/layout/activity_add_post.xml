@@ -177,19 +177,32 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_product"
-                style="@style/ti_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="@dimen/zerodp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/type_cow"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_video">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/et_product"
-                    style="@style/et_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_name"
-                    android:inputType="text" />
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/poppins_light"
+                    android:inputType="none"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="5dp"
+                    android:textSize="16sp"
+                    tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

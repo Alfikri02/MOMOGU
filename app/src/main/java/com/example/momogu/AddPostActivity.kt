@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu
 
 import android.Manifest
@@ -241,6 +243,10 @@ class AddPostActivity : AppCompatActivity() {
         val gender = resources.getStringArray(R.array.Gender)
         val arrayGender = ArrayAdapter(this, R.layout.dropdown_item, gender)
         binding.etGender.setAdapter(arrayGender)
+
+        val typeCow = resources.getStringArray(R.array.TypeCow)
+        val arrayCow = ArrayAdapter(this, R.layout.dropdown_item, typeCow)
+        binding.etProduct.setAdapter(arrayCow)
     }
 
     private fun visVal() {

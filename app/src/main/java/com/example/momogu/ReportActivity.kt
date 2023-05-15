@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu
 
 import android.annotation.SuppressLint
@@ -166,8 +168,8 @@ class ReportActivity : AppCompatActivity() {
     }
 
     private fun dropdownItem() {
-        val kindOfProblem = resources.getStringArray(R.array.Kop)
-        val arrayGender = ArrayAdapter(this, R.layout.dropdown_item, kindOfProblem)
+        val report = resources.getStringArray(R.array.Report)
+        val arrayGender = ArrayAdapter(this, R.layout.dropdown_item, report)
         binding.etKop.setAdapter(arrayGender)
     }
 
