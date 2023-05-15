@@ -5,11 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="14dp"
-    app:cardElevation="2dp"
-    app:cardMaxElevation="6dp"
     app:cardUseCompatPadding="true"
     app:strokeColor="@color/ijotua"
-    app:strokeWidth="2dp">
+    app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,8 +29,8 @@
             android:layout_width="@dimen/zerodp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="6dp"
             android:text="@string/product"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_image_home" />
@@ -44,6 +42,8 @@
             android:layout_marginHorizontal="10dp"
             android:fontFamily="@font/poppins_thin"
             android:text="@string/price"
+            android:layout_marginTop="-4dp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_product" />
@@ -54,6 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:text="@string/weight"
+            android:layout_marginTop="-4dp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_price" />
@@ -64,6 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:text="@string/location"
+            android:layout_marginTop="-2dp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_weight" />
@@ -73,7 +77,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="-2dp"
             android:text="@string/time_ago"
             android:textColor="@color/colorBlack"
             android:textSize="12sp"
@@ -110,31 +115,27 @@
 
         </androidx.cardview.widget.CardView>
 
-        <RelativeLayout
-            android:id="@+id/layoutSoldView"
-            android:layout_width="@dimen/zerodp"
-            android:layout_height="@dimen/zerodp"
-            android:background="@color/empat"
-            android:foregroundGravity="center"
-            android:gravity="center"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/soldTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Sapi Terjual!"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutSoldView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/empat"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/soldTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Sapi Terjual!"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
 
 
 </com.google.android.material.card.MaterialCardView>

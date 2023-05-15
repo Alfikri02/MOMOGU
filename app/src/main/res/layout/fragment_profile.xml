@@ -13,16 +13,13 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:background="@android:color/white">
+        android:background="@drawable/top_bar">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/profile_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="6dp"
-            android:background="@android:color/white">
+            android:background="@drawable/top_bar">
 
             <RelativeLayout
                 android:layout_width="match_parent"

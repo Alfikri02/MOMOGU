@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.momogu.R
 import com.example.momogu.databinding.FragmentScalesBinding
@@ -63,9 +64,9 @@ class ScalesFragment : Fragment() {
     private fun imageSlider(){
         val imageList = ArrayList<SlideModel>()
 
-        imageList.add(SlideModel(R.drawable.exterior_sapi))
-        imageList.add(SlideModel(R.drawable.exterior_sapi))
-        imageList.add(SlideModel(R.drawable.exterior_sapi))
+        imageList.add(SlideModel(R.drawable.exterior_sapi, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.exterior_sapi, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.exterior_sapi, ScaleTypes.CENTER_CROP))
 
         val imageSlider = binding.sliderSclaes
         imageSlider.setImageList(imageList)

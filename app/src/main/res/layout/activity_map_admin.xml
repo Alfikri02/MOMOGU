@@ -10,10 +10,11 @@
         android:id="@+id/mapHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/top_bar"
         android:padding="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/ic_map"
@@ -22,7 +23,7 @@
             android:contentDescription="@string/content"
             android:src="@drawable/ic_map"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView"
@@ -43,7 +44,7 @@
             android:contentDescription="@string/content"
             android:src="@drawable/ic_menu"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/address_bar"
@@ -70,7 +71,7 @@
             android:text="Continue"
             android:textAllCaps="false"
             android:textSize="12sp"
-            app:backgroundTint="@null"
+            app:backgroundTint="@color/ijotua"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/address_bar" />
 
@@ -92,10 +93,10 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapHeader"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:context=".admin.MapAdminActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

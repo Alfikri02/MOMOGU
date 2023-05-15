@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.momogu.Adapter.PostAdapter
 import com.example.momogu.MapsActivity
@@ -154,9 +155,9 @@ class HomeFragment : Fragment() {
     private fun imageSlider(){
         val imageList = ArrayList<SlideModel>()
 
-        imageList.add(SlideModel(R.drawable.satu))
-        imageList.add(SlideModel(R.drawable.dua))
-        imageList.add(SlideModel(R.drawable.tiga))
+        imageList.add(SlideModel(R.drawable.satu, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.dua, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.tiga, ScaleTypes.CENTER_CROP))
 
         val imageSlider = binding.sliderSclaes
         imageSlider.setImageList(imageList)
