@@ -19,9 +19,6 @@
             android:id="@+id/profile_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="6dp"
             android:background="@drawable/top_bar">
 
             <RelativeLayout
@@ -37,36 +34,14 @@
                     android:contentDescription="@string/content"
                     android:src="@drawable/ic_back" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
-
-                    <ImageView
-                        android:id="@+id/dotStatus"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:contentDescription="@string/content"
-                        android:src="@drawable/ic_dot"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/colorBlack" />
-
-                    <TextView
-                        android:id="@+id/profile_fragment_username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="-6dp"
-                        android:fontFamily="@font/poppins_thin"
-                        android:padding="6dp"
-                        android:text="@string/username"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/dotStatus"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_thin"
+                    android:text="Peternak"
+                    android:textSize="20sp"
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 
@@ -101,16 +76,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/dotStatus"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/content"
+                android:src="@drawable/ic_dot"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
+                app:layout_constraintTop_toTopOf="@+id/pro_image_profile_frag"
+                app:tint="@color/colorBlack" />
+
             <TextView
                 android:id="@+id/et_fullname_profile"
                 android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginEnd="10dp"
                 android:fontFamily="@font/poppins_thin"
                 android:text="@string/full_name"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/pro_image_profile_frag"
+                app:layout_constraintStart_toEndOf="@+id/dotStatus"
                 app:layout_constraintTop_toTopOf="@+id/pro_image_profile_frag" />
 
             <TextView

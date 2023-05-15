@@ -383,7 +383,7 @@ class FavoriteActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    val phoneNumber = user!!.getWa()
+                    val phoneNumber = user!!.getPhone()
                     val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
                     startActivity(intent)
                 }

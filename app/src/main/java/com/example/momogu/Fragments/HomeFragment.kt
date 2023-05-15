@@ -159,7 +159,7 @@ class HomeFragment : Fragment() {
         imageList.add(SlideModel(R.drawable.dua, ScaleTypes.CENTER_CROP))
         imageList.add(SlideModel(R.drawable.tiga, ScaleTypes.CENTER_CROP))
 
-        val imageSlider = binding.sliderSclaes
+        val imageSlider = binding.sliderHome
         imageSlider.setImageList(imageList)
     }
 

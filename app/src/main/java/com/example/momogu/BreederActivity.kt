@@ -109,8 +109,6 @@ class BreederActivity : AppCompatActivity() {
                     } else {
                         binding.dotStatus.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
                     }
-
-                    binding.profileFragmentUsername.text = user.getUsername()
                     binding.etFullnameProfile.text = user.getFullname()
                     binding.etCityProfile.text = user.getCity()
 

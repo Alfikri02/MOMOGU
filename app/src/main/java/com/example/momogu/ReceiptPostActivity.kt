@@ -279,7 +279,7 @@ class ReceiptPostActivity : AppCompatActivity() {
                     if (user != null) {
                         binding.tvName.text = user.getFullname()
                         binding.tvAddress.text = user.getAddress()
-                        binding.tvWhatsapp.text = "Telp: ${user.getWa()}"
+                        binding.tvWhatsapp.text = "Telp: ${user.getPhone()}"
                         userLatitude = user.getLatitude()!!
                         userLongitude = user.getLongitude()!!
                     }
@@ -317,7 +317,7 @@ class ReceiptPostActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    val phoneNumber = user!!.getWa()
+                    val phoneNumber = user!!.getPhone()
                     val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
                     startActivity(intent)
 

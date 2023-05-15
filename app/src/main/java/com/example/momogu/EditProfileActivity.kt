@@ -199,10 +199,8 @@ class EditProfileActivity : AppCompatActivity() {
                         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
                             .into(binding.profileImageViewProfileFrag)
                     }
-
-                    binding.etUsernameProfile.setText(user.getUsername())
                     binding.etFullnameProfile.setText(user.getFullname())
-                    binding.etWhatsappProfile.setText(user.getWa())
+                    binding.etWhatsappProfile.setText(user.getPhone())
                     binding.etAddressProfile.setText(user.getAddress())
                 }
             }
@@ -217,12 +215,8 @@ class EditProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Full Name is Required!", Toast.LENGTH_LONG).show()
             }
 
-            TextUtils.isEmpty(binding.etUsernameProfile.text.toString()) -> {
-                Toast.makeText(this, "Username is Required!", Toast.LENGTH_LONG).show()
-            }
-
             TextUtils.isEmpty(binding.etWhatsappProfile.text.toString()) -> {
-                Toast.makeText(this, "Whatsapp Number is Required!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Phone Number is Required!", Toast.LENGTH_LONG).show()
             }
 
             else -> {
@@ -230,8 +224,7 @@ class EditProfileActivity : AppCompatActivity() {
                 val userMap = HashMap<String, Any>()
 
                 userMap["fullname"] = binding.etFullnameProfile.text.toString()
-                userMap["username"] = binding.etUsernameProfile.text.toString().lowercase()
-                userMap["wa"] = binding.etWhatsappProfile.text.toString()
+                userMap["phone"] = binding.etWhatsappProfile.text.toString()
 
                 usersRef.child(firebaseUser.uid).updateChildren(userMap)
 
@@ -257,12 +250,8 @@ class EditProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Full Name is Required!", Toast.LENGTH_LONG).show()
             }
 
-            TextUtils.isEmpty(binding.etUsernameProfile.text.toString()) -> {
-                Toast.makeText(this, "Username is Required!", Toast.LENGTH_LONG).show()
-            }
-
             TextUtils.isEmpty(binding.etWhatsappProfile.text.toString()) -> {
-                Toast.makeText(this, "Whatsapp Number is Required!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Phone Number is Required!", Toast.LENGTH_LONG).show()
             }
 
             TextUtils.isEmpty(binding.fieldLocation.text.toString()) -> {
@@ -297,9 +286,7 @@ class EditProfileActivity : AppCompatActivity() {
                         val userMap = HashMap<String, Any>()
 
                         userMap["fullname"] = binding.etFullnameProfile.text.toString()
-                        userMap["username"] =
-                            binding.etUsernameProfile.text.toString().lowercase()
-                        userMap["wa"] = binding.etWhatsappProfile.text.toString()
+                        userMap["phone"] = binding.etWhatsappProfile.text.toString()
                         userMap["city"] = binding.fieldCity.text.toString()
                         userMap["address"] = binding.fieldLocation.text.toString()
                         userMap["latitude"] = coordinateLatitude

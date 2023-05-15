@@ -41,8 +41,11 @@
         android:id="@+id/recycler_view_notifications"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
         android:layout_below="@+id/app_bar_layout_notifications"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:visibility="visible">
 
     </androidx.recyclerview.widget.RecyclerView>

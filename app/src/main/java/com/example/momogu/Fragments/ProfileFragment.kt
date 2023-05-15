@@ -137,7 +137,7 @@ class ProfileFragment : Fragment() {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    if (user!!.getWa().isNullOrEmpty()
+                    if (user!!.getPhone().isNullOrEmpty()
                         || user.getAddress().isNullOrEmpty()
                         || user.getCity().isNullOrEmpty()
                     ) {
@@ -203,7 +203,6 @@ class ProfileFragment : Fragment() {
                             .into(binding.proImageProfileFrag)
                     }
 
-                    binding.profileFragmentUsername.text = user.getUsername()
                     binding.etFullnameProfile.text = user.getFullname()
                     binding.etCityProfile.text = user.getCity()
                 }

@@ -64,11 +64,11 @@ class ScalesFragment : Fragment() {
     private fun imageSlider(){
         val imageList = ArrayList<SlideModel>()
 
-        imageList.add(SlideModel(R.drawable.exterior_sapi, ScaleTypes.CENTER_CROP))
-        imageList.add(SlideModel(R.drawable.exterior_sapi, ScaleTypes.CENTER_CROP))
-        imageList.add(SlideModel(R.drawable.exterior_sapi, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.satu, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.dua, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.tiga, ScaleTypes.CENTER_CROP))
 
-        val imageSlider = binding.sliderSclaes
+        val imageSlider = binding.sliderScales
         imageSlider.setImageList(imageList)
     }
 

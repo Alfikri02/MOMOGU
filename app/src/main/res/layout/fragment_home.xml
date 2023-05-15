@@ -27,8 +27,7 @@
                     android:id="@+id/logo"
                     android:layout_width="120dp"
                     android:layout_height="60dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:contentDescription="@null"
                     android:src="@drawable/momogu_text" />
 
@@ -100,7 +99,7 @@
                 app:cardUseCompatPadding="true">
 
                 <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/slider_sclaes"
+                    android:id="@+id/slider_home"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:iss_auto_cycle="true"

@@ -59,31 +59,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_username"
-                style="@style/ti_layout"
-                android:layout_marginTop="10dp"
-                android:hint="@string/username"
-                app:layout_constraintEnd_toEndOf="@+id/ti_fullname"
-                app:layout_constraintStart_toStartOf="@+id/ti_fullname"
-                app:layout_constraintTop_toBottomOf="@+id/ti_fullname">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_username"
-                    style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_username"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-                    android:inputType="textFilter"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_whatsapp"
                 style="@style/ti_layout"
                 android:layout_marginTop="10dp"
-                android:hint="@string/whatsapp"
-                app:layout_constraintEnd_toEndOf="@+id/ti_username"
-                app:layout_constraintStart_toStartOf="@+id/ti_username"
-                app:layout_constraintTop_toBottomOf="@+id/ti_username">
+                android:hint="Nomor Telepon Aktif"
+                app:layout_constraintEnd_toEndOf="@+id/ti_fullname"
+                app:layout_constraintStart_toStartOf="@+id/ti_fullname"
+                app:layout_constraintTop_toBottomOf="@+id/ti_fullname">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_whatsapp"
@@ -147,40 +129,39 @@
                 style="@style/greenButtonStyle"
                 android:layout_width="@dimen/mediumButtonWidth"
                 android:layout_height="@dimen/mediumButtonHeight"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:text="@string/register"
                 app:layout_constraintEnd_toEndOf="@+id/ti_password"
                 app:layout_constraintStart_toStartOf="@+id/ti_password"
                 app:layout_constraintTop_toBottomOf="@+id/ti_password" />
 
-            <LinearLayout
-                android:id="@+id/signin_link_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
-                android:layout_marginBottom="40dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/signup_btn">
-
-                <TextView
-                    style="@style/h2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/have_acc" />
-
-                <TextView
-                    style="@style/h2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/poppins_thin"
-                    android:text="@string/login" />
-            </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/signin_link_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            style="@style/h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/have_acc" />
+
+        <TextView
+            style="@style/h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/poppins_thin"
+            android:text="@string/login" />
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/layoutLoadingView_SignIn"

@@ -39,7 +39,7 @@ class WelcomeActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
-                    binding.lblUsername.text = user?.getUsername().toString()
+                    binding.lblName.text = user?.getFullname().toString()
                 }
             }
 
