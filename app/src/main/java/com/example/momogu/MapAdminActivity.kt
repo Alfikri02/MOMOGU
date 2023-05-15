@@ -14,13 +14,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.momogu.databinding.ActivityMapAdminBinding
-import com.example.momogu.databinding.CustomTooltipPickLocationStoryBinding
+import com.example.momogu.databinding.PickLocationBinding
 import com.example.momogu.utils.Constanta
 import com.example.momogu.utils.Constanta.PERMISSIONS_REQUEST_LOCATION
 import com.example.momogu.utils.Constanta.coordinateLatitude
 import com.example.momogu.utils.Constanta.coordinateLongitude
 import com.example.momogu.utils.Constanta.isLocationPicked
 import com.example.momogu.utils.Helper
+import com.example.momogu.utils.Helper.parseAddressLocation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -164,7 +165,7 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.Info
 
     private fun postLocationSelected(lat: Double, lon: Double) {
         val address =
-            Helper.parseAddressLocation(
+            parseAddressLocation(
                 this,
                 lat,
                 lon
@@ -200,11 +201,10 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.Info
         return null
     }
 
-    /* while marker touched -> show custom view */
     override fun getInfoWindow(marker: Marker): View {
         val bindingTooltips =
-            CustomTooltipPickLocationStoryBinding.inflate(LayoutInflater.from(this))
-        bindingTooltips.location.text = Helper.parseAddressLocation(
+            PickLocationBinding.inflate(LayoutInflater.from(this))
+        bindingTooltips.location.text = parseAddressLocation(
             this,
             marker.position.latitude, marker.position.longitude
         )

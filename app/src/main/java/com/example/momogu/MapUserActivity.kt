@@ -3,20 +3,25 @@ package com.example.momogu
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.momogu.databinding.ActivityMapUserBinding
+import com.example.momogu.databinding.SeeLocationBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
+import com.example.momogu.utils.Helper.parseAddressLocation
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapUserActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapUserBinding
@@ -74,7 +79,9 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val productLocation = LatLng(productLatitude,productLongitude)
 
-        mMap.addMarker(MarkerOptions().position(productLocation).title("Product here"))
+        mMap.setInfoWindowAdapter(this)
+
+        mMap.addMarker(MarkerOptions().position(productLocation))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(productLocation,15f))
 
         getMyLocation()
@@ -99,6 +106,20 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback {
         } else {
             requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
         }
+    }
+
+    override fun getInfoContents(marker: Marker): View? {
+        return null
+    }
+
+    override fun getInfoWindow(marker: Marker): View {
+        val bindingTooltips =
+            SeeLocationBinding.inflate(LayoutInflater.from(this))
+        bindingTooltips.location.text = parseAddressLocation(
+            this,
+            marker.position.latitude, marker.position.longitude
+        )
+        return bindingTooltips.root
     }
 
 }
