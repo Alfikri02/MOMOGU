@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.R
 import com.example.momogu.databinding.FragmentProfileBinding
+import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -38,7 +40,6 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
-    private lateinit var profileId: String
     private lateinit var firebaseUser: FirebaseUser
     var postList: List<PostModel>? = null
     var postImagesAdapter: PostImagesAdapter? = null
@@ -54,11 +55,6 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
-
-        val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
-        if (pref != null) {
-            this.profileId = pref.getString("profileId", "none").toString()
-        }
 
         //Recycler View for Uploaded Images
         val recyclerViewUploadImages: RecyclerView = binding.recyclerViewUploadPic
@@ -126,11 +122,15 @@ class ProfileFragment : Fragment() {
                 .replace(R.id.fragment_container, ReceiptFragment()).commit()
         }
 
+        binding.proImageProfileFrag.setOnClickListener {
+            profileImage()
+        }
+
         return binding.root
     }
 
     private fun addVal() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -163,8 +163,33 @@ class ProfileFragment : Fragment() {
         })
     }
 
+    private fun profileImage() {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+
+                    val mBuilder = AlertDialog.Builder(requireContext())
+                    val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
+
+                    val imageView = mView.findViewById<PhotoView>(R.id.imageView)
+                    Picasso.get().load(user!!.getImage()).into(imageView)
+
+                    mBuilder.setView(mView)
+                    val mDialog = mBuilder.create()
+                    mDialog.show()
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
     private fun userInfo() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -200,7 +225,7 @@ class ProfileFragment : Fragment() {
                     for (snapshot in p0.children) {
                         val post = snapshot.getValue(PostModel::class.java)
 
-                        if (post?.getPublisher().equals(profileId)) {
+                        if (post?.getPublisher().equals(firebaseUser.uid)) {
                             (postList as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
                             (postList as ArrayList<PostModel>).add(post!!)
                         }
@@ -224,7 +249,7 @@ class ProfileFragment : Fragment() {
                     for (snapShot in p0.children) {
                         val post = snapShot.getValue(PostModel::class.java)
 
-                        if (post?.getPublisher() == profileId) {
+                        if (post?.getPublisher() == firebaseUser.uid) {
                             postCounter++
                         }
                     }
@@ -238,7 +263,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun numberFavorite() {
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Saves").child(profileId)
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Saves").child(firebaseUser.uid)
 
         postsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {

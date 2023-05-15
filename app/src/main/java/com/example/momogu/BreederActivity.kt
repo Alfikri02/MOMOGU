@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.example.momogu.Adapter.DetailImagesAdapter
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityBreederBinding
+import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -61,6 +63,11 @@ class BreederActivity : AppCompatActivity() {
         binding.backBreeder.setOnClickListener {
             finish()
         }
+
+        binding.proImageProfileFrag.setOnClickListener {
+            retrieveImage()
+        }
+
     }
 
     private fun retrievePosts() {
@@ -131,6 +138,48 @@ class BreederActivity : AppCompatActivity() {
                             (postList as ArrayList<PostModel>).add(post!!)
                         }
                     }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun retrieveImage() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val post = p0.getValue(PostModel::class.java)
+
+                    profileImage(post?.getPublisher())
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun profileImage(publisherId: String?) {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+
+                    val mBuilder = AlertDialog.Builder(this@BreederActivity)
+                    val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
+
+                    val imageView = mView.findViewById<PhotoView>(R.id.imageView)
+                    Picasso.get().load(user!!.getImage()).into(imageView)
+
+                    mBuilder.setView(mView)
+                    val mDialog = mBuilder.create()
+                    mDialog.show()
+
                 }
             }
 
