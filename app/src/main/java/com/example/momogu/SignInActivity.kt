@@ -150,13 +150,15 @@ class SignInActivity : AppCompatActivity() {
 
     private fun startLoadingView(start: Boolean) {
         if (start) {
-            binding.layoutLoadingView.visibility = View.VISIBLE
-            binding.animLoadingView.setAnimation("paperplane.json")
-            binding.animLoadingView.playAnimation()
-            binding.animLoadingView.repeatCount = LottieDrawable.INFINITE
+            binding.loadingLogin.visibility = View.VISIBLE
+            binding.svLogin.visibility = View.GONE
+            binding.animLoadingLogin.setAnimation("paperplane.json")
+            binding.animLoadingLogin.playAnimation()
+            binding.animLoadingLogin.repeatCount = LottieDrawable.INFINITE
         } else {
-            binding.layoutLoadingView.visibility = View.GONE
-            binding.animLoadingView.cancelAnimation()
+            binding.loadingLogin.visibility = View.GONE
+            binding.svLogin.visibility = View.VISIBLE
+            binding.animLoadingLogin.cancelAnimation()
         }
     }
 

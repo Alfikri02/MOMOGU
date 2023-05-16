@@ -1,11 +1,11 @@
 <resources>
 
-    <dimen name="h4TextSize">35sp</dimen>
-    <dimen name="h3TextSize">24sp</dimen>
-    <dimen name="h2TextSize">20sp</dimen>
+    <dimen name="h4TextSize">24sp</dimen>
+    <dimen name="h3TextSize">20sp</dimen>
+    <dimen name="h2TextSize">16sp</dimen>
     <dimen name="zerodp">0dp</dimen>
     <dimen name="mediumButtonWidth">200dp</dimen>
-    <dimen name="mediumButtonHeight">60dp</dimen>
+    <dimen name="mediumButtonHeight">46dp</dimen>
 
     <style name="h2">
         <item name="android:fontFamily">@font/poppins_light</item>

@@ -186,13 +186,15 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun startLoadingView(start: Boolean) {
         if (start) {
-            binding.layoutLoadingViewSignIn.visibility = View.VISIBLE
-            binding.animLoadingViewSignIn.setAnimation("paperplane.json")
-            binding.animLoadingViewSignIn.playAnimation()
-            binding.animLoadingViewSignIn.repeatCount = LottieDrawable.INFINITE
+            binding.loadingRegister.visibility = View.VISIBLE
+            binding.svRegister.visibility = View.GONE
+            binding.animLoadingRegister.setAnimation("paperplane.json")
+            binding.animLoadingRegister.playAnimation()
+            binding.animLoadingRegister.repeatCount = LottieDrawable.INFINITE
         } else {
-            binding.layoutLoadingViewSignIn.visibility = View.GONE
-            binding.animLoadingViewSignIn.cancelAnimation()
+            binding.loadingRegister.visibility = View.GONE
+            binding.svRegister.visibility = View.VISIBLE
+            binding.animLoadingRegister.cancelAnimation()
         }
     }
 

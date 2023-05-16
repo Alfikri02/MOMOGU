@@ -9,12 +9,15 @@
     tools:context=".SignUpActivity">
 
     <ScrollView
+        android:id="@+id/svRegister"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/tv_account"
@@ -22,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/poppins_thin"
                 android:text="@string/registrasi"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +43,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_account" />
 
+            <LinearLayout
+                android:id="@+id/signin_link_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginHorizontal="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_input">
+
+                <TextView
+                    style="@style/h2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/have_acc" />
+
+                <TextView
+                    style="@style/h2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/poppins_thin"
+                    android:text="@string/login" />
+            </LinearLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_fullname"
                 style="@style/ti_layout"
@@ -48,7 +75,7 @@
                 android:hint="@string/full_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_input">
+                app:layout_constraintTop_toBottomOf="@+id/signin_link_btn">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_fullname"
@@ -130,41 +157,18 @@
                 android:layout_width="@dimen/mediumButtonWidth"
                 android:layout_height="@dimen/mediumButtonHeight"
                 android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
                 android:text="@string/register"
                 app:layout_constraintEnd_toEndOf="@+id/ti_password"
                 app:layout_constraintStart_toStartOf="@+id/ti_password"
-                app:layout_constraintTop_toBottomOf="@+id/ti_password" />
+                app:layout_constraintTop_toBottomOf="@+id/ti_password"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/signin_link_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            style="@style/h2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/have_acc" />
-
-        <TextView
-            style="@style/h2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/poppins_thin"
-            android:text="@string/login" />
-    </LinearLayout>
-
     <RelativeLayout
-        android:id="@+id/layoutLoadingView_SignIn"
+        android:id="@+id/loadingRegister"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#CC000000"
@@ -173,7 +177,7 @@
         android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animLoadingView_SignIn"
+            android:id="@+id/animLoadingRegister"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginStart="50dp"
@@ -182,10 +186,9 @@
             android:gravity="center_horizontal" />
 
         <TextView
-            android:id="@+id/lblLoadingViewTitle_SignIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/animLoadingView_SignIn"
+            android:layout_below="@+id/animLoadingRegister"
             android:layout_marginStart="50dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"

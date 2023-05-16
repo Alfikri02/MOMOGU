@@ -31,8 +31,8 @@
     <!--Activity Sign In-->
     <string name="content">null</string>
     <string name="email">Email</string>
-    <string name="login">Login</string>
-    <string name="welcome">Silahkan login untuk melanjutkan</string>
+    <string name="login">Masuk Sekarang!</string>
+    <string name="welcome">Masuk dengan akun yang telah terdaftar.</string>
     <string name="password">Kata Sandi</string>
     <string name="no_acc">Tidak punya akun?</string>
     <string name="no_acc_bred">Akun untuk peternak?</string>
@@ -40,12 +40,12 @@
     <string name="loading_title">Harap tunggu sementara kami Login untuk Anda, ini mungkin memakan waktu cukup lama&#8230;</string>
 
     <!--Activity Sign Up-->
-    <string name="registrasi">Registrasi Akun</string>
-    <string name="fill_input">Silakan isi data di bawah ini</string>
+    <string name="registrasi">Daftar Akun</string>
+    <string name="fill_input">Silahkan Isi data dibawah ini</string>
     <string name="full_name">Nama Lengkap</string>
     <string name="username">Nama Pengguna</string>
     <string name="whatsapp">Nomor Whatsapp Aktif</string>
-    <string name="register">Register</string>
+    <string name="register">Daftar Sekarang!</string>
     <string name="have_acc">Sudah punya akun?</string>
 
     <!--Activity Post Detail-->
