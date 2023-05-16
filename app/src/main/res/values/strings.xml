@@ -37,7 +37,8 @@
     <string name="no_acc">Tidak punya akun?</string>
     <string name="no_acc_bred">Akun untuk peternak?</string>
     <string name="invalid_email">Format email salah!</string>
-    <string name="loading_title">Harap tunggu sementara kami Login untuk Anda, ini mungkin memakan waktu cukup lama&#8230;</string>
+    <string name="loading_title_login">Harap tunggu sementara kami Masuk untuk Anda, ini mungkin memakan waktu cukup lama&#8230;</string>
+    <string name="loading_title_register">Harap tunggu sementara kami Daftar untuk Anda, ini mungkin memakan waktu cukup lama&#8230;</string>
 
     <!--Activity Sign Up-->
     <string name="registrasi">Daftar Akun</string>
@@ -65,7 +66,7 @@
     <string name="NOTIFICATION_ADAPTER_COMMENTED">Commented: </string>
 
     <!--Splash Screen-->
-    <string name="power_by">Power By</string>
+    <string name="power_by">Powered By</string>
     <string name="splash_name">Muhammad Al Fikri</string>
     <string name="welcome_back">Selamat Datang Kembali,</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>

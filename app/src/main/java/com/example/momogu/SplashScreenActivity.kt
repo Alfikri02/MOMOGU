@@ -30,7 +30,7 @@ class SplashScreenActivity : AppCompatActivity() {
         val timer = object : Thread() {
             override fun run() {
                 try {
-                    sleep(2000)
+                    sleep(1500)
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 } finally {

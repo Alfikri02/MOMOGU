@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,17 +19,17 @@
             android:layout_height="180dp"
             android:layout_gravity="center"
             android:layout_marginTop="100dp"
-            app:srcCompat="@drawable/momogu"
-            android:contentDescription="@string/content" />
+            android:contentDescription="@string/content"
+            app:srcCompat="@drawable/momogu" />
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/lblPowerBy"
@@ -45,7 +44,8 @@
             android:id="@+id/lblDesmond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/lblPowerBy"
             android:text="@string/splash_name"
             android:textColor="@color/blackColor"
             android:textSize="15sp"

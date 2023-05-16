@@ -34,33 +34,22 @@
                 style="@style/h3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/poppins_thin"
                 android:text="Masuk"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/logo" />
 
-            <TextView
-                android:id="@+id/tv_welcome"
-                style="@style/h2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:text="@string/welcome"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_login" />
-
             <LinearLayout
                 android:id="@+id/signup_link_btn"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
                 android:layout_marginBottom="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_welcome">
+                app:layout_constraintEnd_toEndOf="@+id/tv_login"
+                app:layout_constraintStart_toStartOf="@+id/tv_login"
+                app:layout_constraintTop_toBottomOf="@+id/tv_login">
 
                 <TextView
                     style="@style/h2"
@@ -80,11 +69,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_email"
                 style="@style/ti_layout"
-                android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20dp"
                 android:hint="@string/email"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/signup_link_btn"
+                app:layout_constraintStart_toStartOf="@+id/signup_link_btn"
                 app:layout_constraintTop_toBottomOf="@+id/signup_link_btn">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -142,37 +130,38 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loadingLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:background="#CC000000"
-        android:foregroundGravity="center_horizontal"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animLoadingLogin"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="50dp"
-            android:gravity="center_horizontal" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.15"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/animLoadingLogin"
-            android:layout_marginStart="50dp"
+            android:layout_marginHorizontal="50dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="50dp"
-            android:gravity="center_horizontal"
             android:lines="3"
-            android:text="@string/loading_title"
+            android:text="@string/loading_title_login"
             android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@+id/animLoadingLogin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

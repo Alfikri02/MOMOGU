@@ -1,49 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WelcomeActivity">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animLoadingView_welcome"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:gravity="center_horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="100dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"/>
-
-    <TextView
-        android:id="@+id/lblWelcomeTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome_back"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/animLoadingView_welcome"/>
-
-    <TextView
-        android:id="@+id/lblName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textColor="@color/blackColor"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/lblWelcomeTitle"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/powerBy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animLoadingView_welcome"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/lblWelcomeTitle"
+            style="@style/h2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/animLoadingView_welcome"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/welcome_back"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/lblName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblWelcomeTitle"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:text=""
+            style="@style/h3"
+            android:fontFamily="@font/poppins_thin"
+            android:textAlignment="center"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/powerBy"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center">
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/lblPowerBy"
@@ -58,7 +71,8 @@
             android:id="@+id/lblDesmond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/lblPowerBy"
             android:text="@string/splash_name"
             android:textColor="@color/blackColor"
             android:textSize="15sp"
