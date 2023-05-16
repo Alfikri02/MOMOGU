@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.momogu.Adapter.DetailImagesAdapter
+import com.example.momogu.Adapter.BreederImagesAdapter
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityBreederBinding
@@ -27,9 +27,8 @@ class BreederActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBreederBinding
 
     private var postId: String = ""
-    private lateinit var profileId: String
     var postList: List<PostModel>? = null
-    var detailImagesAdapter: DetailImagesAdapter? = null
+    var breederImagesAdapter: BreederImagesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +41,6 @@ class BreederActivity : AppCompatActivity() {
             postId = preferences.getString("postid", "none")!!
         }
 
-        val pref = this.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
-        if (pref != null) {
-            this.profileId = pref.getString("profileId", "none").toString()
-        }
-
         //Recycler View for Uploaded Images
         val recyclerViewUploadImages: RecyclerView = binding.recyclerViewUploadPic
         recyclerViewUploadImages.setHasFixedSize(true)
@@ -54,18 +48,18 @@ class BreederActivity : AppCompatActivity() {
         recyclerViewUploadImages.layoutManager = linearLayoutManager
 
         postList = ArrayList()
-        detailImagesAdapter = DetailImagesAdapter(this, postList as ArrayList<PostModel>)
-        recyclerViewUploadImages.adapter = detailImagesAdapter
+        breederImagesAdapter = BreederImagesAdapter(this, postList as ArrayList<PostModel>)
+        recyclerViewUploadImages.adapter = breederImagesAdapter
 
         retrievePosts()
-        myPhotos()
+        retrieveImage()
 
         binding.backBreeder.setOnClickListener {
             finish()
         }
 
         binding.proImageProfileFrag.setOnClickListener {
-            retrieveImage()
+            retrievePublisherImage()
         }
 
     }
@@ -119,7 +113,24 @@ class BreederActivity : AppCompatActivity() {
         })
     }
 
-    private fun myPhotos() {
+    private fun retrieveImage() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val post = p0.getValue(PostModel::class.java)
+
+                    myPhotos(post?.getPublisher())
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun myPhotos(publisherId: String?) {
         val postRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
         postRef.addValueEventListener(object : ValueEventListener {
@@ -131,9 +142,9 @@ class BreederActivity : AppCompatActivity() {
                     for (snapshot in p0.children) {
                         val post = snapshot.getValue(PostModel::class.java)
 
-                        if (post?.getPublisher().equals(profileId)) {
+                        if (post!!.getPublisher().equals(publisherId)) {
                             (postList as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
-                            (postList as ArrayList<PostModel>).add(post!!)
+                            (postList as ArrayList<PostModel>).add(post)
                         }
                     }
                 }
@@ -143,7 +154,7 @@ class BreederActivity : AppCompatActivity() {
         })
     }
 
-    private fun retrieveImage() {
+    private fun retrievePublisherImage() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
 
         postsRef.addValueEventListener(object : ValueEventListener {

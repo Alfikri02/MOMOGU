@@ -19,8 +19,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 
-class DetailImagesAdapter(private val mContext: Context, mPost: List<PostModel>) :
-    RecyclerView.Adapter<DetailImagesAdapter.ViewHolder?>() {
+class BreederImagesAdapter(private val mContext: Context, mPost: List<PostModel>) :
+    RecyclerView.Adapter<BreederImagesAdapter.ViewHolder?>() {
     private var mPost: List<PostModel>? = null
 
     init {
