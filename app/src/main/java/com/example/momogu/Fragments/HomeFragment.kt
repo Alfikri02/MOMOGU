@@ -155,9 +155,9 @@ class HomeFragment : Fragment() {
     private fun imageSlider(){
         val imageList = ArrayList<SlideModel>()
 
-        imageList.add(SlideModel(R.drawable.satu, ScaleTypes.CENTER_CROP))
-        imageList.add(SlideModel(R.drawable.dua, ScaleTypes.CENTER_CROP))
-        imageList.add(SlideModel(R.drawable.tiga, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.flyer_satu, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.flyer_dua, ScaleTypes.CENTER_CROP))
+        imageList.add(SlideModel(R.drawable.flyer_tiga, ScaleTypes.CENTER_CROP))
 
         val imageSlider = binding.sliderHome
         imageSlider.setImageList(imageList)

@@ -134,9 +134,7 @@
         android:id="@+id/loadingLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:background="#CC000000"
-        android:gravity="center"
+        android:background="@color/delapan"
         android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView

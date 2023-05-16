@@ -106,7 +106,7 @@
                     android:layout_gravity="bottom|center"
                     android:background="@color/lima"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Tekan untuk perbesar"
+                    android:text="Tap untuk perbesar"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="14sp" />

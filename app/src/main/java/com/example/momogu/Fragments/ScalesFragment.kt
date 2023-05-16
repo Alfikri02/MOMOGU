@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.denzcoskun.imageslider.constants.ScaleTypes
-import com.denzcoskun.imageslider.models.SlideModel
+import androidx.appcompat.app.AlertDialog
 import com.example.momogu.R
 import com.example.momogu.databinding.FragmentScalesBinding
+import com.github.chrisbanes.photoview.PhotoView
 
 class ScalesFragment : Fragment() {
 
@@ -26,7 +26,7 @@ class ScalesFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentScalesBinding.inflate(inflater)
 
-        binding.etChest.addTextChangedListener(object : TextWatcher{
+        binding.etChest.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -37,7 +37,7 @@ class ScalesFragment : Fragment() {
 
         })
 
-        binding.etBody.addTextChangedListener(object : TextWatcher{
+        binding.etBody.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -48,7 +48,9 @@ class ScalesFragment : Fragment() {
 
         })
 
-        imageSlider()
+        binding.exteriorImage.setOnClickListener {
+            costumImage()
+        }
 
         return binding.root
     }
@@ -61,15 +63,18 @@ class ScalesFragment : Fragment() {
         binding.etWeight.setText(String.format("%.1f KG", hasilHitung))
     }
 
-    private fun imageSlider(){
-        val imageList = ArrayList<SlideModel>()
+    private fun costumImage() {
 
-        imageList.add(SlideModel(R.drawable.satu, ScaleTypes.CENTER_CROP))
-        imageList.add(SlideModel(R.drawable.dua, ScaleTypes.CENTER_CROP))
-        imageList.add(SlideModel(R.drawable.tiga, ScaleTypes.CENTER_CROP))
+        val mBuilder = AlertDialog.Builder(requireContext())
+        val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
 
-        val imageSlider = binding.sliderScales
-        imageSlider.setImageList(imageList)
+        val imageView = mView.findViewById<PhotoView>(R.id.imageView)
+        imageView.setImageResource(R.drawable.exterior_sapi)
+
+        mBuilder.setView(mView)
+        val mDialog = mBuilder.create()
+        mDialog.show()
+
     }
 
     override fun onPause() {
