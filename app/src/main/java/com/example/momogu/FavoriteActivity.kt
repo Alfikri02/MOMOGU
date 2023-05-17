@@ -4,7 +4,6 @@ package com.example.momogu
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,7 +13,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -75,23 +73,23 @@ class FavoriteActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.profileDetail.setOnClickListener {
+        binding.cvProfileDetail.setOnClickListener {
             startActivity(Intent(this, BreederActivity::class.java))
         }
 
-        binding.btnBuy.setOnClickListener {
+        binding.btnBuyDetail.setOnClickListener {
             transVal()
         }
 
-        binding.btnCall.setOnClickListener {
+        binding.btnCallDetail.setOnClickListener {
             phonePost()
         }
 
-        binding.btnSeeVideo.setOnClickListener {
+        binding.cvSeeVideo.setOnClickListener {
             retrieveVideo()
         }
 
-        binding.cvImage.setOnClickListener {
+        binding.cvImageDetail.setOnClickListener {
             retrieveImage()
         }
 
@@ -121,13 +119,13 @@ class FavoriteActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(
                         this,
-                        "Please accept permission to view the location",
+                        getString(R.string.toast_permission_location_detail),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
 
-        binding.btnSeeLocation.setOnClickListener {
+        binding.cvSeeLocation.setOnClickListener {
             checkPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
@@ -137,8 +135,8 @@ class FavoriteActivity : AppCompatActivity() {
             return true
         } else {
             val dialog = AlertDialog.Builder(this)
-            dialog.setTitle("GPS isn't enabled !")
-            dialog.setMessage("Enable it to see the distance between you and the product.")
+            dialog.setTitle(getString(R.string.toast_gps_detail))
+            dialog.setMessage(getString(R.string.toast_gps_on_detail))
             dialog.setCancelable(true)
             dialog.setIcon(R.drawable.ic_location_off)
             dialog.setPositiveButton("OK") { d, _ ->
@@ -162,17 +160,17 @@ class FavoriteActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val post = p0.getValue(PostModel::class.java)
 
-                    Picasso.get().load(post!!.getPostimage()).into(binding.imagePost)
+                    Picasso.get().load(post!!.getPostimage()).into(binding.imageDetail)
 
-                    binding.productDetail.text = post.getProduct()
-                    binding.priceDetail.text = "Rp. ${post.getPrice()}"
-                    binding.tvPriceShipping.text = "Rp. ${post.getShipping()}"
-                    binding.dateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd MMM yyyy")
-                    binding.etWeight.text = "${post.getWeight()} KG"
-                    binding.etGender.text = post.getGender()
-                    binding.etAge.text = "${post.getAge()} Bulan"
-                    binding.etColor.text = post.getColor()
-                    binding.etDesc.setText(post.getDesc())
+                    binding.tvProductDetail.text = post.getProduct()
+                    binding.tvPriceDetail.text = "Rp. ${post.getPrice()}"
+                    binding.tvProductDetail.text = "Rp. ${post.getShipping()}"
+                    binding.tvDateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd MMM yyyy")
+                    binding.etWeightDetail.text = "${post.getWeight()} KG"
+                    binding.etGenderDetail.text = post.getGender()
+                    binding.etAgeDetail.text = "${post.getAge()} Bulan"
+                    binding.etColorDetail.text = post.getColor()
+                    binding.etDescDetail.setText(post.getDesc())
                     productLatitude = post.getLatitude()!!
                     productLongitude = post.getLongitude()!!
                     publisherInfo(post.getPublisher())
@@ -193,25 +191,25 @@ class FavoriteActivity : AppCompatActivity() {
                     val user = p0.getValue(UserModel::class.java)
 
                     if (user!!.getImage().isNullOrEmpty()) {
-                        binding.userProfile.setImageResource(R.drawable.profile)
+                        binding.userProfileDetail.setImageResource(R.drawable.profile)
                     } else {
                         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
-                            .into(binding.userProfile)
+                            .into(binding.userProfileDetail)
                     }
 
                     if (user.getStatusOn().equals("Aktif")) {
                         binding.tvStatusDetail.text = user.getStatusOn()
-                        binding.dotStatus.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+                        binding.dotStatusDetail.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
                     } else {
                         val messages = TimeAgoMessages.Builder()
                             .withLocale(Locale("in")) // Set Indonesian locale
                             .build()
                         binding.tvStatusDetail.text =
                             "Aktif ${TimeAgo.using(user.getLastOnline()!!.toLong(), messages)}"
-                        binding.dotStatus.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
+                        binding.dotStatusDetail.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
                     }
 
-                    binding.tvFullnameDetail.text = user.getFullname()
+                    binding.tvNameDetail.text = user.getFullname()
                 }
             }
 
@@ -220,11 +218,11 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun removeFav() {
-        builder.setTitle("Peringatan!")
-            .setMessage("Apakah anda ingin menghapus sapi ini dari daftar favorit?")
+        builder.setTitle(getString(R.string.toast_warning_detail))
+            .setMessage(getString(R.string.toast_remove_fav_detail))
             .setCancelable(true)
             .setPositiveButton("Iya") { _, _ ->
-                binding.removeFav.setImageResource(R.drawable.favorite_broder)
+                binding.removeFav.setImageResource(R.drawable.ic_favorite_broder)
 
                 val postRef =
                     FirebaseDatabase.getInstance().getReference("Saves").child(firebaseUser.uid)
@@ -233,7 +231,7 @@ class FavoriteActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this,
-                    "Sapi dihapus dari daftar favorite!",
+                    getString(R.string.toast_remove_fav_succeed_detail),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -245,7 +243,7 @@ class FavoriteActivity : AppCompatActivity() {
 
 
             }.setNegativeButton("Tidak") { dialogInterface, _ ->
-                binding.removeFav.setImageResource(R.drawable.favorite)
+                binding.removeFav.setImageResource(R.drawable.ic_favorite)
                 dialogInterface.cancel()
             }.show()
     }
@@ -319,13 +317,13 @@ class FavoriteActivity : AppCompatActivity() {
                     if (receipt!!.getStatus().equals("Selesai")) {
                         Toast.makeText(
                             applicationContext,
-                            "Sapi telah terjual!",
+                            getString(R.string.toast_sell_detail),
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
                         Toast.makeText(
                             applicationContext,
-                            "Transaksi telah berlangsung!",
+                            getString(R.string.toast_was_taken_detail),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -334,10 +332,7 @@ class FavoriteActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 

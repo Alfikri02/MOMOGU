@@ -30,7 +30,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:contentDescription="@string/content"
-                android:src="@drawable/momogu"
+                android:src="@drawable/ic_momogu_text_bottom"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,7 +117,7 @@
                 android:id="@+id/post_image_receipt"
                 android:layout_width="70dp"
                 android:layout_height="52dp"
-                android:src="@drawable/momogu"
+                android:src="@drawable/ic_momogu_text_bottom"
                 android:contentDescription="@string/content"
                 android:scaleType="centerCrop"/>
 

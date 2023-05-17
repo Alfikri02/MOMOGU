@@ -9,6 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/momogu"/>
+        android:src="@drawable/ic_momogu_text_bottom"/>
 
 </RelativeLayout>

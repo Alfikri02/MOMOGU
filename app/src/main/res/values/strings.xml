@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MOMOGU</string>
     <string name="content">null</string>
+    <string name="zero">0</string>
 
     <!--Post Adapter-->
     <string name="date">Date</string>
@@ -56,6 +57,38 @@
     <string name="toast_wait_add">Silahkan tunggu, sementara kami sedang menambahkan postingan sapi anda!</string>
     <string name="toast_cow_add">Sapi berhasil ditambahkan!</string>
 
+    <!--Activity Detail-->
+    <string name="tv_detail">Detail</string>
+    <string name="tv_tap_detail">Tap untuk perbesar</string>
+    <string name="tv_price_detail">Harga</string>
+    <string name="tv_product_detail">Jenis Sapi</string>
+    <string name="tv_date_detail">Tanggal</string>
+    <string name="tv_see_video_detail">Lihat Kondisi Sapi</string>
+    <string name="tv_weight_detail">Bobot</string>
+    <string name="tv_age_detail">umur</string>
+    <string name="tv_gender_detail">Jenis Kelamin</string>
+    <string name="tv_color_detail">Warna</string>
+    <string name="tv_desc_detail">Deskripsi</string>
+    <string name="tv_name_detail">Nama Lengkap</string>
+    <string name="tv_status_detail">Status</string>
+    <string name="tv_city_detail">Kota</string>
+    <string name="tv_see_location_detail">Lihat Lokasi Sapi</string>
+    <string name="tv_shipping_detail">Pengiriman</string>
+    <string name="tv_payment_detail">Metode Pembayaran</string>
+    <string name="tv_payment_on_detail">Ditempat</string>
+    <string name="note_payment_detail">Mohon sediakan uang pas</string>
+    <string name="tv_buy_detail">Beli Sekarang</string>
+
+    <string name="toast_permission_location_detail">Harap terima izin untuk melihat lokasi</string>
+    <string name="toast_gps_detail">GPS tidak diaktifkan!</string>
+    <string name="toast_gps_on_detail">Aktifkan untuk melihat lokasi</string>
+    <string name="toast_sell_detail">Sapi telah terjual!</string>
+    <string name="toast_was_taken_detail">Transaksi telah berlangsung!</string>
+    <string name="toast_warning_detail">Peringatan!</string>
+    <string name="toast_delete_detail">Apakah anda ingin menghapus data sapi ini?</string>
+    <string name="toast_delete_succeed_detail">Data sapi berhasil dihapus!</string>
+    <string name="toast_remove_fav_detail">Apakah anda ingin menghapus sapi ini dari daftar favorit?</string>
+    <string name="toast_remove_fav_succeed_detail">Sapi dihapus dari daftar favorite!</string>
 
     <!--Activity Sign In-->
     <string name="email">Email</string>
@@ -77,16 +110,7 @@
     <string name="register">Daftar Sekarang!</string>
     <string name="have_acc">Sudah punya akun?</string>
 
-    <!--Activity Post Detail-->
-    <string name="photo">Photo</string>
-    <string name="detail">Detail</string>
-    <string name="favorite">Favorit</string>
-    <string name="weight_estimation">Bobot</string>
-    <string name="age_">Umur</string>
-    <string name="buy">Beli Sekarang!</string>
-
     <!--Fragment Profile-->
-    <string name="zero">0</string>
 
     <!--Notification Adapter-->
     <string name="NOTIFICATION_ADAPTER_START_FOLLOWING">Started following you</string>

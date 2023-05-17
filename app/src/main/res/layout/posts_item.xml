@@ -19,7 +19,7 @@
             android:layout_height="100dp"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_cow"
+            android:src="@drawable/ic_momogu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -107,7 +107,7 @@
             android:layout_height="34dp"
             android:layout_alignParentEnd="true"
             android:contentDescription="@null"
-            android:src="@drawable/favorite_broder"
+            android:src="@drawable/ic_favorite_broder"
             app:layout_constraintBottom_toBottomOf="@+id/post_image_home"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/ijotua"

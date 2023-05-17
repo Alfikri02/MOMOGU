@@ -16,7 +16,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="20"
         android:contentDescription="@string/content"
-        android:src="@drawable/momogu"
+        android:src="@drawable/ic_momogu_text_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

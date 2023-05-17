@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="100dp"
             android:contentDescription="@string/content"
-            app:srcCompat="@drawable/momogu" />
+            app:srcCompat="@drawable/ic_momogu_text_bottom" />
 
     </LinearLayout>
 

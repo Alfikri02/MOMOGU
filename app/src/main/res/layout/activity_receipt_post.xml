@@ -302,7 +302,7 @@
                             android:layout_height="80dp"
                             android:contentDescription="@string/content"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/momogu" />
+                            android:src="@drawable/ic_momogu_text_bottom" />
 
                     </androidx.cardview.widget.CardView>
 

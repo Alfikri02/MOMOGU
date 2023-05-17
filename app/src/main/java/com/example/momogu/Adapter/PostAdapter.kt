@@ -158,10 +158,10 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         savesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.child(postid).exists()) {
-                    imageView.setImageResource(R.drawable.favorite)
+                    imageView.setImageResource(R.drawable.ic_favorite)
                     imageView.tag = "Saved"
                 } else {
-                    imageView.setImageResource(R.drawable.favorite_broder)
+                    imageView.setImageResource(R.drawable.ic_favorite_broder)
                     imageView.tag = "Save"
                 }
             }

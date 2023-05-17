@@ -1,8 +1,9 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,9 +11,7 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
-import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -72,49 +71,16 @@ class DetailProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.btnSeeVideo.setOnClickListener {
+        binding.cvSeeVideo.setOnClickListener {
             retrieveVideo()
         }
 
-        binding.cvImage.setOnClickListener {
+        binding.cvImageDetail.setOnClickListener {
             retrieveImage()
         }
 
         binding.deleteDetail.setOnClickListener {
             valDelete()
-        }
-
-        binding.menuDetail.setOnClickListener {
-            val popupMenu = PopupMenu(this, it)
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.edit_data -> {
-                        valEdit()
-                        true
-                    }
-
-                    R.id.delete_data -> {
-                        valDelete()
-                        true
-                    }
-
-                    else -> false
-                }
-            }
-            popupMenu.inflate(R.menu.profile_menu)
-            try {
-                val fieldMPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-                fieldMPopup.isAccessible = true
-                val mPopup = fieldMPopup.get(popupMenu)
-                mPopup.javaClass
-                    .getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                    .invoke(mPopup, true)
-            } catch (e: Exception) {
-                Log.e("Main", "Error showing menu icons.", e)
-            } finally {
-                popupMenu.show()
-            }
-
         }
 
         val checkPermission =
@@ -139,13 +105,13 @@ class DetailProfileActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(
                         this,
-                        "Please accept permission to view the location",
+                        getString(R.string.toast_permission_location_detail),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
 
-        binding.btnSeeLocation.setOnClickListener {
+        binding.cvSeeLocation.setOnClickListener {
             checkPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
 
@@ -156,15 +122,15 @@ class DetailProfileActivity : AppCompatActivity() {
             return true
         } else {
             val dialog = AlertDialog.Builder(this)
-            dialog.setTitle("GPS isn't enabled !")
-            dialog.setMessage("Enable it to see the distance between you and the product.")
+            dialog.setTitle(getString(R.string.toast_gps_detail))
+            dialog.setMessage(getString(R.string.toast_gps_on_detail))
             dialog.setCancelable(true)
             dialog.setIcon(R.drawable.ic_location_off)
-            dialog.setPositiveButton("OK") { d, _ ->
+            dialog.setPositiveButton("Iya") { d, _ ->
                 d.dismiss()
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
             }
-            dialog.setNegativeButton("NO") { d, _ ->
+            dialog.setNegativeButton("Tidak") { d, _ ->
                 d.dismiss()
             }
             dialog.show()
@@ -181,17 +147,17 @@ class DetailProfileActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val post = p0.getValue(PostModel::class.java)
 
-                    Picasso.get().load(post!!.getPostimage()).into(binding.imagePost)
+                    Picasso.get().load(post!!.getPostimage()).into(binding.imageDetail)
 
-                    binding.productDetail.text = post.getProduct()
-                    binding.priceDetail.text = "Rp. ${post.getPrice()}"
-                    binding.tvPriceShipping.text = "Rp. ${post.getShipping()}"
-                    binding.dateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd MMM yyyy")
-                    binding.etWeight.text = "${post.getWeight()} KG"
-                    binding.etGender.text = post.getGender()
-                    binding.etAge.text = "${post.getAge()} Bulan"
-                    binding.etColor.text = post.getColor()
-                    binding.etDesc.setText(post.getDesc())
+                    binding.tvProductDetail.text = post.getProduct()
+                    binding.tvPriceDetail.text = "Rp. ${post.getPrice()}"
+                    binding.tvPriceShippingDetail.text = "Rp. ${post.getShipping()}"
+                    binding.tvDateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd MMM yyyy")
+                    binding.etWeightDetail.text = "${post.getWeight()} KG"
+                    binding.etGenderDetail.text = post.getGender()
+                    binding.etAgeDetail.text = "${post.getAge()} Bulan"
+                    binding.etColorDetail.text = post.getColor()
+                    binding.etDescDetail.setText(post.getDesc())
                     productLatitude = post.getLatitude()!!
                     productLongitude = post.getLongitude()!!
                 }
@@ -260,39 +226,6 @@ class DetailProfileActivity : AppCompatActivity() {
         })
     }
 
-    private fun valEdit() {
-        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
-        receiptRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    val receipt = dataSnapshot.getValue(ReceiptModel::class.java)
-
-                    if (receipt!!.getStatus().equals("Selesai")) {
-                        Toast.makeText(
-                            applicationContext,
-                            "Sapi telah terjual!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        Toast.makeText(
-                            applicationContext,
-                            "Transaksi telah berlangsung!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    val intent = Intent(this@DetailProfileActivity, EditProductActivity::class.java)
-                    startActivity(intent)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
-            }
-        })
-    }
-
     private fun valDelete() {
         val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
         receiptRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -303,19 +236,19 @@ class DetailProfileActivity : AppCompatActivity() {
                     if (receipt!!.getStatus().equals("Selesai")) {
                         Toast.makeText(
                             applicationContext,
-                            "Sapi telah terjual!",
+                            getString(R.string.toast_sell_detail),
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
                         Toast.makeText(
                             applicationContext,
-                            "Transaksi telah berlangsung!",
+                            getString(R.string.toast_was_taken_detail),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 } else {
-                    builder.setTitle("Peringatan!")
-                        .setMessage("Apakah anda ingin menghapus data sapi ini?")
+                    builder.setTitle(getString(R.string.toast_warning_detail))
+                        .setMessage(getString(R.string.toast_delete_detail))
                         .setCancelable(true)
                         .setPositiveButton("Iya") { _, _ ->
                             val postRef =
@@ -330,7 +263,7 @@ class DetailProfileActivity : AppCompatActivity() {
 
                             Toast.makeText(
                                 this@DetailProfileActivity,
-                                "Data sapi berhasil dihapus!",
+                                getString(R.string.toast_delete_succeed_detail),
                                 Toast.LENGTH_SHORT
                             )
                                 .show()
@@ -341,10 +274,7 @@ class DetailProfileActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 

@@ -117,7 +117,7 @@
                         android:layout_height="200dp"
                         android:contentDescription="@string/content"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/momogu" />
+                        android:src="@drawable/ic_momogu_text_bottom" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -273,7 +273,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDescEdit"
                     style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_description"
+                    android:drawableStart="@drawable/ic_desc"
                     android:inputType="textMultiLine" />
 
             </com.google.android.material.textfield.TextInputLayout>

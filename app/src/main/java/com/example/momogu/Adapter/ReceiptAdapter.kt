@@ -246,7 +246,7 @@ class ReceiptAdapter(
                 if (p0.exists()) {
                     val post = p0.getValue(PostModel::class.java)
 
-                    Picasso.get().load(post?.getPostimage()).placeholder(R.drawable.momogu)
+                    Picasso.get().load(post?.getPostimage()).placeholder(R.drawable.ic_momogu_text_bottom)
                         .into(imageView)
 
                     product.text = post?.getProduct()
