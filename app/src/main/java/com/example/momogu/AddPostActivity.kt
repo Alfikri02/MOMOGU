@@ -30,13 +30,13 @@ import com.example.momogu.utils.Constanta.coordinateLatitude
 import com.example.momogu.utils.Constanta.coordinateLongitude
 import com.example.momogu.utils.Constanta.isLocationPicked
 import com.example.momogu.utils.Helper
+import com.example.momogu.utils.Helper.decimalFormatET
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.theartofdev.edmodo.cropper.CropImage
-import java.text.DecimalFormat
 
 class AddPostActivity : AppCompatActivity() {
 
@@ -46,8 +46,8 @@ class AddPostActivity : AppCompatActivity() {
     private var myVideoUrl = ""
     private var imageUri: Uri? = null
     private var videoUri: Uri? = null
-    private var storagePostPicRef: StorageReference? = null
-    private var storagePostVideoRef: StorageReference? = null
+    private var storagePicRef: StorageReference? = null
+    private var storageVideoRef: StorageReference? = null
     private var getResult: ActivityResultLauncher<Intent>? = null
     private var isPicked: Boolean? = false
 
@@ -59,12 +59,52 @@ class AddPostActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        storagePostPicRef = FirebaseStorage.getInstance().reference.child("Post Pictures")
+        storagePicRef = FirebaseStorage.getInstance().reference.child("Post Pictures")
 
-        storagePostVideoRef = FirebaseStorage.getInstance().reference.child("Post Video")
+        storageVideoRef = FirebaseStorage.getInstance().reference.child("Post Video")
 
         visVal()
         dropdownItem()
+
+        decimalFormatET(binding.etPriceAdd)
+        decimalFormatET(binding.etShippingAdd)
+
+        binding.saveAdd.setOnClickListener {
+            uploadImage()
+        }
+
+        binding.closeAdd.setOnClickListener {
+            finish()
+        }
+
+        binding.layoutImageAdd.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, REQUEST_POST_IMAGE)
+        }
+
+        binding.btnClearImageAdd.setOnClickListener {
+            binding.imageAdd.setImageURI(null)
+            binding.cvImageAdd.visibility = View.GONE
+            binding.btnClearImageAdd.visibility = View.GONE
+        }
+
+        binding.layoutVideoAdd.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+            intent.type = "video/*"
+            startActivityForResult(intent, REQUEST_VIDEO_CODE)
+        }
+
+        binding.btnClearVideoAdd.setOnClickListener {
+            binding.tvMaxVideoAdd.visibility = View.VISIBLE
+            binding.tvFileVideoAdd.visibility = View.GONE
+            binding.btnClearVideoAdd.visibility = View.GONE
+        }
+
+        isLocationPicked.postValue(false)
+
+        binding.btnClearLocationAdd.setOnClickListener {
+            isLocationPicked.postValue(false)
+        }
 
         getResult = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -81,92 +121,14 @@ class AddPostActivity : AppCompatActivity() {
                         Constanta.LocationPicker.Longitude.name,
                         0.0
                     )
-                    binding.fieldLocation.text = Helper.parseAddressLocation(this, lat, lon)
+                    binding.tvFieldLocationAdd.text = Helper.parseAddressLocation(this, lat, lon)
                     coordinateLatitude = lat
                     coordinateLongitude = lon
                 }
             }
         }
 
-        binding.saveNewPostBtn.setOnClickListener {
-            uploadImage()
-        }
-
-        binding.closeAddPostBtn.setOnClickListener {
-            finish()
-        }
-
-        binding.layoutImage.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, REQUEST_POST_IMAGE)
-        }
-
-        binding.btnClearImage.setOnClickListener {
-            binding.imagePost.setImageURI(null)
-            binding.cvImage.visibility = View.GONE
-            binding.btnClearImage.visibility = View.GONE
-        }
-
-        binding.layoutVideo.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
-            intent.type = "video/*"
-            startActivityForResult(intent, REQUEST_VIDEO_CODE)
-        }
-
-        binding.btnClearVideo.setOnClickListener {
-            binding.tvMaxVideo.visibility = View.VISIBLE
-            binding.tvFileVideo.visibility = View.GONE
-            binding.btnClearVideo.visibility = View.GONE
-        }
-
-        binding.etPrice.addTextChangedListener(object : TextWatcher {
-            val decimalFormat = DecimalFormat("#,##0")
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.etPrice.removeTextChangedListener(this)
-                try {
-                    val value = s.toString().replace(".", "").replace(",", "")
-                    val formatted = decimalFormat.format(value.toDouble())
-                    binding.etPrice.setText(formatted)
-                    binding.etPrice.setSelection(formatted.length)
-                } catch (_: NumberFormatException) {
-                }
-                binding.etPrice.addTextChangedListener(this)
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        binding.etShipping.addTextChangedListener(object : TextWatcher {
-            val decimalFormat = DecimalFormat("#,##0")
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.etShipping.removeTextChangedListener(this)
-                try {
-                    val value = s.toString().replace(".", "").replace(",", "")
-                    val formatted = decimalFormat.format(value.toDouble())
-                    binding.etShipping.setText(formatted)
-                    binding.etShipping.setSelection(formatted.length)
-                } catch (_: NumberFormatException) {
-                }
-                binding.etShipping.addTextChangedListener(this)
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        isLocationPicked.postValue(false)
-
-        binding.btnClearLocation.setOnClickListener {
-            isLocationPicked.postValue(false)
-        }
-
-        binding.btnSelectLocation.setOnClickListener {
-            /* check permission to granted apps pick user location */
+        binding.btnSelectLocationAdd.setOnClickListener {
             if (Helper.isPermissionGranted(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 val intentPickLocation = Intent(this, MapAdminActivity::class.java)
                 getResult?.launch(intentPickLocation)
@@ -183,8 +145,8 @@ class AddPostActivity : AppCompatActivity() {
         }
 
         isLocationPicked.observe(this) {
-            binding.previewLocation.isVisible = it
-            binding.btnSelectLocation.isVisible = !it
+            binding.previewLocationAdd.isVisible = it
+            binding.btnSelectLocationAdd.isVisible = !it
         }
 
     }
@@ -201,9 +163,9 @@ class AddPostActivity : AppCompatActivity() {
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val result = CropImage.getActivityResult(data)
             imageUri = result.uri
-            binding.imagePost.setImageURI(imageUri)
-            binding.cvImage.visibility = View.VISIBLE
-            binding.btnClearImage.visibility = View.VISIBLE
+            binding.imageAdd.setImageURI(imageUri)
+            binding.cvImageAdd.visibility = View.VISIBLE
+            binding.btnClearImageAdd.visibility = View.VISIBLE
         }
 
         if (requestCode == REQUEST_VIDEO_CODE && resultCode == RESULT_OK && data != null) {
@@ -219,12 +181,12 @@ class AddPostActivity : AppCompatActivity() {
                         ?.toLong()
 
                 if (duration != null && duration > 30000) {
-                    Toast.makeText(this, "Video lebih dari 30 detik!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.toast_video_max_add), Toast.LENGTH_LONG).show()
                 } else {
-                    binding.tvFileVideo.text = videoName
-                    binding.tvMaxVideo.visibility = View.GONE
-                    binding.tvFileVideo.visibility = View.VISIBLE
-                    binding.btnClearVideo.visibility = View.VISIBLE
+                    binding.tvFileVideoAdd.text = videoName
+                    binding.tvMaxVideoAdd.visibility = View.GONE
+                    binding.tvFileVideoAdd.visibility = View.VISIBLE
+                    binding.btnClearVideoAdd.visibility = View.VISIBLE
                 }
             }
         }
@@ -242,53 +204,53 @@ class AddPostActivity : AppCompatActivity() {
     private fun dropdownItem() {
         val gender = resources.getStringArray(R.array.Gender)
         val arrayGender = ArrayAdapter(this, R.layout.dropdown_item, gender)
-        binding.etGender.setAdapter(arrayGender)
+        binding.etGenderAdd.setAdapter(arrayGender)
 
         val typeCow = resources.getStringArray(R.array.TypeCow)
         val arrayCow = ArrayAdapter(this, R.layout.dropdown_item, typeCow)
-        binding.etProduct.setAdapter(arrayCow)
+        binding.etTypeAdd.setAdapter(arrayCow)
     }
 
     private fun visVal() {
-        binding.tiProduct.visibility = View.GONE
-        binding.tiAge.visibility = View.GONE
-        binding.tiWeight.visibility = View.GONE
+        binding.tiTypeAdd.visibility = View.GONE
+        binding.tiAgeAdd.visibility = View.GONE
+        binding.tiWeightAdd.visibility = View.GONE
         binding.tiColor.visibility = View.GONE
-        binding.tiGender.visibility = View.GONE
-        binding.tiDesc.visibility = View.GONE
-        binding.tiPrice.visibility = View.GONE
-        binding.tiShipping.visibility = View.GONE
-        binding.cbLetter.visibility = View.GONE
-        binding.cbCondition.visibility = View.GONE
+        binding.tiGenderAdd.visibility = View.GONE
+        binding.tiDescAdd.visibility = View.GONE
+        binding.tiPriceAdd.visibility = View.GONE
+        binding.tiShippingAdd.visibility = View.GONE
+        binding.cbLetterAdd.visibility = View.GONE
+        binding.cbConditionAdd.visibility = View.GONE
 
-        binding.tvFileVideo.addTextChangedListener(object : TextWatcher {
+        binding.tvFileVideoAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.tiProduct.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.tiTypeAdd.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        binding.etProduct.addTextChangedListener(object : TextWatcher {
+        binding.etTypeAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.tiAge.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.tiAgeAdd.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        binding.etAge.addTextChangedListener(object : TextWatcher {
+        binding.etAgeAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.tiWeight.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.tiWeightAdd.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        binding.etWeight.addTextChangedListener(object : TextWatcher {
+        binding.etWeightAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.tiColor.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
@@ -300,54 +262,56 @@ class AddPostActivity : AppCompatActivity() {
         binding.etColor.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.tiGender.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.tiGenderAdd.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        binding.etGender.addTextChangedListener(object : TextWatcher {
+        binding.etGenderAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.tiDesc.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.tiDescAdd.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        binding.etDesc.addTextChangedListener(object : TextWatcher {
+        binding.etDescAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.tiPrice.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.tiPriceAdd.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        binding.etPrice.addTextChangedListener(object : TextWatcher {
+        binding.etPriceAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.tiShipping.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        binding.etShipping.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.btnSelectLocation.visibility =
+                binding.tiShippingAdd.visibility =
                     if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        binding.fieldLocation.addTextChangedListener(object : TextWatcher {
+        binding.etShippingAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.cbLetter.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
-                binding.cbCondition.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.btnSelectLocationAdd.visibility =
+                    if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        binding.tvFieldLocationAdd.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.cbLetterAdd.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.cbConditionAdd.visibility =
+                    if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -359,68 +323,68 @@ class AddPostActivity : AppCompatActivity() {
         when {
 
             imageUri == null -> {
-                Toast.makeText(this, "Silahkan pilih foto sapi anda!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.toast_image_add), Toast.LENGTH_LONG).show()
             }
 
             videoUri == null -> {
-                Toast.makeText(this, "Silahkan pilih video sapi anda!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.toast_video_add), Toast.LENGTH_LONG).show()
             }
 
-            binding.etProduct.text.isNullOrEmpty() -> {
-                binding.etProduct.error = "Nama sapi dibutuhkan!"
+            binding.etTypeAdd.text.isNullOrEmpty() -> {
+                binding.etTypeAdd.error = getString(R.string.toast_type_add)
             }
 
-            binding.etAge.text.isNullOrEmpty() -> {
-                binding.etAge.error = "Umur sapi dibutuhkan!"
+            binding.etAgeAdd.text.isNullOrEmpty() -> {
+                binding.etAgeAdd.error = getString(R.string.toast_age_add)
             }
 
-            binding.etWeight.text.isNullOrEmpty() -> {
-                binding.etWeight.error = "Bobot sapi dibutuhkan!"
+            binding.etWeightAdd.text.isNullOrEmpty() -> {
+                binding.etWeightAdd.error = getString(R.string.toast_weight_add)
             }
 
             binding.etColor.text.isNullOrEmpty() -> {
-                binding.etColor.error = "Warna sapi dibutuhkan!"
+                binding.etColor.error = getString(R.string.toast_color_add)
             }
 
-            binding.etGender.text.isNullOrEmpty() -> {
-                binding.etGender.error = "Jenis kelamin sapi dibutuhkan!"
+            binding.etGenderAdd.text.isNullOrEmpty() -> {
+                binding.etGenderAdd.error = getString(R.string.toast_gender_add)
             }
 
-            binding.etDesc.text.isNullOrEmpty() -> {
-                binding.etDesc.error = "Deskripsi sapi dibutuhkan!"
+            binding.etDescAdd.text.isNullOrEmpty() -> {
+                binding.etDescAdd.error = getString(R.string.toast_desc_add)
             }
 
-            binding.etPrice.text.isNullOrEmpty() -> {
-                binding.etPrice.error = "Harga sapi dibutuhkan!"
+            binding.etPriceAdd.text.isNullOrEmpty() -> {
+                binding.etPriceAdd.error = getString(R.string.toast_price_add)
             }
 
-            binding.etShipping.text.isNullOrEmpty() -> {
-                binding.etShipping.error = "Ongkos pengiriman sapi dibutuhkan!"
+            binding.etShippingAdd.text.isNullOrEmpty() -> {
+                binding.etShippingAdd.error = getString(R.string.toast_shipping_add)
             }
 
-            binding.fieldLocation.text.isNullOrEmpty() -> {
-                Toast.makeText(this, "Silahkan pilih lokasi sapi anda!", Toast.LENGTH_LONG).show()
+            binding.tvFieldLocationAdd.text.isNullOrEmpty() -> {
+                Toast.makeText(this, getString(R.string.toast_location_add), Toast.LENGTH_LONG).show()
             }
 
-            binding.cbLetter.isChecked.not() -> {
-                Toast.makeText(this, "Penjaminan surat sapi dibutuhkan!", Toast.LENGTH_LONG).show()
+            binding.cbLetterAdd.isChecked.not() -> {
+                Toast.makeText(this, getString(R.string.toast_letter_add), Toast.LENGTH_LONG).show()
             }
 
-            binding.cbCondition.isChecked.not() -> {
-                Toast.makeText(this, "Penjaminan sapi dibutuhkan!", Toast.LENGTH_LONG).show()
+            binding.cbConditionAdd.isChecked.not() -> {
+                Toast.makeText(this, getString(R.string.toast_condition_add), Toast.LENGTH_LONG).show()
             }
 
             else -> {
                 val progressDialog = ProgressDialog(this)
-                progressDialog.setTitle("Menambahkan Sapi!")
-                progressDialog.setMessage("Silahkan tunggu, sementara kami sedang menambahkan postingan sapi anda!")
+                progressDialog.setTitle(getString(R.string.toast_add_cow))
+                progressDialog.setMessage(getString(R.string.toast_wait_add))
                 progressDialog.show()
 
                 val ref = FirebaseDatabase.getInstance().reference.child("Posts")
                 val postId = ref.push().key
 
-                val fileRef = storagePostPicRef!!.child("$postId.jpg")
-                val fileVideoRef = storagePostVideoRef!!.child("$postId.mp4")
+                val fileRef = storagePicRef!!.child("$postId.jpg")
+                val fileVideoRef = storageVideoRef!!.child("$postId.mp4")
 
                 val fileRefTask = fileRef.putFile(imageUri!!).continueWithTask { task ->
                     if (!task.isSuccessful) {
@@ -452,27 +416,27 @@ class AddPostActivity : AppCompatActivity() {
                         postMap["postimage"] = myUrl
                         postMap["postvideo"] = myVideoUrl
                         postMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
-                        postMap["product"] = binding.etProduct.text.toString()
-                        postMap["age"] = binding.etAge.text.toString()
-                        postMap["weight"] = binding.etWeight.text.toString()
+                        postMap["product"] = binding.etTypeAdd.text.toString()
+                        postMap["age"] = binding.etAgeAdd.text.toString()
+                        postMap["weight"] = binding.etWeightAdd.text.toString()
                         postMap["color"] = binding.etColor.text.toString()
-                        postMap["gender"] = binding.etGender.text.toString()
-                        postMap["desc"] = binding.etDesc.text.toString()
-                        postMap["price"] = binding.etPrice.text.toString()
-                        postMap["shipping"] = binding.etShipping.text.toString()
+                        postMap["gender"] = binding.etGenderAdd.text.toString()
+                        postMap["desc"] = binding.etDescAdd.text.toString()
+                        postMap["price"] = binding.etPriceAdd.text.toString()
+                        postMap["shipping"] = binding.etShippingAdd.text.toString()
                         postMap["latitude"] = coordinateLatitude
                         postMap["longitude"] = coordinateLongitude
-                        postMap["location"] = binding.fieldLocation.text.toString()
+                        postMap["location"] = binding.tvFieldLocationAdd.text.toString()
                         postMap["dateTime"] = System.currentTimeMillis().toString()
 
                         ref.child(postId).updateChildren(postMap)
 
-                        Toast.makeText(this, "Sapi berhasil ditambahkan!", Toast.LENGTH_LONG)
+                        Toast.makeText(this, getString(R.string.toast_cow_add), Toast.LENGTH_LONG)
                             .show()
 
                         finish()
                         progressDialog.dismiss()
-                    }.addOnFailureListener { _ ->
+                    }.addOnFailureListener {
                         progressDialog.dismiss()
                     }
             }

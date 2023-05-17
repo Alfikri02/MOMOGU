@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu.utils
 
 import android.annotation.SuppressLint
@@ -7,17 +9,23 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.momogu.R
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
 object Helper {
 
+    //Date
     @SuppressLint("SimpleDateFormat")
     fun getDate(milliSeconds: Long, dateFormat: String?): String? {
         val formatter = SimpleDateFormat(dateFormat)
@@ -32,7 +40,34 @@ object Helper {
             permission
         ) == PackageManager.PERMISSION_GRANTED
 
+    //DecimalFormat
+    fun decimalFormatET(editText: EditText) {
+        val decimalFormat = DecimalFormat("#,##0")
 
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                editText.removeTextChangedListener(this)
+                try {
+                    val value = s.toString().replace(Regex("[.,]"), "")
+                    val formatted = decimalFormat.format(value.toDouble())
+                    editText.setText(formatted)
+                    editText.setSelection(formatted.length)
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(editText.context, "Format angka tidak valid", Toast.LENGTH_SHORT).show()
+                }
+                editText.addTextChangedListener(this)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        }
+
+        editText.addTextChangedListener(textWatcher)
+    }
+
+
+    //AddressLocation
     fun parseAddressLocation(
         context: Context,
         lat: Double,
@@ -54,6 +89,7 @@ object Helper {
         return parseAddressLocation(context, lat, lon)
     }
 
+    //CityLocation
     fun parseCityLocation(
         context: Context,
         lat: Double,
@@ -74,6 +110,7 @@ object Helper {
         return parseAddressLocation(context, lat, lon)
     }
 
+    //costumDialog
     fun showDialogInfo(
         context: Context,
         message: String,

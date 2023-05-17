@@ -7,7 +7,7 @@
     tools:context=".AddPostActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout_add_post"
+        android:id="@+id/appBarAdd"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentStart="true"
@@ -16,7 +16,7 @@
         android:background="@drawable/top_bar">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/add_post_toolbar"
+            android:id="@+id/toolbarAdd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/top_bar">
@@ -27,7 +27,7 @@
                 android:layout_marginEnd="15dp">
 
                 <ImageView
-                    android:id="@+id/close_add_post_btn"
+                    android:id="@+id/closeAdd"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentStart="true"
@@ -40,12 +40,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/poppins_thin"
-                    android:text="@string/tambah_data"
+                    android:text="@string/add_data"
                     android:textSize="20sp"
                     tools:ignore="RelativeOverlap" />
 
                 <ImageView
-                    android:id="@+id/save_new_post_btn"
+                    android:id="@+id/saveAdd"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
@@ -64,14 +64,14 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="30dp"
-        android:layout_below="@+id/app_bar_layout_add_post">
+        android:layout_below="@+id/appBarAdd">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/layout_image"
+                android:id="@+id/layoutImageAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -83,16 +83,16 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/tv_choose"
+                    android:id="@+id/tvImageAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:text="Pilih Gambar Sapi Anda!"
+                    android:text="@string/tv_image_add"
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/btn_clear_image"
+                    android:id="@+id/btnClearImageAdd"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
@@ -101,18 +101,18 @@
                     android:visibility="gone" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_image"
+                    android:id="@+id/cvImageAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="15dp"
                     app:cardUseCompatPadding="true"
                     app:strokeColor="@color/colorBlack"
                     app:strokeWidth="5dp"
-                    android:layout_below="@+id/tv_choose"
+                    android:layout_below="@+id/tvImageAdd"
                     android:visibility="gone">
 
                 <ImageView
-                    android:id="@+id/image_post"
+                    android:id="@+id/imageAdd"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:contentDescription="@string/content"
@@ -124,7 +124,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/layout_video"
+                android:id="@+id/layoutVideoAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -133,28 +133,28 @@
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_image">
+                app:layout_constraintTop_toBottomOf="@+id/layoutImageAdd">
 
                 <TextView
-                    android:id="@+id/tv_choose_video"
+                    android:id="@+id/tvVideoAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:text="Pilih Video Sapi Anda!"
+                    android:text="@string/tv_video_add"
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_max_video"
+                    android:id="@+id/tvMaxVideoAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Maksimal 30 Detik"
-                    android:layout_below="@+id/tv_choose_video"
+                    android:text="@string/tv_max_video_add"
+                    android:layout_below="@+id/tvVideoAdd"
                     android:textSize="14sp" />
 
                 <ImageView
-                    android:id="@+id/btn_clear_video"
+                    android:id="@+id/btnClearVideoAdd"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
@@ -163,12 +163,12 @@
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/tv_file_video"
+                    android:id="@+id/tvFileVideoAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="Text"
-                    android:layout_below="@+id/tv_max_video"
+                    android:text="@string/tv_file_video_add"
+                    android:layout_below="@+id/tvMaxVideoAdd"
                     android:textSize="14sp"
                     android:textAlignment="center"
                     android:visibility="gone"/>
@@ -176,48 +176,34 @@
             </RelativeLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_product"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="@dimen/zerodp"
-                android:layout_height="wrap_content"
+                android:id="@+id/tiTypeAdd"
+                style="@style/ti_layout_dropdown"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/type_cow"
-                app:boxCornerRadiusBottomEnd="10dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                app:boxCornerRadiusTopStart="10dp"
+                android:hint="@string/ti_type_add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_video">
+                app:layout_constraintTop_toBottomOf="@+id/layoutVideoAdd">
 
                 <AutoCompleteTextView
-                    android:id="@+id/et_product"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/etTypeAdd"
+                    style="@style/et_layout_auto"
                     android:drawableStart="@drawable/ic_name"
-                    android:drawablePadding="5dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:inputType="none"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="5dp"
-                    android:textSize="16sp"
                     tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_age"
+                android:id="@+id/tiAgeAdd"
                 style="@style/ti_layout"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/age"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_product">
+                android:hint="@string/ti_age_add"
+                app:layout_constraintEnd_toEndOf="@+id/tiTypeAdd"
+                app:layout_constraintStart_toStartOf="@+id/tiTypeAdd"
+                app:layout_constraintTop_toBottomOf="@+id/tiTypeAdd">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_age"
+                    android:id="@+id/etAgeAdd"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="number" />
@@ -225,17 +211,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_weight"
+                android:id="@+id/tiWeightAdd"
                 style="@style/ti_layout"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/estimated_weight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_age">
+                android:hint="@string/ti_weight_add"
+                app:layout_constraintEnd_toEndOf="@+id/tiAgeAdd"
+                app:layout_constraintStart_toStartOf="@+id/tiAgeAdd"
+                app:layout_constraintTop_toBottomOf="@+id/tiAgeAdd">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_weight"
+                    android:id="@+id/etWeightAdd"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="numberDecimal" />
@@ -247,10 +232,10 @@
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/color"
+                android:hint="@string/ti_color_add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_weight">
+                app:layout_constraintTop_toBottomOf="@+id/tiWeightAdd">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_color"
@@ -261,48 +246,33 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_gender"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="@dimen/zerodp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
+                android:id="@+id/tiGenderAdd"
+                style="@style/ti_layout_dropdown"
                 android:layout_marginTop="10dp"
-                android:hint="@string/gender"
-                app:boxCornerRadiusBottomEnd="10dp"
-                app:boxCornerRadiusBottomStart="10dp"
-                app:boxCornerRadiusTopEnd="10dp"
-                app:boxCornerRadiusTopStart="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/ti_gender_add"
+                app:layout_constraintEnd_toEndOf="@+id/ti_color"
+                app:layout_constraintStart_toStartOf="@+id/ti_color"
                 app:layout_constraintTop_toBottomOf="@+id/ti_color">
 
                 <AutoCompleteTextView
-                    android:id="@+id/et_gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/etGenderAdd"
+                    style="@style/et_layout_auto"
                     android:drawableStart="@drawable/ic_name"
-                    android:drawablePadding="5dp"
-                    android:fontFamily="@font/poppins_light"
-                    android:inputType="none"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="5dp"
-                    android:textSize="16sp"
                     tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_desc"
+                android:id="@+id/tiDescAdd"
                 style="@style/ti_layout"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/desc"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_gender">
+                android:hint="@string/ti_desc_add"
+                app:layout_constraintEnd_toEndOf="@+id/tiGenderAdd"
+                app:layout_constraintStart_toStartOf="@+id/tiGenderAdd"
+                app:layout_constraintTop_toBottomOf="@+id/tiGenderAdd">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_desc"
+                    android:id="@+id/etDescAdd"
                     style="@style/et_layout"
                     android:drawableStart="@drawable/ic_name"
                     android:inputType="textMultiLine" />
@@ -310,17 +280,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_price"
+                android:id="@+id/tiPriceAdd"
                 style="@style/ti_layout"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/prices"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_desc">
+                android:hint="@string/ti_price_add"
+                app:layout_constraintEnd_toEndOf="@+id/tiDescAdd"
+                app:layout_constraintStart_toStartOf="@+id/tiDescAdd"
+                app:layout_constraintTop_toBottomOf="@+id/tiDescAdd">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_price"
+                    android:id="@+id/etPriceAdd"
                     style="@style/et_layout"
                     android:digits="0123456789.,"
                     android:drawableStart="@drawable/ic_name"
@@ -329,17 +298,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_shipping"
+                android:id="@+id/tiShippingAdd"
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="Biaya Pengiriman"
+                android:hint="@string/ti_shipping_add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_price">
+                app:layout_constraintTop_toBottomOf="@+id/tiPriceAdd">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_shipping"
+                    android:id="@+id/etShippingAdd"
                     style="@style/et_layout"
                     android:digits="0123456789.,"
                     android:drawableStart="@drawable/ic_name"
@@ -348,22 +317,22 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_select_location"
+                android:id="@+id/btnSelectLocationAdd"
                 style="@style/greenButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:paddingHorizontal="20dp"
-                android:text="Pilih Lokasi Sapi"
+                android:text="@string/bnt_select_location_add"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ti_shipping"/>
+                app:layout_constraintTop_toBottomOf="@+id/tiShippingAdd"/>
 
             <RelativeLayout
-                android:id="@+id/preview_location"
+                android:id="@+id/previewLocationAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -372,63 +341,67 @@
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_select_location">
+                app:layout_constraintTop_toBottomOf="@+id/btnSelectLocationAdd">
 
                 <TextView
-                    android:id="@+id/label_location"
+                    android:id="@+id/tvLocationAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/field_location"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:text="Lokasi"
+                    android:layout_toStartOf="@+id/btnClearLocationAdd"
+                    android:text="@string/tv_location_add"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/btn_clear_location"
+                    android:id="@+id/btnClearLocationAdd"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
                     android:contentDescription="@string/content"
-                    android:src="@drawable/ic_close" />
+                    android:src="@drawable/ic_close"
+                    android:layout_alignParentTop="true"/>
 
                 <TextView
-                    android:id="@+id/field_location"
+                    android:id="@+id/tvFieldLocationAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_clear_location"
+                    android:layout_below="@+id/btnClearLocationAdd"
                     android:layout_marginTop="8dp"
-                    android:autofillHints=""
                     android:textSize="12sp"
-                    tools:text="Alamat Lengkap" />
+                    android:text="@string/tv_field_location_add"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"/>
+
             </RelativeLayout>
 
             <CheckBox
-                android:id="@+id/cb_letter"
+                android:id="@+id/cbLetterAdd"
                 android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="14dp"
                 android:fontFamily="@font/poppins_light"
-                android:text="Saya menjamin sapi ini telah memiliki surat dari kepala desa setempat"
+                android:text="@string/cb_letter_add"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/preview_location" />
+                app:layout_constraintTop_toBottomOf="@+id/previewLocationAdd" />
 
             <CheckBox
-                android:id="@+id/cb_condition"
+                android:id="@+id/cbConditionAdd"
                 android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/poppins_light"
-                android:text="@string/guarante"
+                android:text="@string/cb_condition_add"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cb_letter" />
+                app:layout_constraintTop_toBottomOf="@+id/cbLetterAdd" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

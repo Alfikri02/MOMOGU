@@ -174,7 +174,7 @@
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/type_cow"
+                android:hint="Jenis"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_video">
@@ -192,7 +192,7 @@
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/age"
+                android:hint="Umur"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ti_product">
@@ -210,7 +210,7 @@
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/estimated_weight"
+                android:hint="Bobot"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ti_age">
@@ -228,7 +228,7 @@
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/color"
+                android:hint="Warna"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ti_weight">
@@ -248,7 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/gender"
+                android:hint="Jenis Kelamin"
                 app:boxCornerRadiusBottomEnd="15dp"
                 app:boxCornerRadiusBottomStart="15dp"
                 app:boxCornerRadiusTopEnd="15dp"
@@ -278,7 +278,7 @@
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/desc"
+                android:hint="Deskripsi"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ti_gender">
@@ -296,7 +296,7 @@
                 style="@style/ti_layout"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/prices"
+                android:hint="Harga"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ti_desc">

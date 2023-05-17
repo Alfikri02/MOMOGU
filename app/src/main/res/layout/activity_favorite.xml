@@ -277,7 +277,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:text="@string/gender"
+                        android:text="Jenis Kelamin"
                         app:layout_constraintStart_toEndOf="@+id/ic_gender"
                         app:layout_constraintTop_toTopOf="@+id/ic_gender" />
 
@@ -306,7 +306,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:text="@string/color"
+                        android:text="Warna"
                         app:layout_constraintStart_toEndOf="@+id/ic_color"
                         app:layout_constraintTop_toTopOf="@+id/ic_color" />
 
@@ -328,7 +328,7 @@
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:hint="@string/desc"
+                        android:hint="Deskripsi"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
