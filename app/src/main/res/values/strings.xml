@@ -110,25 +110,35 @@
     <string name="register">Daftar Sekarang!</string>
     <string name="have_acc">Sudah punya akun?</string>
 
-    <!--Fragment Profile-->
+    <!--Fragment Scales-->
+    <string name="scales">Timbangan</string>
+    <string name="ti_chest_scales">Lingkar Dada</string>
+    <string name="ti_body_scales">Panjang Badan</string>
+    <string name="tv_estimation">Perkiraan Bobot Sapi</string>
+    <string name="ti_weight_scales">0.0 KG</string>
+    <string name="tap_zoom_scales">Tap untuk perbesar</string>
+    <string name="tv_detail_exterior">Detail Exterior</string>
+    <string name="UI_info_exterior">
+        Hai, untuk melakukan pengukuran bobot sapi, baiknya mengetahui beberapa hal berikut:\n
+        1. Alat ukur menggunakan pita ukur baju atau sejenisnya.\n
+        2. Sapi di ukur pada bagian panjang badan dan lingkar dada.\n
+        👉🏻 Panjang badan:\n
+        Yaitu jarak antara ujung samping tulang bahu
+        sampai dengan ujung tulang duduk.\n
+        👉🏻 Lingkar Dada:\n
+        Yaitu panjang melingkar keliling yang diukur pada bagian belakang
+        tulang gumba pada tulang rusuk ke tiga sampai ke empat.
+    </string>
 
-    <!--Notification Adapter-->
-    <string name="NOTIFICATION_ADAPTER_START_FOLLOWING">Started following you</string>
-    <string name="NOTIFICATION_ADAPTER_LIKED_POST">Liked your post</string>
-    <string name="NOTIFICATION_ADAPTER_COMMENTED">Commented: </string>
+    <!--Fragment Profile-->
 
     <!--Splash Screen-->
     <string name="power_by">Powered By</string>
     <string name="splash_name">Muhammad Al Fikri</string>
     <string name="welcome_back">Selamat Datang Kembali,</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="edit_data">Ubah Data</string>
     <string name="delete_data">Hapus Data</string>
-    <string name="scales">Timbangan</string>
-    <string name="chest">Lingkar Dada</string>
-    <string name="body">Panjang Badan</string>
-    <string name="weight_estimated">0.0 KG</string>
-    <string name="cow_weight">Perkiraan Bobot Sapi</string>
     <string name="checkout">CheckOut</string>
     <string name="title_activity_maps">MapsActivity</string>
 

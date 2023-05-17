@@ -27,13 +27,14 @@
                 android:layout_marginEnd="15dp">
 
                 <TextView
+                    android:id="@+id/tvScales"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/poppins_thin"
                     android:text="@string/scales"
                     android:textSize="20sp"
-                    tools:ignore="RelativeOverlap" />
+                    tools:ignore="RelativeOverlap"/>
 
             </RelativeLayout>
 
@@ -53,7 +54,7 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cv_imageSlider"
+                android:id="@+id/cvImageScales"
                 android:layout_width="match_parent"
                 android:layout_height="225dp"
                 android:layout_alignParentTop="true"
@@ -68,7 +69,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/exterior_sapi" />
+                    android:src="@drawable/exterior_sapi"
+                    android:contentDescription="@string/content" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -76,78 +78,90 @@
                     android:layout_gravity="bottom|center"
                     android:background="@color/lima"
                     android:fontFamily="@font/poppins_light"
-                    android:text="Tap untuk perbesar"
+                    android:text="@string/tap_zoom_scales"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:id="@+id/tvDetailExterior"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cvImageScales"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-20dp"
+                android:fontFamily="@font/poppins_thin"
+                android:text="@string/tv_detail_exterior"
+                android:textSize="18sp" />
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_chest"
+                android:id="@+id/tiChestScales"
                 style="@style/ti_layout"
-                android:layout_below="@+id/cv_imageSlider"
+                android:layout_below="@+id/tvDetailExterior"
+                android:layout_marginTop="10dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="20dp"
-                android:hint="@string/chest">
+                android:hint="@string/ti_chest_scales">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_chest"
+                    android:id="@+id/etChestScales"
                     style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_username"
+                    android:drawableStart="@drawable/ic_cow"
                     android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_body"
+                android:id="@+id/tiBodyScales"
                 style="@style/ti_layout"
-                android:layout_below="@+id/ti_chest"
+                android:layout_below="@+id/tiChestScales"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/body">
+                android:hint="@string/ti_body_scales">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_body"
+                    android:id="@+id/etBodyScales"
                     style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_username"
+                    android:drawableStart="@drawable/ic_cow"
                     android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/estimation"
+                android:id="@+id/tvEstimation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ti_body"
+                android:layout_below="@+id/tiBodyScales"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/poppins_thin"
-                android:text="@string/cow_weight"
-                android:textSize="20sp" />
+                android:text="@string/tv_estimation"
+                android:textSize="18sp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_weight"
+                android:id="@+id/tiWeightScales"
                 style="@style/ti_layout"
                 android:layout_width="wrap_content"
-                android:layout_below="@+id/estimation"
+                android:layout_below="@+id/tvEstimation"
                 android:layout_centerHorizontal="true"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="-10dp"
                 android:layout_marginBottom="20dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_weight"
+                    android:id="@+id/etWeightScales"
                     style="@style/et_layout"
                     android:layout_width="wrap_content"
                     android:clickable="false"
-                    android:drawableStart="@drawable/ic_username"
+                    android:drawableStart="@drawable/ic_cow"
                     android:focusable="false"
                     android:inputType="none"
-                    android:text="@string/weight_estimated" />
+                    android:text="@string/ti_weight_scales" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

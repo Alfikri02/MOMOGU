@@ -6,13 +6,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import com.example.momogu.MainActivity
 import com.example.momogu.R
 import com.example.momogu.databinding.FragmentScalesBinding
+import com.example.momogu.utils.Helper.showDialogInfo
 import com.github.chrisbanes.photoview.PhotoView
 
 class ScalesFragment : Fragment() {
@@ -23,10 +26,9 @@ class ScalesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentScalesBinding.inflate(inflater)
 
-        binding.etChest.addTextChangedListener(object : TextWatcher {
+        binding.etChestScales.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -37,7 +39,7 @@ class ScalesFragment : Fragment() {
 
         })
 
-        binding.etBody.addTextChangedListener(object : TextWatcher {
+        binding.etBodyScales.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -52,15 +54,31 @@ class ScalesFragment : Fragment() {
             costumImage()
         }
 
+        binding.tvScales.setOnClickListener {
+            showDialogInfo(
+                (activity as MainActivity),
+                (activity as MainActivity).getString(R.string.UI_info_exterior),
+                Gravity.START
+            )
+        }
+
+        binding.tvDetailExterior.setOnClickListener {
+            showDialogInfo(
+                (activity as MainActivity),
+                (activity as MainActivity).getString(R.string.UI_info_exterior),
+                Gravity.START
+            )
+        }
+
         return binding.root
     }
 
     @SuppressLint("SetTextI18n")
     private fun hitung() {
-        val a = binding.etChest.text.toString().toDoubleOrNull() ?: 0.0
-        val b = binding.etBody.text.toString().toDoubleOrNull() ?: 0.0
+        val a = binding.etChestScales.text.toString().toDoubleOrNull() ?: 0.0
+        val b = binding.etBodyScales.text.toString().toDoubleOrNull() ?: 0.0
         val hasilHitung = (a * a * b) / 10840
-        binding.etWeight.setText(String.format("%.1f KG", hasilHitung))
+        binding.etWeightScales.setText(String.format("%.1f KG", hasilHitung))
     }
 
     private fun costumImage() {
