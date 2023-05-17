@@ -188,7 +188,7 @@
                 <AutoCompleteTextView
                     android:id="@+id/etTypeAdd"
                     style="@style/et_layout_auto"
-                    android:drawableStart="@drawable/ic_name"
+                    android:drawableStart="@drawable/ic_cow"
                     tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -205,7 +205,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etAgeAdd"
                     style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_name"
+                    android:drawableStart="@drawable/ic_age"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -222,25 +222,24 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etWeightAdd"
                     style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_name"
+                    android:drawableStart="@drawable/ic_weight"
                     android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_color"
+                android:id="@+id/tiColorAdd"
                 style="@style/ti_layout"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/ti_color_add"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tiWeightAdd"
+                app:layout_constraintStart_toStartOf="@+id/tiWeightAdd"
                 app:layout_constraintTop_toBottomOf="@+id/tiWeightAdd">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_color"
+                    android:id="@+id/etColorAdd"
                     style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_name"
+                    android:drawableStart="@drawable/ic_color"
                     android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -250,14 +249,14 @@
                 style="@style/ti_layout_dropdown"
                 android:layout_marginTop="10dp"
                 android:hint="@string/ti_gender_add"
-                app:layout_constraintEnd_toEndOf="@+id/ti_color"
-                app:layout_constraintStart_toStartOf="@+id/ti_color"
-                app:layout_constraintTop_toBottomOf="@+id/ti_color">
+                app:layout_constraintEnd_toEndOf="@+id/tiColorAdd"
+                app:layout_constraintStart_toStartOf="@+id/tiColorAdd"
+                app:layout_constraintTop_toBottomOf="@+id/tiColorAdd">
 
                 <AutoCompleteTextView
                     android:id="@+id/etGenderAdd"
                     style="@style/et_layout_auto"
-                    android:drawableStart="@drawable/ic_name"
+                    android:drawableStart="@drawable/ic_gender"
                     tools:ignore="LabelFor" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -274,7 +273,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDescAdd"
                     style="@style/et_layout"
-                    android:drawableStart="@drawable/ic_name"
+                    android:drawableStart="@drawable/ic_description"
                     android:inputType="textMultiLine" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -292,7 +291,7 @@
                     android:id="@+id/etPriceAdd"
                     style="@style/et_layout"
                     android:digits="0123456789.,"
-                    android:drawableStart="@drawable/ic_name"
+                    android:drawableStart="@drawable/ic_price"
                     android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -300,18 +299,17 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiShippingAdd"
                 style="@style/ti_layout"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:hint="@string/ti_shipping_add"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tiPriceAdd"
+                app:layout_constraintStart_toStartOf="@+id/tiPriceAdd"
                 app:layout_constraintTop_toBottomOf="@+id/tiPriceAdd">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etShippingAdd"
                     style="@style/et_layout"
                     android:digits="0123456789.,"
-                    android:drawableStart="@drawable/ic_name"
+                    android:drawableStart="@drawable/ic_shipping"
                     android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>

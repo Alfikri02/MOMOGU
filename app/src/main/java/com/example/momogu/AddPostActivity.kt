@@ -215,7 +215,7 @@ class AddPostActivity : AppCompatActivity() {
         binding.tiTypeAdd.visibility = View.GONE
         binding.tiAgeAdd.visibility = View.GONE
         binding.tiWeightAdd.visibility = View.GONE
-        binding.tiColor.visibility = View.GONE
+        binding.tiColorAdd.visibility = View.GONE
         binding.tiGenderAdd.visibility = View.GONE
         binding.tiDescAdd.visibility = View.GONE
         binding.tiPriceAdd.visibility = View.GONE
@@ -253,13 +253,13 @@ class AddPostActivity : AppCompatActivity() {
         binding.etWeightAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.tiColor.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                binding.tiColorAdd.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        binding.etColor.addTextChangedListener(object : TextWatcher {
+        binding.etColorAdd.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.tiGenderAdd.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
@@ -342,8 +342,8 @@ class AddPostActivity : AppCompatActivity() {
                 binding.etWeightAdd.error = getString(R.string.toast_weight_add)
             }
 
-            binding.etColor.text.isNullOrEmpty() -> {
-                binding.etColor.error = getString(R.string.toast_color_add)
+            binding.etColorAdd.text.isNullOrEmpty() -> {
+                binding.etColorAdd.error = getString(R.string.toast_color_add)
             }
 
             binding.etGenderAdd.text.isNullOrEmpty() -> {
@@ -419,7 +419,7 @@ class AddPostActivity : AppCompatActivity() {
                         postMap["product"] = binding.etTypeAdd.text.toString()
                         postMap["age"] = binding.etAgeAdd.text.toString()
                         postMap["weight"] = binding.etWeightAdd.text.toString()
-                        postMap["color"] = binding.etColor.text.toString()
+                        postMap["color"] = binding.etColorAdd.text.toString()
                         postMap["gender"] = binding.etGenderAdd.text.toString()
                         postMap["desc"] = binding.etDescAdd.text.toString()
                         postMap["price"] = binding.etPriceAdd.text.toString()
