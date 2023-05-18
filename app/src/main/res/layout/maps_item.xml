@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="216dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardCornerRadius="14dp"
+    app:cardUseCompatPadding="true"
+    app:strokeColor="@color/ijotua"
+    app:strokeWidth="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/icAddressMaps"
+        android:layout_width="18dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/content"
+        android:src="@drawable/ic_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLocationMaps"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:text="Location"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icAddressMaps"
+        app:layout_constraintTop_toTopOf="@+id/icAddressMaps"
+        tools:ignore="SmallSp" />
+
+    <ImageView
+        android:id="@+id/imageMaps"
+        android:layout_width="170dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_momogu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLocationMaps" />
+
+    <TextView
+        android:id="@+id/tvInfoMaps"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="( Tap untuk melihat sapi )"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageMaps" />
+
+    <ImageView
+        android:id="@+id/icCowMaps"
+        android:layout_width="12dp"
+        android:layout_height="19dp"
+        android:contentDescription="@string/content"
+        android:src="@drawable/ic_cow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInfoMaps" />
+
+    <TextView
+        android:id="@+id/tvProductMaps"
+        android:layout_width="164dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="4dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/icCowMaps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icCowMaps"
+        app:layout_constraintTop_toTopOf="@+id/icCowMaps"
+        tools:text="Name" />
+
+    <ImageView
+        android:id="@+id/icPriceMaps"
+        android:layout_width="12dp"
+        android:layout_height="19dp"
+        android:contentDescription="@string/content"
+        android:src="@drawable/ic_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icCowMaps" />
+
+    <TextView
+        android:id="@+id/tvPriceMaps"
+        android:layout_width="164dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="4dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/icPriceMaps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icPriceMaps"
+        app:layout_constraintTop_toTopOf="@+id/icPriceMaps"
+        tools:text="Price" />
+
+    <ImageView
+        android:id="@+id/icWeightMaps"
+        android:layout_width="12dp"
+        android:layout_height="19dp"
+        android:contentDescription="@string/content"
+        android:src="@drawable/ic_weight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icPriceMaps" />
+
+    <TextView
+        android:id="@+id/tvWeightMaps"
+        android:layout_width="164dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Weight"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/icWeightMaps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icWeightMaps"
+        app:layout_constraintTop_toTopOf="@+id/icWeightMaps" />
+
+    <TextView
+        android:id="@+id/tvUploadMaps"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorBlack"
+        android:textSize="11sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvWeightMaps"
+        tools:text="30 April 2022 00.00" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -84,10 +84,10 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         holder.price.text = "Rp. ${post.getPrice()}"
         holder.weight.text = "${post.getWeight()} KG"
 
-        val messages = TimeAgoMessages.Builder()
-            .withLocale(Locale("in")) // Set Indonesian locale
-            .build()
-        holder.timeAgo.text = TimeAgo.using(post.getDateTime()!!.toLong(), messages)
+        holder.timeAgo.text = TimeAgo.using(
+            post.getDateTime()!!.toLong(),
+            TimeAgoMessages.Builder().withLocale(Locale("in")).build()
+        )
 
         holder.cardPost.setOnClickListener {
             if (post.getPublisher().equals(firebaseUser!!.uid)) {
@@ -100,16 +100,16 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
             }
         }
 
-        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(post.getPostid()!!)
+        val receiptRef =
+            FirebaseDatabase.getInstance().reference.child("Receipt").child(post.getPostid()!!)
         receiptRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val receipt = p0.getValue(ReceiptModel::class.java)
 
                     if (receipt!!.getStatus().equals("Selesai")) {
                         holder.soldView.visibility = View.VISIBLE
-                    }else{
+                    } else {
                         holder.soldView.visibility = View.GONE
                     }
                 }

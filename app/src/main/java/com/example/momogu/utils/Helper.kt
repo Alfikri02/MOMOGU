@@ -139,7 +139,7 @@ object Helper {
             setGravity(Gravity.CENTER)
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-        dialog.setContentView(R.layout.custom_dialog_info)
+        dialog.setContentView(R.layout.dialog_info)
         val tvMessage = dialog.findViewById<TextView>(R.id.message)
         when (alignment) {
             Gravity.CENTER -> tvMessage.gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER

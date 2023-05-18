@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
 
         })
 
-        binding.mapsHome.setOnClickListener {
+        binding.cvMaps.setOnClickListener {
             startActivity(Intent(context, MapsActivity::class.java))
         }
 

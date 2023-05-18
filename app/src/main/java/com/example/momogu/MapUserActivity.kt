@@ -9,7 +9,7 @@ import android.widget.PopupMenu
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.momogu.databinding.ActivityMapUserBinding
-import com.example.momogu.databinding.SeeLocationBinding
+import com.example.momogu.databinding.LocationSeeBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude
 import com.example.momogu.utils.Helper.parseAddressLocation
@@ -31,8 +31,8 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoW
         binding = ActivityMapUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        productLatitude = intent.getDoubleExtra("productLatitude",0.0)
-        productLongitude = intent.getDoubleExtra("productLongitude",0.0)
+        productLatitude = intent.getDoubleExtra("productLatitude", 0.0)
+        productLongitude = intent.getDoubleExtra("productLongitude", 0.0)
 
         binding.closeMaps.setOnClickListener {
             finish()
@@ -46,18 +46,22 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoW
                         mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
                         true
                     }
+
                     R.id.satellite_type -> {
                         mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
                         true
                     }
+
                     R.id.terrain_type -> {
                         mMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
                         true
                     }
+
                     R.id.hybrid_type -> {
                         mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
                         true
                     }
+
                     else -> false
                 }
             }
@@ -77,12 +81,12 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoW
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMyLocationButtonEnabled = true
 
-        val productLocation = LatLng(productLatitude,productLongitude)
+        val productLocation = LatLng(productLatitude, productLongitude)
 
         mMap.setInfoWindowAdapter(this)
 
         mMap.addMarker(MarkerOptions().position(productLocation))
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(productLocation,15f))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(productLocation, 15f))
 
         getMyLocation()
     }
@@ -114,11 +118,13 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoW
 
     override fun getInfoWindow(marker: Marker): View {
         val bindingTooltips =
-            SeeLocationBinding.inflate(LayoutInflater.from(this))
+            LocationSeeBinding.inflate(LayoutInflater.from(this))
+
         bindingTooltips.location.text = parseAddressLocation(
             this,
             marker.position.latitude, marker.position.longitude
         )
+
         return bindingTooltips.root
     }
 

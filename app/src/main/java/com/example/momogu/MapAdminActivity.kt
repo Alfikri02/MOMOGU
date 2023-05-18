@@ -14,7 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.momogu.databinding.ActivityMapAdminBinding
-import com.example.momogu.databinding.PickLocationBinding
+import com.example.momogu.databinding.LocationPickBinding
 import com.example.momogu.utils.Constanta
 import com.example.momogu.utils.Constanta.PERMISSIONS_REQUEST_LOCATION
 import com.example.momogu.utils.Constanta.coordinateLatitude
@@ -203,7 +203,7 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.Info
 
     override fun getInfoWindow(marker: Marker): View {
         val bindingTooltips =
-            PickLocationBinding.inflate(LayoutInflater.from(this))
+            LocationPickBinding.inflate(LayoutInflater.from(this))
         bindingTooltips.location.text = parseAddressLocation(
             this,
             marker.position.latitude, marker.position.longitude

@@ -20,9 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MOMOGU"
         tools:targetApi="31">
-        <activity android:name=".ReportActivity"/>
-        <activity android:name=".StatusActivity"/>
-        <activity android:name=".MapUserActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -37,8 +34,11 @@
             android:name="com.google.android.maps.LANGUAGE"
             android:value="@string/indonesia" />
 
+        <activity android:name=".ReportActivity" />
+        <activity android:name=".StatusActivity" />
+        <activity android:name=".MapsActivity"/>
+        <activity android:name=".MapUserActivity" />
         <activity android:name=".MapAdminActivity" />
-        <activity android:name=".MapsActivity" />
         <activity android:name=".FavoriteActivity" />
         <activity android:name=".ReceiptUserActivity" />
         <activity android:name=".ReceiptPostActivity" />

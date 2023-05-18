@@ -27,21 +27,32 @@
                     android:id="@+id/logo"
                     android:layout_width="120dp"
                     android:layout_height="60dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_momogu_text" />
 
-                <ImageView
-                    android:id="@+id/maps_home"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvMaps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:cardElevation="6dp"
+                    app:cardUseCompatPadding="true"
                     android:layout_alignTop="@+id/logo"
                     android:layout_alignBottom="@+id/logo"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="20dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_map"
-                    android:visibility="gone" />
+                    android:layout_alignParentEnd="true">
+
+                    <ImageView
+                        android:id="@+id/maps_home"
+                        android:layout_width="36dp"
+                        android:layout_height="34dp"
+                        android:contentDescription="@string/content"
+                        android:src="@drawable/ic_map" />
+
+                </androidx.cardview.widget.CardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewSearch"
