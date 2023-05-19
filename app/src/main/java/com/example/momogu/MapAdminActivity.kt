@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
@@ -72,7 +73,8 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.Info
             } else {
                 Helper.showDialogInfo(
                     this,
-                    getString(R.string.UI_validation_maps_select_area)
+                    "Lokasi harus dipilih terlebih dahulu. Tap lokasi yang diinginkan untuk memilih lokasi!",
+                    Gravity.CENTER
                 )
             }
         }

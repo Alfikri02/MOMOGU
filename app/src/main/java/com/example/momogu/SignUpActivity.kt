@@ -227,7 +227,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun createAccount() {
         val fullName = binding.etFullname.text.toString()
-        val whatsapp = binding.etWhatsapp.text.toString()
+        val phone = binding.etWhatsapp.text.toString()
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
 
@@ -237,7 +237,7 @@ class SignUpActivity : AppCompatActivity() {
                 "Full Name is required.",
                 Toast.LENGTH_LONG
             ).show()
-            TextUtils.isEmpty(whatsapp) -> Toast.makeText(
+            TextUtils.isEmpty(phone) -> Toast.makeText(
                 this,
                 "Phone Number is required.",
                 Toast.LENGTH_LONG
@@ -260,7 +260,7 @@ class SignUpActivity : AppCompatActivity() {
                 mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            saveUserInfo(fullName, email)
+                            saveUserInfo(fullName, email, phone)
 
                         } else {
                             val message = task.exception!!.toString()
@@ -275,7 +275,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUserInfo(fullName: String, email: String) {
+    private fun saveUserInfo(fullName: String, email: String, phone: String) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
         val userMap = HashMap<String, Any>()
@@ -283,10 +283,7 @@ class SignUpActivity : AppCompatActivity() {
         userMap["uid"] = currentUserID
         userMap["fullname"] = fullName
         userMap["email"] = email
-        userMap["phone"] = ""
-        userMap["city"] = ""
-        userMap["address"] = ""
-        userMap["image"] = ""
+        userMap["phone"] = phone
 
         usersRef.child(currentUserID).setValue(userMap)
             .addOnCompleteListener { task ->

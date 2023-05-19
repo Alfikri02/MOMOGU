@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import com.example.momogu.MainActivity
 import com.example.momogu.R
 import com.example.momogu.databinding.FragmentScalesBinding
 import com.example.momogu.utils.Helper.showDialogInfo
@@ -54,18 +53,10 @@ class ScalesFragment : Fragment() {
             costumImage()
         }
 
-        binding.tvScales.setOnClickListener {
-            showDialogInfo(
-                (activity as MainActivity),
-                (activity as MainActivity).getString(R.string.UI_info_exterior),
-                Gravity.START
-            )
-        }
-
         binding.tvDetailExterior.setOnClickListener {
             showDialogInfo(
-                (activity as MainActivity),
-                (activity as MainActivity).getString(R.string.UI_info_exterior),
+                requireContext(),
+                getString(R.string.UI_info_exterior),
                 Gravity.START
             )
         }
