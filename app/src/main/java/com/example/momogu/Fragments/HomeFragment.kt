@@ -3,6 +3,7 @@ package com.example.momogu.Fragments
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,12 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.example.momogu.Adapter.PostAdapter
 import com.example.momogu.MapsActivity
 import com.example.momogu.Model.PostModel
+import com.example.momogu.Model.UserModel
 import com.example.momogu.R
 import com.example.momogu.databinding.FragmentHomeBinding
+import com.example.momogu.utils.Helper
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -28,6 +33,7 @@ class HomeFragment : Fragment() {
 
     private var postAdapter: PostAdapter? = null
     private var postList: MutableList<PostModel>? = null
+    private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +42,8 @@ class HomeFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater)
+
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
         //Recycler View Home
         val recyclerView: RecyclerView = binding.recyclerViewHome
@@ -64,7 +72,7 @@ class HomeFragment : Fragment() {
         })
 
         binding.cvMaps.setOnClickListener {
-            startActivity(Intent(context, MapsActivity::class.java))
+            mapsVal()
         }
 
         return binding.root
@@ -138,13 +146,33 @@ class HomeFragment : Fragment() {
                     post?.let { postList!!.add(it) }
                     postAdapter?.notifyDataSetChanged()
                 }
+            }
 
-                if (postList.isNullOrEmpty()) {
-                    startAnimation(true)
-                    binding.recyclerViewHome.visibility = View.GONE
-                } else {
-                    startAnimation(false)
-                    binding.recyclerViewHome.visibility = View.VISIBLE
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun mapsVal(){
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+                    if (
+                        user!!.getAddress().isNullOrEmpty() ||
+                        user.getCity().isNullOrEmpty() ||
+                        user.getImage().isNullOrEmpty()
+                    ) {
+                        Helper.showDialogInfo(
+                            requireContext(),
+                            "Tambahkan foto profil dan alamat lengkap untuk melanjutkan!",
+                            Gravity.CENTER
+                        )
+                    } else {
+                        startActivity(Intent(context, MapsActivity::class.java))
+                    }
+
                 }
             }
 
@@ -161,15 +189,6 @@ class HomeFragment : Fragment() {
 
         val imageSlider = binding.sliderHome
         imageSlider.setImageList(imageList)
-    }
-
-    private fun startAnimation(isStartAnim: Boolean) {
-        if (isStartAnim) {
-            binding.animLoadingViewHome.visibility = View.VISIBLE
-            binding.animLoadingViewHome.setAnimation("empty.json")
-            binding.animLoadingViewHome.playAnimation()
-            binding.animLoadingViewHome.repeatMode
-        }
     }
 
 }
