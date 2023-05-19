@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.R
+import com.example.momogu.utils.Helper
 import com.github.marlonlom.utilities.timeago.TimeAgo
 import com.github.marlonlom.utilities.timeago.TimeAgoMessages
 import com.google.firebase.auth.FirebaseAuth
@@ -45,6 +47,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         var location: TextView
         var cardPost: CardView
         var soldView: RelativeLayout
+        var soldTitle: TextView
 
         init {
             postImage = itemView.findViewById(R.id.post_image_home)
@@ -56,6 +59,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
             location = itemView.findViewById(R.id.tv_location)
             cardPost = itemView.findViewById(R.id.cardPost)
             soldView = itemView.findViewById(R.id.layoutSoldView)
+            soldTitle = itemView.findViewById(R.id.soldTitle)
         }
     }
 
@@ -90,48 +94,13 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         )
 
         holder.cardPost.setOnClickListener {
-            if (post.getPublisher().equals(firebaseUser!!.uid)) {
-                Toast.makeText(mContext, "Sapi ini milik anda!", Toast.LENGTH_SHORT).show()
-            } else {
-                val editor = mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
-                editor.putString("postid", post.getPostid())
-                editor.apply()
-                mContext.startActivity(Intent(mContext, DetailPostActivity::class.java))
-            }
+            postVal(position)
         }
 
-        val receiptRef =
-            FirebaseDatabase.getInstance().reference.child("Receipt").child(post.getPostid()!!)
-        receiptRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val receipt = p0.getValue(ReceiptModel::class.java)
-
-                    if (receipt!!.getStatus().equals("Selesai")) {
-                        holder.soldView.visibility = View.VISIBLE
-                    } else {
-                        holder.soldView.visibility = View.GONE
-                    }
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        receiptVal(holder, position)
 
         holder.saveButton.setOnClickListener {
-            if (post.getPublisher().equals(firebaseUser!!.uid)) {
-                Toast.makeText(mContext, "Sapi ini milik anda!", Toast.LENGTH_SHORT).show()
-            } else if (holder.saveButton.tag == "Save") {
-                FirebaseDatabase.getInstance().reference.child("Saves")
-                    .child(firebaseUser!!.uid)
-                    .child(post.getPostid()!!)
-                    .setValue(true)
-            } else {
-                FirebaseDatabase.getInstance().reference.child("Saves")
-                    .child(firebaseUser!!.uid)
-                    .child(post.getPostid()!!)
-                    .removeValue()
-            }
+            savedStatus(holder, position)
         }
     }
 
@@ -151,6 +120,23 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         })
     }
 
+    private fun savedStatus(holder: ViewHolder, position: Int) {
+        val post = mPost[position]
+        if (post.getPublisher().equals(firebaseUser!!.uid)) {
+            Toast.makeText(mContext, "Sapi ini milik anda!", Toast.LENGTH_SHORT).show()
+        } else if (holder.saveButton.tag == "Save") {
+            FirebaseDatabase.getInstance().reference.child("Saves")
+                .child(firebaseUser!!.uid)
+                .child(post.getPostid()!!)
+                .setValue(true)
+        } else {
+            FirebaseDatabase.getInstance().reference.child("Saves")
+                .child(firebaseUser!!.uid)
+                .child(post.getPostid()!!)
+                .removeValue()
+        }
+    }
+
     private fun checkSavedStatus(postid: String, imageView: ImageView) {
         val savesRef = FirebaseDatabase.getInstance().reference.child("Saves")
             .child(firebaseUser!!.uid)
@@ -163,6 +149,68 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
                 } else {
                     imageView.setImageResource(R.drawable.ic_favorite_broder)
                     imageView.tag = "Save"
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun postVal(position: Int) {
+        val post = mPost[position]
+
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
+
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(UserModel::class.java)
+                    if (
+                        user!!.getAddress().isNullOrEmpty() ||
+                        user.getCity().isNullOrEmpty() ||
+                        user.getImage().isNullOrEmpty()
+                    ) {
+                        Helper.showDialogInfo(
+                            mContext,
+                            "Tambahkan foto profil dan alamat lengkap untuk melanjutkan!",
+                            Gravity.CENTER
+                        )
+                    } else if (post.getPublisher().equals(firebaseUser!!.uid)) {
+                        Toast.makeText(mContext, "Sapi ini milik anda!", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        val editor =
+                            mContext.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+                        editor.putString("postid", post.getPostid())
+                        editor.apply()
+                        mContext.startActivity(Intent(mContext, DetailPostActivity::class.java))
+                    }
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun receiptVal(holder: ViewHolder, position: Int) {
+        val post = mPost[position]
+
+        val receiptRef =
+            FirebaseDatabase.getInstance().reference.child("Receipt").child(post.getPostid()!!)
+        receiptRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val receipt = p0.getValue(ReceiptModel::class.java)
+
+                    if (receipt!!.getStatus().equals("Selesai")) {
+                        holder.soldView.visibility = View.VISIBLE
+                    } else {
+                        holder.soldTitle.text = "Transaksi sedang berlangsung!"
+                        holder.soldView.visibility = View.VISIBLE
+                    }
+                } else {
+                    holder.soldView.visibility = View.GONE
                 }
             }
 

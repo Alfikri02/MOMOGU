@@ -73,22 +73,20 @@ class ReceiptFragment : Fragment() {
                             (receiptList as ArrayList<ReceiptModel>).sortByDescending { it.getDateTime() }
                             (receiptList as ArrayList<ReceiptModel>).add(notification!!)
                         }
+                        else {
+                            binding.animLoadingViewNotification.visibility = View.VISIBLE
+                            binding.emptyNotification.visibility = View.VISIBLE
+                            binding.recyclerViewNotifications.visibility = View.GONE
+                            binding.animLoadingViewNotification.setAnimation("empty.json")
+                            binding.animLoadingViewNotification.playAnimation()
+                            binding.animLoadingViewNotification.repeatCount = LottieDrawable.INFINITE
+                        }
                     }
-
-                    binding.animLoadingViewNotification.visibility = View.GONE
-                    binding.emptyNotification.visibility = View.GONE
-                    binding.recyclerViewNotifications.visibility = View.VISIBLE
 
                     receiptList?.let { reverse(it) }
                     receiptAdapter!!.notifyDataSetChanged()
-                } else {
-                    binding.animLoadingViewNotification.visibility = View.VISIBLE
-                    binding.emptyNotification.visibility = View.VISIBLE
-                    binding.recyclerViewNotifications.visibility = View.GONE
-                    binding.animLoadingViewNotification.setAnimation("empty.json")
-                    binding.animLoadingViewNotification.playAnimation()
-                    binding.animLoadingViewNotification.repeatCount = LottieDrawable.INFINITE
                 }
+
             }
 
             override fun onCancelled(p0: DatabaseError) {}

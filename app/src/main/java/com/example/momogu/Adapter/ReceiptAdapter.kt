@@ -3,18 +3,19 @@ package com.example.momogu.Adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.*
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.ReceiptModel
+import com.example.momogu.utils.Helper
 import com.example.momogu.utils.Helper.getDate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -175,11 +176,11 @@ class ReceiptAdapter(
             val timeCancel = receipt.getdtCancel()!!.toLong()
 
             if (currentTime >= timeCancel) {
-                Toast.makeText(
+                Helper.showDialogInfo(
                     mContext,
-                    "Dikarenakan tidak ada konfirmasi, maka pesanan sapi telah dibatalkan secara otomatis!",
-                    Toast.LENGTH_LONG
-                ).show()
+                    "Transaksi dibatalkan otomatis, dikarenakan tidak ada konfirmasi oleh penjual!",
+                    Gravity.CENTER
+                )
             }
         }
 
@@ -188,11 +189,11 @@ class ReceiptAdapter(
             val timeFinishOto = receipt.getdtFinishOto()!!.toLong()
 
             if (currentTime >= timeFinishOto) {
-                Toast.makeText(
+                Helper.showDialogInfo(
                     mContext,
-                    "Dikarenakan pesanan tidak diselesaikan pembeli, maka pesanan sapi telah diselesaikan secara otomatis!",
-                    Toast.LENGTH_LONG
-                ).show()
+                    "Transaksi diselesaikan otomatis, dikarenakan tidak diselesaikan oleh pembeli",
+                    Gravity.CENTER
+                )
             }
         }
 
