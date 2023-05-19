@@ -20,8 +20,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityEditProfileBinding
-import com.example.momogu.utils.Constanta
+import com.example.momogu.utils.Constanta.LocationPicker
 import com.example.momogu.utils.Constanta.LOCATION_PERMISSION_CODE
+import com.example.momogu.utils.Constanta.REQUEST_PROFILE_IMAGE
 import com.example.momogu.utils.Constanta.coordinateLatitude
 import com.example.momogu.utils.Constanta.coordinateLongitude
 import com.example.momogu.utils.Constanta.isLocationPicked
@@ -47,7 +48,8 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
 
     private lateinit var firebaseUser: FirebaseUser
-    private var checker: Boolean = false
+    private var checkerImage: Boolean = false
+    private var checkerLocation: Boolean = false
     private var myUrl = ""
     private var imageUri: Uri? = null
     private var storageProfilePicRef: StorageReference? = null
@@ -72,14 +74,14 @@ class EditProfileActivity : AppCompatActivity() {
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 it.data?.let { res ->
-                    isPicked = res.getBooleanExtra(Constanta.LocationPicker.IsPicked.name, false)
+                    isPicked = res.getBooleanExtra(LocationPicker.IsPicked.name, false)
                     isLocationPicked.postValue(isPicked)
                     val lat = res.getDoubleExtra(
-                        Constanta.LocationPicker.Latitude.name,
+                        LocationPicker.Latitude.name,
                         0.0
                     )
                     val lon = res.getDoubleExtra(
-                        Constanta.LocationPicker.Longitude.name,
+                        LocationPicker.Longitude.name,
                         0.0
                     )
                     binding.fieldLocation.text = Helper.parseAddressLocation(this, lat, lon)
@@ -106,23 +108,29 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         binding.changeImageTextBtn.setOnClickListener {
-            checker = true
+            checkerImage = true
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, REQUEST_PROFILE_IMAGE)
         }
 
         binding.profileImageViewProfileFrag.setOnClickListener {
-            checker = true
+            checkerImage = true
 
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, REQUEST_PROFILE_IMAGE)
         }
 
+
+
         binding.saveProfileBtn.setOnClickListener {
-            if (checker) {
-                uploadImageAndUpdateInfo()
+            if (checkerImage && checkerLocation) {
+                updateImageAndLocation()
+            } else if (checkerImage){
+                updateImage()
+            } else if (checkerLocation) {
+                updateLocation()
             } else {
-                updateUserInfoOnly()
+                updateUser()
             }
         }
 
@@ -140,7 +148,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         binding.btnSelectLocation.setOnClickListener {
-            /* check permission to granted apps pick user location */
+            checkerLocation = true
             if (Helper.isPermissionGranted(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 val intentPickLocation = Intent(this, MapAdminActivity::class.java)
                 getResult?.launch(intentPickLocation)
@@ -180,10 +188,6 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-        private const val REQUEST_PROFILE_IMAGE = 100
-    }
-
     private fun userInfo() {
         val usersRef =
             FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
@@ -193,14 +197,14 @@ class EditProfileActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val user = p0.getValue(UserModel::class.java)
 
-                    if (user!!.getImage().isNullOrEmpty()){
+                    if (user!!.getImage().isNullOrEmpty()) {
                         binding.profileImageViewProfileFrag.setImageResource(R.drawable.profile)
-                    }else{
+                    } else {
                         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
                             .into(binding.profileImageViewProfileFrag)
                     }
                     binding.etFullnameProfile.setText(user.getFullname())
-                    binding.etWhatsappProfile.setText(user.getPhone())
+                    binding.etPhoneProfile.setText(user.getPhone())
                     binding.etAddressProfile.setText(user.getAddress())
                 }
             }
@@ -209,14 +213,14 @@ class EditProfileActivity : AppCompatActivity() {
         })
     }
 
-    private fun updateUserInfoOnly() {
+    private fun updateUser() {
         when {
             TextUtils.isEmpty(binding.etFullnameProfile.text.toString()) -> {
-                Toast.makeText(this, "Full Name is Required!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Nama Lengkap Dibutuhkan!", Toast.LENGTH_LONG).show()
             }
 
-            TextUtils.isEmpty(binding.etWhatsappProfile.text.toString()) -> {
-                Toast.makeText(this, "Phone Number is Required!", Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(binding.etPhoneProfile.text.toString()) -> {
+                Toast.makeText(this, "Nomor Telepon Dibutuhkan!", Toast.LENGTH_LONG).show()
             }
 
             else -> {
@@ -224,13 +228,13 @@ class EditProfileActivity : AppCompatActivity() {
                 val userMap = HashMap<String, Any>()
 
                 userMap["fullname"] = binding.etFullnameProfile.text.toString()
-                userMap["phone"] = binding.etWhatsappProfile.text.toString()
+                userMap["phone"] = binding.etPhoneProfile.text.toString()
 
                 usersRef.child(firebaseUser.uid).updateChildren(userMap)
 
                 Toast.makeText(
                     this,
-                    "Account Information has been updated successfully.",
+                    "Informasi akun berhasil diperbarui!",
                     Toast.LENGTH_LONG
                 ).show()
                 finish()
@@ -238,30 +242,21 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    @Suppress("DEPRECATION")
-    private fun uploadImageAndUpdateInfo() {
+    private fun updateImageAndLocation() {
         when {
             imageUri == null -> {
-                Toast.makeText(this, "Please select your profile picture.", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Silahkan pilih foto profil anda!", Toast.LENGTH_LONG)
                     .show()
             }
 
-            TextUtils.isEmpty(binding.etFullnameProfile.text.toString()) -> {
-                Toast.makeText(this, "Full Name is Required!", Toast.LENGTH_LONG).show()
-            }
-
-            TextUtils.isEmpty(binding.etWhatsappProfile.text.toString()) -> {
-                Toast.makeText(this, "Phone Number is Required!", Toast.LENGTH_LONG).show()
-            }
-
-            TextUtils.isEmpty(binding.fieldLocation.text.toString()) -> {
-                Toast.makeText(this, "Full Address is Required!", Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(binding.fieldLocation.text) -> {
+                Toast.makeText(this, "Alamat Lengkap Dibutuhkan!", Toast.LENGTH_LONG).show()
             }
 
             else -> {
                 val progressDialog = ProgressDialog(this)
-                progressDialog.setTitle("Account Settings")
-                progressDialog.setMessage("Please wait, while we are updating your profile...")
+                progressDialog.setTitle("Ubah Profil")
+                progressDialog.setMessage("Harap tunggu, akun sedang diperbarui...")
                 progressDialog.show()
 
                 val fileRef = storageProfilePicRef!!.child(firebaseUser.uid + ".jpg")
@@ -285,19 +280,98 @@ class EditProfileActivity : AppCompatActivity() {
 
                         val userMap = HashMap<String, Any>()
 
-                        userMap["fullname"] = binding.etFullnameProfile.text.toString()
-                        userMap["phone"] = binding.etWhatsappProfile.text.toString()
+                        userMap["image"] = myUrl
                         userMap["city"] = binding.fieldCity.text.toString()
                         userMap["address"] = binding.fieldLocation.text.toString()
                         userMap["latitude"] = coordinateLatitude
                         userMap["longitude"] = coordinateLongitude
+
+                        ref.child(firebaseUser.uid).updateChildren(userMap)
+
+                        Toast.makeText(
+                            this,
+                            "Akun berhasil diperbarui!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        finish()
+                        progressDialog.dismiss()
+                    } else {
+                        progressDialog.dismiss()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun updateLocation() {
+        when (binding.fieldLocation.text) {
+            null -> {
+                Toast.makeText(this, "Alamat lengkap dibutuhkan!", Toast.LENGTH_LONG).show()
+            }
+
+            else -> {
+                val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
+                val userMap = HashMap<String, Any>()
+
+                userMap["city"] = binding.fieldCity.text.toString()
+                userMap["address"] = binding.fieldLocation.text.toString()
+                userMap["latitude"] = coordinateLatitude
+                userMap["longitude"] = coordinateLongitude
+
+                usersRef.child(firebaseUser.uid).updateChildren(userMap)
+
+                Toast.makeText(
+                    this,
+                    "Alamat berhasil diperbarui!",
+                    Toast.LENGTH_LONG
+                ).show()
+                finish()
+            }
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun updateImage() {
+        when (imageUri) {
+            null -> {
+                Toast.makeText(this, "Silahkan pilih foto profil anda!", Toast.LENGTH_LONG)
+                    .show()
+            }
+
+            else -> {
+                val progressDialog = ProgressDialog(this)
+                progressDialog.setTitle("Ubah Profil")
+                progressDialog.setMessage("Harap tunggu, Foto profil sedang diperbarui...")
+                progressDialog.show()
+
+                val fileRef = storageProfilePicRef!!.child(firebaseUser.uid + ".jpg")
+                val uploadTask: StorageTask<*>
+
+                uploadTask = fileRef.putFile(imageUri!!)
+                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            progressDialog.dismiss()
+                            throw it
+                        }
+                    }
+                    return@Continuation fileRef.downloadUrl
+                }).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val downloadUrl = task.result
+                        myUrl = downloadUrl.toString()
+
+                        val ref = FirebaseDatabase.getInstance().reference.child("Users")
+
+                        val userMap = HashMap<String, Any>()
+
                         userMap["image"] = myUrl
 
                         ref.child(firebaseUser.uid).updateChildren(userMap)
 
                         Toast.makeText(
                             this,
-                            "Account Information has been updated successfully.",
+                            "Foto profil berhasil diperbarui!",
                             Toast.LENGTH_LONG
                         ).show()
                         finish()

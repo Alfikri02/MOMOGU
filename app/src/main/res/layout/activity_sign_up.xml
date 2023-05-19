@@ -5,7 +5,6 @@
     android:id="@+id/layout_sign_up_relative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     tools:context=".SignUpActivity">
 
     <ScrollView
@@ -32,23 +31,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_input"
-                style="@style/h2"
-                android:layout_width="@dimen/zerodp"
-                android:layout_height="wrap_content"
-                android:text="@string/fill_input"
-                app:layout_constraintEnd_toEndOf="@+id/tv_account"
-                app:layout_constraintStart_toStartOf="@+id/tv_account"
-                app:layout_constraintTop_toBottomOf="@+id/tv_account" />
-
             <LinearLayout
                 android:id="@+id/signin_link_btn"
                 android:layout_width="@dimen/zerodp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/tv_input"
-                app:layout_constraintStart_toStartOf="@+id/tv_input"
-                app:layout_constraintTop_toBottomOf="@+id/tv_input">
+                app:layout_constraintEnd_toEndOf="@+id/tv_account"
+                app:layout_constraintStart_toStartOf="@+id/tv_account"
+                app:layout_constraintTop_toBottomOf="@+id/tv_account">
 
                 <TextView
                     style="@style/h2"
@@ -155,7 +144,7 @@
                 android:layout_height="@dimen/mediumButtonHeight"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
-                android:text="@string/register"
+                android:text="Daftar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/ti_password"
                 app:layout_constraintStart_toStartOf="@+id/ti_password"

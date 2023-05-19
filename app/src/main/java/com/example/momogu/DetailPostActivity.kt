@@ -31,6 +31,8 @@ import com.github.marlonlom.utilities.timeago.TimeAgoMessages
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -43,6 +45,7 @@ class DetailPostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPostBinding
     private var postId: String = ""
     private lateinit var locationManager: LocationManager
+    private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,8 @@ class DetailPostActivity : AppCompatActivity() {
         setContentView(view)
 
         locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
+
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
         val preferences = this.getSharedPreferences("POST", Context.MODE_PRIVATE)
         if (preferences != null) {
@@ -69,7 +74,7 @@ class DetailPostActivity : AppCompatActivity() {
         }
 
         binding.btnBuyDetail.setOnClickListener {
-            transVal()
+            buyVal()
         }
 
         binding.btnCallDetail.setOnClickListener {
@@ -272,7 +277,7 @@ class DetailPostActivity : AppCompatActivity() {
         })
     }
 
-    private fun transVal() {
+    private fun buyVal() {
         val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
         receiptRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

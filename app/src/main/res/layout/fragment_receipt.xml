@@ -45,8 +45,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:visibility="visible">
+        android:layout_marginBottom="5dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -56,8 +55,7 @@
         android:layout_height="200dp"
         android:gravity="center_horizontal"
         android:layout_marginTop="150dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/app_bar_layout_notifications"
         android:visibility="gone"/>
 
@@ -66,8 +64,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/animLoadingView_notification"
-        android:text="You don't have any receipt yet."
+        android:text="Anda belum memiliki transaksi!"
         android:textAlignment="center"
+        android:textSize="18sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:visibility="gone"/>

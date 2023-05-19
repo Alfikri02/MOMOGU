@@ -11,6 +11,8 @@ object Constanta {
     const val LOCATION_PERMISSION_CODE = 30
     const val PERMISSIONS_REQUEST_LOCATION = 1
 
+    const val REQUEST_PROFILE_IMAGE = 100
+
     const val REQUEST_POST_IMAGE = 100
     const val REQUEST_VIDEO_CODE = 200
 
