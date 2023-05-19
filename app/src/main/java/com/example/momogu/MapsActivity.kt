@@ -14,7 +14,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.momogu.Adapter.PostAdapter
 import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.databinding.ActivityMapsBinding
 import com.example.momogu.databinding.MapsItemBinding
 import com.github.marlonlom.utilities.timeago.TimeAgo
@@ -27,6 +26,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -41,11 +42,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoWind
     private lateinit var binding: ActivityMapsBinding
     private var postList: MutableList<PostModel>? = null
     private var postAdapter: PostAdapter? = null
+    private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
         binding.closeMaps.setOnClickListener {
             finish()
@@ -142,20 +146,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoWind
                 TimeAgoMessages.Builder().withLocale(Locale("in")).build())
         }
 
-        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(post.getPostid()!!)
-        receiptRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val receipt = p0.getValue(ReceiptModel::class.java)
-                    if (receipt?.getStatus() == "Selesai") {
-                        Toast.makeText(applicationContext, "Sapi ini telah terjual!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-
         return bindingMaps.root
     }
 
@@ -163,14 +153,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoWind
 
     override fun onInfoWindowClick(marker: Marker) {
         val post = marker.tag as? PostModel ?: return
+        if (post.getPublisher().equals(firebaseUser.uid)) {
+            Toast.makeText(this, "Sapi ini milik anda!", Toast.LENGTH_SHORT).show()
+        } else {
+            val editor = this.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
+            editor.putString("postid", post.getPostid())
+            editor.apply()
 
-        val intent = Intent(this, DetailPostActivity::class.java)
-
-        val editor = this.getSharedPreferences("POST", Context.MODE_PRIVATE).edit()
-        editor.putString("postid", post.getPostid())
-        editor.apply()
-
-        startActivity(intent)
+            startActivity(Intent(this, DetailPostActivity::class.java))
+        }
     }
 
     private fun retrieveMaps() {

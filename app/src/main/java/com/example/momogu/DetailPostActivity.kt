@@ -44,7 +44,6 @@ class DetailPostActivity : AppCompatActivity() {
     private var postId: String = ""
     private lateinit var locationManager: LocationManager
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailPostBinding.inflate(layoutInflater)
@@ -154,7 +153,8 @@ class DetailPostActivity : AppCompatActivity() {
                     binding.tvProductDetail.text = post.getProduct()
                     binding.tvStatusDetail.text = "Rp. ${post.getPrice()}"
                     binding.tvPriceShippingDetail.text = "Rp. ${post.getShipping()}"
-                    binding.tvDateDetail.text = getDate(post.getDateTime()!!.toLong(), "dd MMM yyyy")
+                    binding.tvDateDetail.text =
+                        getDate(post.getDateTime()!!.toLong(), "dd MMM yyyy")
                     binding.etWeightDetail.text = "${post.getWeight()} KG"
                     binding.etGenderDetail.text = post.getGender()
                     binding.etAgeDetail.text = "${post.getAge()} Bulan"
@@ -247,14 +247,20 @@ class DetailPostActivity : AppCompatActivity() {
 
                     if (user.getStatusOn().equals("Aktif")) {
                         binding.tvStatusDetail.text = user.getStatusOn()
-                        binding.dotStatusDetail.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+                        binding.dotStatusDetail.setColorFilter(
+                            resources.getColor(R.color.ijotua),
+                            PorterDuff.Mode.SRC_IN
+                        )
                     } else {
                         val messages = TimeAgoMessages.Builder()
                             .withLocale(Locale("in")) // Set Indonesian locale
                             .build()
                         binding.tvStatusDetail.text =
                             "Aktif ${TimeAgo.using(user.getLastOnline()!!.toLong(), messages)}"
-                        binding.dotStatusDetail.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
+                        binding.dotStatusDetail.setColorFilter(
+                            resources.getColor(R.color.colorBlack),
+                            PorterDuff.Mode.SRC_IN
+                        )
                     }
 
                     binding.tvCityDetail.text = user.getCity()

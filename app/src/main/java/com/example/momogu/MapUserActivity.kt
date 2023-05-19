@@ -1,11 +1,14 @@
 package com.example.momogu
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.momogu.databinding.ActivityMapUserBinding
@@ -21,7 +24,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
+class MapUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoWindowAdapter,
+    GoogleMap.OnInfoWindowClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapUserBinding
@@ -84,6 +88,7 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoW
         val productLocation = LatLng(productLatitude, productLongitude)
 
         mMap.setInfoWindowAdapter(this)
+        mMap.setOnInfoWindowClickListener(this)
 
         mMap.addMarker(MarkerOptions().position(productLocation))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(productLocation, 15f))
@@ -127,5 +132,23 @@ class MapUserActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoW
 
         return bindingTooltips.root
     }
+
+    override fun onInfoWindowClick(marker: Marker) {
+        val latitude = marker.position.latitude
+        val longitude = marker.position.longitude
+
+        val uri =
+            Uri.parse("https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude")
+
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.setPackage("com.google.android.apps.maps")
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Google Maps tidak terinstal!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
 }

@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/powerBy"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -46,40 +46,6 @@
             style="@style/h3"
             android:fontFamily="@font/poppins_thin"
             android:textAlignment="center"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/powerBy"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:id="@+id/lblPowerBy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="@string/power_by"
-            android:textColor="@color/blackColor"
-            android:textSize="11sp" />
-
-        <TextView
-            android:id="@+id/lblDesmond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_toEndOf="@+id/lblPowerBy"
-            android:text="@string/splash_name"
-            android:textColor="@color/blackColor"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/lblPowerBy"
-            tools:ignore="MissingConstraints" />
 
     </RelativeLayout>
 
