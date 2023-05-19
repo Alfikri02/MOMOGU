@@ -83,7 +83,7 @@
     <string name="toast_gps_detail">GPS tidak diaktifkan!</string>
     <string name="toast_gps_on_detail">Aktifkan untuk melihat lokasi</string>
     <string name="toast_sell_detail">Sapi telah terjual!</string>
-    <string name="toast_was_taken_detail">Transaksi telah berlangsung!</string>
+    <string name="toast_was_taken_detail">Transaksi sedang berlangsung!</string>
     <string name="toast_warning_detail">Peringatan!</string>
     <string name="toast_delete_detail">Apakah anda ingin menghapus data sapi ini?</string>
     <string name="toast_delete_succeed_detail">Data sapi berhasil dihapus!</string>
@@ -141,8 +141,6 @@
     <string name="delete_data">Hapus Data</string>
     <string name="checkout">CheckOut</string>
     <string name="title_activity_maps">MapsActivity</string>
-
-    <string name="UI_validation_maps_select_area">The location must be selected first. Tap on the desired location to select the location</string>
 
     <string name="indonesia">id</string>
 

@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sapi Terjual!"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textColor="@android:color/white"
             android:gravity="center" />
 
