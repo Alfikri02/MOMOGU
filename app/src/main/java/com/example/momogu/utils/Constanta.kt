@@ -3,7 +3,6 @@ package com.example.momogu.utils
 import androidx.lifecycle.MutableLiveData
 
 object Constanta {
-
     enum class LocationPicker {
         IsPicked, Latitude, Longitude
     }

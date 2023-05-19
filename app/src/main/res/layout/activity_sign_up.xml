@@ -59,6 +59,7 @@
                 style="@style/ti_layout"
                 android:layout_marginTop="20dp"
                 android:hint="@string/full_name"
+                app:helperTextTextColor="@color/g_light_red"
                 app:layout_constraintEnd_toEndOf="@+id/signin_link_btn"
                 app:layout_constraintStart_toStartOf="@+id/signin_link_btn"
                 app:layout_constraintTop_toBottomOf="@+id/signin_link_btn">
@@ -76,6 +77,7 @@
                 style="@style/ti_layout"
                 android:layout_marginTop="10dp"
                 android:hint="Nomor Telepon Aktif"
+                app:helperTextTextColor="@color/g_light_red"
                 app:layout_constraintEnd_toEndOf="@+id/ti_fullname"
                 app:layout_constraintStart_toStartOf="@+id/ti_fullname"
                 app:layout_constraintTop_toBottomOf="@+id/ti_fullname">
@@ -83,9 +85,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_whatsapp"
                     style="@style/et_layout"
-                    android:digits="1234567890"
                     android:drawableStart="@drawable/ic_username"
-                    android:inputType="textFilter|phone" />
+                    android:inputType="phone" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,6 +95,7 @@
                 style="@style/ti_layout"
                 android:layout_marginTop="10dp"
                 android:hint="@string/email"
+                app:helperTextTextColor="@color/g_light_red"
                 app:layout_constraintEnd_toEndOf="@+id/ti_whatsapp"
                 app:layout_constraintStart_toStartOf="@+id/ti_whatsapp"
                 app:layout_constraintTop_toBottomOf="@+id/ti_whatsapp">
@@ -106,25 +108,13 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/lbl_invalid_email"
-                android:layout_width="@dimen/zerodp"
-                android:layout_height="wrap_content"
-                android:text="@string/invalid_email"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="12sp"
-                android:textStyle="italic"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/ti_email"
-                app:layout_constraintStart_toStartOf="@+id/ti_email"
-                app:layout_constraintTop_toBottomOf="@+id/ti_email" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_password"
                 style="@style/ti_layout"
                 android:layout_marginTop="15dp"
                 android:hint="@string/password"
                 app:endIconMode="password_toggle"
+                app:helperTextTextColor="@color/g_light_red"
                 app:layout_constraintEnd_toEndOf="@id/ti_email"
                 app:layout_constraintStart_toStartOf="@id/ti_email"
                 app:layout_constraintTop_toBottomOf="@+id/ti_email">

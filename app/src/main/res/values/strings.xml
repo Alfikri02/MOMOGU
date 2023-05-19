@@ -98,8 +98,8 @@
     <string name="no_acc">Tidak punya akun?</string>
     <string name="no_acc_bred">Akun untuk peternak?</string>
     <string name="invalid_email">Format email salah!</string>
-    <string name="loading_title_login">Harap tunggu sementara kami Masuk untuk Anda, ini mungkin memakan waktu cukup lama&#8230;</string>
-    <string name="loading_title_register">Harap tunggu sementara kami Daftar untuk Anda, ini mungkin memakan waktu cukup lama&#8230;</string>
+    <string name="loading_title_login">Proses masuk sedang berlangsung..&#8230;</string>
+    <string name="loading_title_register">Proses pendaftaran sedang berlangsung..&#8230;</string>
 
     <!--Activity Sign Up-->
     <string name="registrasi">Daftar Akun</string>

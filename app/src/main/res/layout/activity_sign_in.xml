@@ -70,6 +70,7 @@
                 style="@style/ti_layout"
                 android:layout_marginTop="20dp"
                 android:hint="@string/email"
+                app:helperTextTextColor="@color/g_light_red"
                 app:layout_constraintEnd_toEndOf="@+id/signup_link_btn"
                 app:layout_constraintStart_toStartOf="@+id/signup_link_btn"
                 app:layout_constraintTop_toBottomOf="@+id/signup_link_btn">
@@ -82,24 +83,12 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/lblInvalidEmail"
-                android:layout_width="@dimen/zerodp"
-                android:layout_height="wrap_content"
-                android:text="@string/invalid_email"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="12sp"
-                android:textStyle="italic"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/ti_email"
-                app:layout_constraintStart_toStartOf="@+id/ti_email"
-                app:layout_constraintTop_toBottomOf="@+id/ti_email" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_password"
                 style="@style/ti_layout"
                 android:layout_marginTop="15dp"
                 android:hint="@string/password"
+                app:helperTextTextColor="@color/g_light_red"
                 app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="@id/ti_email"
                 app:layout_constraintStart_toStartOf="@id/ti_email"

@@ -1,15 +1,11 @@
 package com.example.momogu
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieDrawable
@@ -26,12 +22,26 @@ class SignInActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        buttonOnClickListener()
-        textFieldValidationChecking()
+        binding.signupLinkBtn.setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java))
+            binding.etEmail.text = null
+            binding.etPassword.text = null
+        }
+
+        binding.loginBtn.setOnClickListener {
+            setLoginButtonEnabled(false)
+            enableComponents(true)
+            startLoadingView(false)
+            loginUser()
+        }
 
         setLoginButtonEnabled(false)
         startLoadingView(false)
         enableComponents(true)
+        initUI()
+
+        mailFocus()
+        passFocus()
     }
 
     override fun onStart() {
@@ -44,55 +54,57 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun buttonOnClickListener() {
-        binding.signupLinkBtn.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
-            binding.etEmail.text = null
-            binding.etPassword.text = null
-            binding.lblInvalidEmail.visibility = View.GONE
-        }
-
-        binding.loginBtn.setOnClickListener {
-            enableComponents(false)
-            setLoginButtonEnabled(false)
-            startLoadingView(true)
-            loginUser()
-        }
-
-        binding.layoutSignInRelative.setOnTouchListener { _, _ ->
-            if (binding.etEmail.text.toString() != "" && !isEmailValid(binding.etEmail.text.toString())) {
-                binding.lblInvalidEmail.visibility = View.VISIBLE
-            } else {
-                binding.lblInvalidEmail.visibility = View.GONE
+    private fun mailFocus() {
+        binding.etEmail.setOnFocusChangeListener { _, focus ->
+            if (!focus) {
+                binding.tiEmail.helperText = validMail()
             }
-
-            hideSoftKeyboard(this)
-            binding.etEmail.clearFocus()
-            binding.etPassword.clearFocus()
-            false
         }
     }
 
-    private fun textFieldValidationChecking() {
+    private fun validMail(): String? {
+        val emailText = binding.etEmail.text.toString()
+        if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
+            return "Format email tidak valid!"
+        }
+        return null
+    }
+
+    private fun passFocus() {
+        binding.etPassword.setOnFocusChangeListener { _, focus ->
+            if (!focus) {
+                binding.tiPassword.helperText = validPass()
+            }
+        }
+    }
+
+    private fun validPass(): String? {
+        val passText = binding.etPassword.text.toString()
+        if (passText.length < 6) {
+            return "Password harus berisi minimal 6 karakter"
+        }
+        return null
+    }
+
+    private fun initUI() {
         binding.etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (!isEmailValid(binding.etEmail.text.toString())) {
-                    binding.lblInvalidEmail.visibility = View.VISIBLE
+                if (binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
+                ) {
+                    setLoginButtonEnabled(true)
                 } else {
-                    binding.lblInvalidEmail.visibility = View.GONE
-                    if (binding.etEmail.text.toString() != "" && binding.etPassword.text.toString() != "") {
-                        setLoginButtonEnabled(true)
-                    } else {
-                        setLoginButtonEnabled(false)
-                    }
+                    setLoginButtonEnabled(false)
                 }
+
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.etEmail.text.toString() != "" && binding.etPassword.text.toString() != "") {
+                if (binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
+                ) {
                     setLoginButtonEnabled(true)
                 } else {
                     setLoginButtonEnabled(false)
@@ -102,7 +114,9 @@ class SignInActivity : AppCompatActivity() {
 
         binding.etPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (binding.etEmail.text.toString() != "" && binding.etPassword.text.toString() != "") {
+                if (binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
+                ) {
                     setLoginButtonEnabled(true)
                 } else {
                     setLoginButtonEnabled(false)
@@ -112,7 +126,9 @@ class SignInActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.etEmail.text.toString() != "" && binding.etPassword.text.toString() != "") {
+                if (binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
+                ) {
                     setLoginButtonEnabled(true)
                 } else {
                     setLoginButtonEnabled(false)
@@ -121,31 +137,16 @@ class SignInActivity : AppCompatActivity() {
         })
     }
 
-    fun isEmailValid(email: CharSequence): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
     private fun setLoginButtonEnabled(isEnabled: Boolean) {
         if (isEnabled) {
             binding.loginBtn.isEnabled = true
             binding.loginBtn.isClickable = true
-            //binding.loginBtn.background = resources.getDrawable(R.drawable.rounded_corner_ijo)
             binding.loginBtn.setBackgroundResource(R.drawable.rounded_corner_ijo)
         } else {
             binding.loginBtn.isEnabled = false
             binding.loginBtn.isClickable = false
-            //binding.loginBtn.background = resources.getDrawable(R.drawable.rounded_corner_light_gray)
             binding.loginBtn.setBackgroundResource(R.drawable.rounded_corner_light_gray)
         }
-    }
-
-    private fun hideSoftKeyboard(activity: Activity) {
-        val inputMethodManager: InputMethodManager = activity.getSystemService(
-            Activity.INPUT_METHOD_SERVICE
-        ) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(
-            activity.currentFocus?.windowToken, 0
-        )
     }
 
     private fun startLoadingView(start: Boolean) {
@@ -180,27 +181,22 @@ class SignInActivity : AppCompatActivity() {
         val password = binding.etPassword.text.toString()
 
         when {
-            TextUtils.isEmpty(email) -> Toast.makeText(
-                this,
-                "Email is required.",
-                Toast.LENGTH_LONG
-            ).show()
-            TextUtils.isEmpty(password) -> Toast.makeText(
-                this,
-                "Password is required.",
-                Toast.LENGTH_LONG
-            ).show()
+            binding.tiEmail.helperText != null ->
+                binding.etEmail.error = "Email masih terdapat peringatan!"
+
+            binding.tiPassword.helperText != null ->
+                Toast.makeText(this, "Kata sandi masih terdapat peringatan!", Toast.LENGTH_LONG)
+                    .show()
 
             else -> {
+                startLoadingView(true)
+                enableComponents(false)
+                setLoginButtonEnabled(false)
 
                 val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        startLoadingView(false)
-                        enableComponents(true)
-                        setLoginButtonEnabled(true)
-
                         val intent = Intent(this, MainActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)

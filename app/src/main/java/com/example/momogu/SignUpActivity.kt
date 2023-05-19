@@ -1,16 +1,13 @@
 package com.example.momogu
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.airbnb.lottie.LottieDrawable
 import com.example.momogu.databinding.ActivitySignUpBinding
@@ -36,26 +33,85 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.signupBtn.setOnClickListener {
-            enableComponents(false)
-            startLoadingView(true)
+            enableComponents(true)
+            startLoadingView(false)
             createAccount()
-        }
-
-        binding.layoutSignUpRelative.setOnTouchListener { _, _ ->
-
-            hideSoftKeyboard(this)
-            binding.etFullname.clearFocus()
-            binding.etWhatsapp.clearFocus()
-            binding.etEmail.clearFocus()
-            binding.etPassword.clearFocus()
-
-            false
         }
 
         setSignUpButtonEnabled(false)
         startLoadingView(false)
         enableComponents(true)
         initUI()
+
+        nameFocus()
+        phoneFocus()
+        mailFocus()
+        passFocus()
+
+    }
+
+    private fun nameFocus() {
+        binding.etFullname.setOnFocusChangeListener { _, focus ->
+            if (!focus) {
+                binding.tiFullname.helperText = validName()
+            }
+        }
+    }
+
+    private fun validName(): String? {
+        val passText = binding.etFullname.text.toString()
+        if (passText.length < 4) {
+            return "Nama Lengkap harus berisi minimal 4 karakter"
+        }
+        return null
+    }
+
+    private fun phoneFocus() {
+        binding.etWhatsapp.setOnFocusChangeListener { _, focus ->
+            if (!focus) {
+                binding.tiWhatsapp.helperText = validPhone()
+            }
+        }
+    }
+
+    private fun validPhone(): String? {
+        val passText = binding.etWhatsapp.text.toString()
+        if (passText.length < 8) {
+            return "Nomor Handphone harus berisi minimal 8 karakter"
+        }
+        return null
+    }
+
+    private fun mailFocus() {
+        binding.etEmail.setOnFocusChangeListener { _, focus ->
+            if (!focus) {
+                binding.tiEmail.helperText = validMail()
+            }
+        }
+    }
+
+    private fun validMail(): String? {
+        val emailText = binding.etEmail.text.toString()
+        if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
+            return "Format email tidak valid!"
+        }
+        return null
+    }
+
+    private fun passFocus() {
+        binding.etPassword.setOnFocusChangeListener { _, focus ->
+            if (!focus) {
+                binding.tiPassword.helperText = validPass()
+            }
+        }
+    }
+
+    private fun validPass(): String? {
+        val passText = binding.etPassword.text.toString()
+        if (passText.length < 6) {
+            return "Password harus berisi minimal 6 karakter"
+        }
+        return null
     }
 
     private fun initUI() {
@@ -117,11 +173,16 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (isEmailValid(binding.etEmail.text.toString())) {
-                    binding.lblInvalidEmail.visibility = View.GONE
+                if (binding.etFullname.text.toString() != "" &&
+                    binding.etWhatsapp.text.toString() != "" &&
+                    binding.etEmail.text.toString() != "" &&
+                    binding.etPassword.text.toString() != ""
+                ) {
+                    setSignUpButtonEnabled(true)
                 } else {
-                    binding.lblInvalidEmail.visibility = View.VISIBLE
+                    setSignUpButtonEnabled(false)
                 }
+
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -180,10 +241,6 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun isEmailValid(email: CharSequence): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
     private fun startLoadingView(start: Boolean) {
         if (start) {
             binding.loadingRegister.visibility = View.VISIBLE
@@ -216,44 +273,33 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun hideSoftKeyboard(activity: Activity) {
-        val inputMethodManager: InputMethodManager = activity.getSystemService(
-            Activity.INPUT_METHOD_SERVICE
-        ) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(
-            activity.currentFocus?.windowToken, 0
-        )
-    }
-
     private fun createAccount() {
         val fullName = binding.etFullname.text.toString()
         val phone = binding.etWhatsapp.text.toString()
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
 
+
         when {
-            TextUtils.isEmpty(fullName) -> Toast.makeText(
-                this,
-                "Full Name is required.",
-                Toast.LENGTH_LONG
-            ).show()
-            TextUtils.isEmpty(phone) -> Toast.makeText(
-                this,
-                "Phone Number is required.",
-                Toast.LENGTH_LONG
-            ).show()
-            TextUtils.isEmpty(email) -> Toast.makeText(
-                this,
-                "Email is required.",
-                Toast.LENGTH_LONG
-            ).show()
-            TextUtils.isEmpty(password) -> Toast.makeText(
-                this,
-                "Password is required.",
-                Toast.LENGTH_LONG
-            ).show()
+
+            binding.tiFullname.helperText != null ->
+            binding.etFullname.error = "Nama lengkap masih terdapat peringatan!"
+
+            binding.tiWhatsapp.helperText != null ->
+            binding.etWhatsapp.error = "Nomor Handphone masih terdapat peringatan!"
+
+            binding.tiEmail.helperText != null ->
+            binding.etEmail.error = "Email masih terdapat peringatan!"
+
+            binding.tiPassword.helperText != null ->
+                Toast.makeText(this, "Kata sandi masih terdapat peringatan!", Toast.LENGTH_LONG)
+                    .show()
 
             else -> {
+
+                startLoadingView(true)
+                enableComponents(false)
+                setSignUpButtonEnabled(false)
 
                 val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -261,7 +307,6 @@ class SignUpActivity : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             saveUserInfo(fullName, email, phone)
-
                         } else {
                             val message = task.exception!!.toString()
                             Toast.makeText(this, "Error: $message", Toast.LENGTH_LONG).show()
@@ -274,6 +319,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun saveUserInfo(fullName: String, email: String, phone: String) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
@@ -288,11 +334,6 @@ class SignUpActivity : AppCompatActivity() {
         usersRef.child(currentUserID).setValue(userMap)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    //progressDialog.dismiss()
-                    startLoadingView(false)
-                    enableComponents(true)
-                    setSignUpButtonEnabled(true)
-
                     Toast.makeText(
                         this,
                         "Account has been created successfully.",
