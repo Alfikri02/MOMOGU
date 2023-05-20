@@ -70,13 +70,11 @@
                     app:strokeColor="@color/ijotua"
                     app:strokeWidth="1dp">
 
-                    <SearchView
+                    <androidx.appcompat.widget.SearchView
                         android:id="@+id/search"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:iconifiedByDefault="false"
-                        android:queryBackground="@android:color/transparent"
-                        android:queryHint="Cari sapi yang anda inginkan!" />
+                        android:queryBackground="@android:color/transparent"/>
 
                 </com.google.android.material.card.MaterialCardView>
 

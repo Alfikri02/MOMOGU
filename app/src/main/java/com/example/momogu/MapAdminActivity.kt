@@ -1,9 +1,12 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.momogu
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -12,6 +15,7 @@ import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.momogu.databinding.ActivityMapAdminBinding
@@ -32,6 +36,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import java.io.IOException
 import java.util.*
 
 class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
@@ -47,6 +52,10 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.Info
         setContentView(binding.root)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.mapAdmin) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
         binding.btnCancel.setOnClickListener {
             isLocationPicked.postValue(false)
@@ -106,10 +115,41 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.Info
             popupMenu.show()
         }
 
-        val mapFragment =
-            supportFragmentManager.findFragmentById(R.id.mapAdmin) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        binding.searchMaps.queryHint = "Cari lokasi anda!"
+        binding.searchMaps.onActionViewExpanded()
+        binding.searchMaps.clearFocus()
+        binding.searchMaps.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                searchLocation(query)
+                return true
+            }
+
+            override fun onQueryTextChange(query: String): Boolean {
+                return false
+            }
+        })
+
     }
+
+    private fun searchLocation(query: String) {
+        val geocoder = Geocoder(this)
+        try {
+            val addresses = geocoder.getFromLocationName(query, 1)
+            if (addresses!!.isNotEmpty()) {
+                val address = addresses[0]
+                val latitude = address.latitude
+                val longitude = address.longitude
+                val location = LatLng(latitude, longitude)
+                mAdminMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+            } else {
+                Toast.makeText(this, "Lokasi tidak ditemukan!", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: IOException) {
+            Toast.makeText(this, "Gagal dalam mendapatkan lokasi!", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
+    }
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         mAdminMap = googleMap

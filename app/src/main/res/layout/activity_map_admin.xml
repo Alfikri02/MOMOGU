@@ -11,56 +11,70 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/top_bar"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/ic_map"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:contentDescription="@string/content"
             android:src="@drawable/ic_map"
+            app:layout_constraintBottom_toBottomOf="@+id/cardViewSearch"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/cardViewSearch" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Select / press area to select location"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/ic_map"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewSearch"
+            android:layout_width="@dimen/zerodp"
+            android:layout_height="54dp"
+            app:cardCornerRadius="15dp"
+            android:layout_marginEnd="-8dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toStartOf="@+id/menu_maps"
             app:layout_constraintStart_toEndOf="@+id/ic_map"
-            app:layout_constraintTop_toTopOf="@+id/ic_map" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/ijotua"
+            app:strokeWidth="1dp">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchMaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:queryBackground="@android:color/transparent" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <ImageView
             android:id="@+id/menu_maps"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginEnd="-10dp"
             android:contentDescription="@string/content"
             android:src="@drawable/ic_menu"
+            app:layout_constraintBottom_toBottomOf="@+id/cardViewSearch"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/cardViewSearch" />
 
         <TextView
             android:id="@+id/address_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Please select the location area first"
-            android:lines="2"
-            android:minLines="2"
+            android:hint="Silahkan pilih area lokasi terlebih dahulu"
             android:padding="8dp"
             android:textSize="11sp"
-            app:layout_constraintTop_toBottomOf="@+id/ic_map"
-            tools:layout_editor_absoluteX="16dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewSearch"/>
 
         <Button
             android:id="@+id/btn_select_location"
+            style="@style/greenButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -68,7 +82,7 @@
             android:insetBottom="0dp"
             android:minHeight="0dp"
             android:padding="8dp"
-            android:text="Continue"
+            android:text="Pilih Lokasi"
             android:textAllCaps="false"
             android:textSize="12sp"
             app:backgroundTint="@color/ijotua"
@@ -80,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="Cancel"
+            android:text="Batal"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/btn_select_location"
             app:layout_constraintEnd_toStartOf="@+id/btn_select_location"

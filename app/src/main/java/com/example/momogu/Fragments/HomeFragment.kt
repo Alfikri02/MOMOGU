@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.denzcoskun.imageslider.constants.ScaleTypes
@@ -58,6 +58,9 @@ class HomeFragment : Fragment() {
         retrievePosts()
         imageSlider()
 
+        binding.search.queryHint = "Cari sapi yang anda inginkan!"
+        binding.search.onActionViewExpanded()
+        binding.search.clearFocus()
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -88,10 +91,10 @@ class HomeFragment : Fragment() {
                     postList?.clear()
 
                     for (snapshot in p0.children) {
-                        val user = snapshot.getValue(PostModel::class.java)
+                        val post = snapshot.getValue(PostModel::class.java)
 
-                        if (user != null) {
-                            postList?.add(user)
+                        if (post != null) {
+                            postList?.add(post)
                         }
                     }
 
