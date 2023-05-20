@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
+import android.view.Gravity
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieDrawable
 import com.example.momogu.databinding.ActivitySignInBinding
+import com.example.momogu.utils.Helper
 import com.google.firebase.auth.FirebaseAuth
 
 class SignInActivity : AppCompatActivity() {
@@ -25,7 +26,9 @@ class SignInActivity : AppCompatActivity() {
         binding.signupLinkBtn.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
             binding.etEmail.text = null
+            binding.tiEmail.helperText = null
             binding.etPassword.text = null
+            binding.tiPassword.helperText = null
         }
 
         binding.loginBtn.setOnClickListener {
@@ -39,9 +42,6 @@ class SignInActivity : AppCompatActivity() {
         startLoadingView(false)
         enableComponents(true)
         initUI()
-
-        mailFocus()
-        passFocus()
     }
 
     override fun onStart() {
@@ -54,12 +54,45 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    private fun mailFocus() {
-        binding.etEmail.setOnFocusChangeListener { _, focus ->
-            if (!focus) {
-                binding.tiEmail.helperText = validMail()
+    private fun initUI() {
+        binding.etEmail.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                helperLogin()
             }
-        }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                helperLogin()
+            }
+        })
+
+        binding.etPassword.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                helperRegister()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                helperRegister()
+            }
+        })
+
+    }
+
+    private fun helperLogin() {
+        binding.tiEmail.helperText = validMail()
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
+        setLoginButtonEnabled(email.isNotEmpty() && password.isNotEmpty())
+    }
+
+    private fun helperRegister() {
+        binding.tiPassword.helperText = validPass()
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
+        setLoginButtonEnabled(email.isNotEmpty() && password.isNotEmpty())
     }
 
     private fun validMail(): String? {
@@ -70,71 +103,12 @@ class SignInActivity : AppCompatActivity() {
         return null
     }
 
-    private fun passFocus() {
-        binding.etPassword.setOnFocusChangeListener { _, focus ->
-            if (!focus) {
-                binding.tiPassword.helperText = validPass()
-            }
-        }
-    }
-
     private fun validPass(): String? {
         val passText = binding.etPassword.text.toString()
         if (passText.length < 6) {
             return "Password harus berisi minimal 6 karakter"
         }
         return null
-    }
-
-    private fun initUI() {
-        binding.etEmail.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                if (binding.etEmail.text.toString() != "" &&
-                    binding.etPassword.text.toString() != ""
-                ) {
-                    setLoginButtonEnabled(true)
-                } else {
-                    setLoginButtonEnabled(false)
-                }
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.etEmail.text.toString() != "" &&
-                    binding.etPassword.text.toString() != ""
-                ) {
-                    setLoginButtonEnabled(true)
-                } else {
-                    setLoginButtonEnabled(false)
-                }
-            }
-        })
-
-        binding.etPassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                if (binding.etEmail.text.toString() != "" &&
-                    binding.etPassword.text.toString() != ""
-                ) {
-                    setLoginButtonEnabled(true)
-                } else {
-                    setLoginButtonEnabled(false)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (binding.etEmail.text.toString() != "" &&
-                    binding.etPassword.text.toString() != ""
-                ) {
-                    setLoginButtonEnabled(true)
-                } else {
-                    setLoginButtonEnabled(false)
-                }
-            }
-        })
     }
 
     private fun setLoginButtonEnabled(isEnabled: Boolean) {
@@ -182,11 +156,10 @@ class SignInActivity : AppCompatActivity() {
 
         when {
             binding.tiEmail.helperText != null ->
-                binding.etEmail.error = "Email masih terdapat peringatan!"
+                binding.etEmail.requestFocus()
 
             binding.tiPassword.helperText != null ->
-                Toast.makeText(this, "Kata sandi masih terdapat peringatan!", Toast.LENGTH_LONG)
-                    .show()
+                binding.etPassword.requestFocus()
 
             else -> {
                 startLoadingView(true)
@@ -202,12 +175,17 @@ class SignInActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     } else {
-                        val message = task.exception!!.toString()
-                        Toast.makeText(this, "Error: $message", Toast.LENGTH_LONG).show()
-                        FirebaseAuth.getInstance().signOut()
+                        Helper.showDialogInfo(
+                            this,
+                            "Terjadi kesalahan saat masuk.\n" +
+                                    "Email atau kata sandi salah!\n" +
+                                    "Silakan coba lagi.",
+                            Gravity.CENTER
+                        )
+                        binding.etEmail.requestFocus()
                         startLoadingView(false)
                         enableComponents(true)
-                        setLoginButtonEnabled(true)
+                        setLoginButtonEnabled(false)
                     }
                 }
             }

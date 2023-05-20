@@ -124,7 +124,7 @@ object Helper {
         dialog.show()
     }
 
-    private fun dialogInfoBuilder(
+    fun dialogInfoBuilder(
         context: Context,
         message: String,
         alignment: Int = Gravity.CENTER
