@@ -477,7 +477,7 @@ class ReceiptUserActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Peringatan!")
-            .setMessage("Apakah anda ingin mengantar pesanan ini?")
+            .setMessage("Apakah pesanan ini telah sampai ditujuan?")
             .setCancelable(true)
             .setPositiveButton("Iya") { _, _ ->
 
@@ -496,7 +496,7 @@ class ReceiptUserActivity : AppCompatActivity() {
                 finish()
                 Toast.makeText(
                     this,
-                    "Pesanan sedang dalam pengantaran!",
+                    "Pesanan telah sampai ditujuan!",
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -509,7 +509,7 @@ class ReceiptUserActivity : AppCompatActivity() {
     private fun statusFinish() {
         Toast.makeText(
             this,
-            "Pesanan ini akan diselesaikan oleh pembeli ketika mereka telah menerima sapi dengan baik dan tidak ada komplain!",
+            "Pesanan ini akan diselesaikan oleh pembeli jika tidak ada komplain!",
             Toast.LENGTH_LONG
         )
             .show()

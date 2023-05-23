@@ -1,11 +1,10 @@
 package com.example.momogu.Fragments
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,6 +25,13 @@ class ScalesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentScalesBinding.inflate(inflater)
+
+        val preferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        if (preferences != null) {
+            binding.etChestScales.setText(preferences.getString("text1", ""))
+            binding.etBodyScales.setText(preferences.getString("text2", ""))
+            binding.etWeightScales.setText(preferences.getString("text3", ""))
+        }
 
         binding.etChestScales.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -88,17 +94,16 @@ class ScalesFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.d(ContentValues.TAG, "onPause")
+        saveText()
     }
 
-    override fun onStop() {
-        super.onStop()
-        Log.d(ContentValues.TAG, "onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(ContentValues.TAG, "onDestroy")
+    @SuppressLint("CommitPrefEdits")
+    private fun saveText() {
+        val editor = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE).edit()
+        editor.putString("text1", binding.etChestScales.text.toString())
+        editor.putString("text2", binding.etBodyScales.text.toString())
+        editor.putString("text3", binding.etWeightScales.text.toString())
+        editor.apply()
     }
 
 }

@@ -33,7 +33,7 @@
                     android:fontFamily="@font/poppins_thin"
                     android:text="@string/scales"
                     android:textSize="20sp"
-                    tools:ignore="RelativeOverlap"/>
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 
@@ -67,9 +67,9 @@
                     android:id="@+id/exteriorImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/exterior_sapi"
-                    android:contentDescription="@string/content" />
+                    android:src="@drawable/exterior_sapi" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -99,11 +99,12 @@
                 android:id="@+id/tiChestScales"
                 style="@style/ti_layout"
                 android:layout_below="@+id/tvDetailExterior"
-                android:layout_marginTop="10dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="20dp"
-                android:hint="@string/ti_chest_scales">
+                android:layout_marginTop="10dp"
+                android:hint="@string/ti_chest_scales"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etChestScales"
@@ -121,7 +122,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/ti_body_scales">
+                android:hint="@string/ti_body_scales"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etBodyScales"
