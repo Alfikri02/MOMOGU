@@ -60,8 +60,19 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         binding.btnCheckout.setOnClickListener {
-            retrieveReceipt()
-            startLoadingView()
+
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Peringatan!")
+                .setMessage("Apakah anda ingin memesan sapi ini?")
+                .setCancelable(true)
+                .setPositiveButton("Iya") { _, _ ->
+
+                    retrieveReceipt()
+                    startLoadingView()
+
+                }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                    dialogInterface.cancel()
+                }.show()
         }
 
         binding.cvPhone.setOnClickListener {
@@ -132,7 +143,8 @@ class CheckoutActivity : AppCompatActivity() {
                 if (p0.exists()) {
                     val post = p0.getValue(PostModel::class.java)
 
-                    Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.ic_momogu_text_bottom)
+                    Picasso.get().load(post!!.getPostimage())
+                        .placeholder(R.drawable.ic_momogu_text_bottom)
                         .into(binding.imagePost)
                     binding.tvProduct.text = post.getProduct()
                     binding.tvPrice.text = "Rp. ${post.getPrice()}"
@@ -163,7 +175,8 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun userInfo() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+        val usersRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -184,7 +197,8 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun phoneBuyer() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+        val usersRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
         usersRef.addValueEventListener(object : ValueEventListener {
             @SuppressLint("SetTextI18n")

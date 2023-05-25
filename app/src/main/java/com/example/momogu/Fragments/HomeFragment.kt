@@ -16,6 +16,7 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.example.momogu.Adapter.PostAdapter
 import com.example.momogu.MapsActivity
 import com.example.momogu.Model.PostModel
+import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.R
 import com.example.momogu.databinding.FragmentHomeBinding
@@ -56,12 +57,13 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = postAdapter
 
         retrievePosts()
+        transVal()
         imageSlider()
 
         binding.search.queryHint = "Cari sapi yang anda inginkan!"
         binding.search.onActionViewExpanded()
         binding.search.clearFocus()
-        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
@@ -155,8 +157,79 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun mapsVal(){
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+    private fun transVal() {
+        val context = requireContext()
+        val notificationRef = FirebaseDatabase.getInstance().reference.child("Receipt")
+
+        notificationRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    for (snapshot in p0.children) {
+                        val receipt = snapshot.getValue(ReceiptModel::class.java)
+
+                        if (receipt!!.getSellerId().equals(firebaseUser.uid)) {
+                            if (receipt.getStatus().equals("Menunggu konfirmasi!")) {
+                                val currentTime = System.currentTimeMillis()
+                                val timeCancel = receipt.getdtCancel()!!.toLong()
+
+                                if (currentTime >= timeCancel) {
+                                    Helper.showDialogInfo(
+                                        context,
+                                        "Transaksi dibatalkan otomatis, dikarenakan tidak ada konfirmasi oleh penjual!",
+                                        Gravity.CENTER
+                                    )
+                                }
+                            } else if (receipt.getStatus().equals("Sampai")) {
+                                val currentTime = System.currentTimeMillis()
+                                val timeFinishOto = receipt.getdtFinishOto()!!.toLong()
+
+                                if (currentTime >= timeFinishOto) {
+                                    Helper.showDialogInfo(
+                                        context,
+                                        "Transaksi diselesaikan otomatis, dikarenakan tidak diselesaikan oleh pembeli",
+                                        Gravity.CENTER
+                                    )
+                                }
+                            }
+                        } else if (receipt.getBuyerId().equals(firebaseUser.uid)) {
+                            if (receipt.getStatus().equals("Menunggu konfirmasi!")) {
+                                val currentTime = System.currentTimeMillis()
+                                val timeCancel = receipt.getdtCancel()!!.toLong()
+
+                                if (currentTime >= timeCancel) {
+                                    Helper.showDialogInfo(
+                                        context,
+                                        "Transaksi dibatalkan otomatis, dikarenakan tidak ada konfirmasi oleh penjual!",
+                                        Gravity.CENTER
+                                    )
+                                }
+                            } else if (receipt.getStatus().equals("Sampai")) {
+                                val currentTime = System.currentTimeMillis()
+                                val timeFinishOto = receipt.getdtFinishOto()!!.toLong()
+
+                                if (currentTime >= timeFinishOto) {
+                                    Helper.showDialogInfo(
+                                        context,
+                                        "Transaksi diselesaikan otomatis, dikarenakan tidak diselesaikan oleh pembeli",
+                                        Gravity.CENTER
+                                    )
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+
+    private fun mapsVal() {
+        val usersRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -183,7 +256,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun imageSlider(){
+    private fun imageSlider() {
         val imageList = ArrayList<SlideModel>()
 
         imageList.add(SlideModel(R.drawable.flyer_satu, ScaleTypes.CENTER_CROP))

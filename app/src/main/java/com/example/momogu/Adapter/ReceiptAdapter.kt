@@ -3,7 +3,6 @@ package com.example.momogu.Adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.*
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.ReceiptModel
-import com.example.momogu.utils.Helper
 import com.example.momogu.utils.Helper.getDate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -169,32 +167,6 @@ class ReceiptAdapter(
             holder.menu.visibility = View.VISIBLE
         } else {
             holder.menu.visibility = View.GONE
-        }
-
-        if (receipt.getStatus().equals("Menunggu konfirmasi!")) {
-            val currentTime = System.currentTimeMillis()
-            val timeCancel = receipt.getdtCancel()!!.toLong()
-
-            if (currentTime >= timeCancel) {
-                Helper.showDialogInfo(
-                    mContext,
-                    "Transaksi dibatalkan otomatis, dikarenakan tidak ada konfirmasi oleh penjual!",
-                    Gravity.CENTER
-                )
-            }
-        }
-
-        if (receipt.getStatus().equals("Sampai")) {
-            val currentTime = System.currentTimeMillis()
-            val timeFinishOto = receipt.getdtFinishOto()!!.toLong()
-
-            if (currentTime >= timeFinishOto) {
-                Helper.showDialogInfo(
-                    mContext,
-                    "Transaksi diselesaikan otomatis, dikarenakan tidak diselesaikan oleh pembeli",
-                    Gravity.CENTER
-                )
-            }
         }
 
         holder.itemView.setOnClickListener {
