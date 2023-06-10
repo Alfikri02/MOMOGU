@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.momogu.DetailProfileActivity
+import com.example.momogu.DetailPostActivity
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.ReceiptModel
 import com.example.momogu.R
@@ -63,7 +63,7 @@ class PostImagesAdapter(private val mContext: Context, mPost: List<PostModel>) :
 
             editor.putString("postid", post.getPostid())
             editor.apply()
-            mContext.startActivity(Intent(mContext, DetailProfileActivity::class.java))
+            mContext.startActivity(Intent(mContext, DetailPostActivity::class.java))
         }
     }
 

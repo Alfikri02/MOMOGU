@@ -43,7 +43,6 @@
         <activity android:name=".ReceiptUserActivity" />
         <activity android:name=".ReceiptPostActivity" />
         <activity android:name=".CheckoutActivity" />
-        <activity android:name=".DetailProfileActivity" />
         <activity android:name=".BreederActivity" />
         <activity android:name=".DetailPostActivity" />
         <activity android:name=".WelcomeActivity" />

@@ -37,6 +37,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import java.util.*
 
@@ -46,6 +48,9 @@ class DetailPostActivity : AppCompatActivity() {
     private var postId: String = ""
     private lateinit var locationManager: LocationManager
     private lateinit var firebaseUser: FirebaseUser
+    private lateinit var builder: AlertDialog.Builder
+    private var storagePostPicRef: StorageReference? = null
+    private var storagePostVideoRef: StorageReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +58,14 @@ class DetailPostActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        builder = AlertDialog.Builder(this)
+
         locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
+
+        storagePostPicRef = FirebaseStorage.getInstance().reference.child("Post Pictures")
+        storagePostVideoRef = FirebaseStorage.getInstance().reference.child("Post Video")
 
         val preferences = this.getSharedPreferences("POST", Context.MODE_PRIVATE)
         if (preferences != null) {
@@ -64,9 +74,14 @@ class DetailPostActivity : AppCompatActivity() {
 
         retrievePosts()
         soldVal()
+        publisherVal()
 
         binding.closeDetail.setOnClickListener {
             finish()
+        }
+
+        binding.deleteDetail.setOnClickListener {
+            valDelete()
         }
 
         binding.cvProfileDetail.setOnClickListener {
@@ -351,6 +366,81 @@ class DetailPostActivity : AppCompatActivity() {
                     val phoneNumber = user!!.getPhone()
                     val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
                     startActivity(intent)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun valDelete() {
+        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+        receiptRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val receipt = dataSnapshot.getValue(ReceiptModel::class.java)
+
+                    if (receipt!!.getStatus().equals("Selesai")) {
+                        Toast.makeText(
+                            applicationContext,
+                            getString(R.string.toast_sell_detail),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            getString(R.string.toast_was_taken_detail),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    builder.setTitle(getString(R.string.toast_warning_detail))
+                        .setMessage(getString(R.string.toast_delete_detail))
+                        .setCancelable(true)
+                        .setPositiveButton("Iya") { _, _ ->
+                            val postRef =
+                                FirebaseDatabase.getInstance().getReference("Posts")
+                                    .child(postId)
+                            postRef.removeValue()
+                            val imageRef = storagePostPicRef!!.child("$postId.jpg")
+                            imageRef.delete()
+
+                            val videoRef = storagePostVideoRef!!.child("$postId.mp4")
+                            videoRef.delete()
+
+                            Toast.makeText(
+                                this@DetailPostActivity,
+                                getString(R.string.toast_delete_succeed_detail),
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            finish()
+                        }.setNegativeButton("Tidak") { dialogInterface, _ ->
+                            dialogInterface.cancel()
+                        }.show()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun publisherVal() {
+        val postRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+
+        postRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+
+                    val post = p0.getValue(PostModel::class.java)
+
+                    if (post?.getPublisher().equals(firebaseUser.uid)) {
+                        binding.deleteDetail.visibility = View.VISIBLE
+                        binding.cvProfileDetail.visibility = View.GONE
+                        binding.btnBuyDetail.visibility = View.GONE
+                        binding.btnCallDetail.visibility = View.GONE
+                    }
+
                 }
             }
 

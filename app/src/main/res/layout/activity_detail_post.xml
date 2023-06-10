@@ -44,6 +44,16 @@
                     android:textSize="20sp"
                     tools:ignore="RelativeOverlap" />
 
+                <ImageView
+                    android:id="@+id/deleteDetail"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/content"
+                    android:src="@drawable/ic_delete"
+                    android:visibility="gone"/>
+
             </RelativeLayout>
 
         </androidx.appcompat.widget.Toolbar>
@@ -331,7 +341,8 @@
                             android:clickable="false"
                             android:drawableStart="@drawable/ic_desc"
                             android:focusable="false"
-                            android:inputType="none" />
+                            android:inputType="none"
+                            android:textSize="14sp"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
