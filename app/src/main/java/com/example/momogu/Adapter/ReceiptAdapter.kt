@@ -29,30 +29,17 @@ class ReceiptAdapter(
     private val mContext: Context,
     private val mReceipt: List<ReceiptModel>
 ) : RecyclerView.Adapter<ReceiptAdapter.ViewHolder>() {
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var postImage: ImageView
-        var date: TextView
-        var status: TextView
-        var product: TextView
-        var total: TextView
-        var cvStatus: CardView
-        var menu: ImageView
-        var firebaseUser: FirebaseUser
-        var cvBtnStatus: CardView
-        var tvBtnStatus: TextView
-
-        init {
-            postImage = itemView.findViewById(R.id.post_image_receipt)
-            date = itemView.findViewById(R.id.date_receipt)
-            status = itemView.findViewById(R.id.tv_status)
-            product = itemView.findViewById(R.id.product_receipt)
-            total = itemView.findViewById(R.id.tv_total_receipt)
-            cvStatus = itemView.findViewById(R.id.cv_status)
-            menu = itemView.findViewById(R.id.menu_receipt)
-            firebaseUser = FirebaseAuth.getInstance().currentUser!!
-            cvBtnStatus = itemView.findViewById(R.id.cv_BtnStatus)
-            tvBtnStatus = itemView.findViewById(R.id.btn_status)
-        }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val postImage: ImageView = itemView.findViewById(R.id.post_image_receipt)
+        val date: TextView = itemView.findViewById(R.id.date_receipt)
+        val status: TextView = itemView.findViewById(R.id.tv_status)
+        val product: TextView = itemView.findViewById(R.id.product_receipt)
+        val total: TextView = itemView.findViewById(R.id.tv_total_receipt)
+        val cvStatus: CardView = itemView.findViewById(R.id.cv_status)
+        val menu: ImageView = itemView.findViewById(R.id.menu_receipt)
+        val cvBtnStatus: CardView = itemView.findViewById(R.id.cv_BtnStatus)
+        val tvBtnStatus: TextView =  itemView.findViewById(R.id.btn_status)
+        val firebaseUser: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

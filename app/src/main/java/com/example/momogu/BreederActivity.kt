@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.momogu.Adapter.BreederImagesAdapter
+import com.example.momogu.Adapter.PostImagesAdapter
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
 import com.example.momogu.databinding.ActivityBreederBinding
@@ -28,7 +28,7 @@ class BreederActivity : AppCompatActivity() {
 
     private var postId: String = ""
     var postList: List<PostModel>? = null
-    var breederImagesAdapter: BreederImagesAdapter? = null
+    var postImagesAdapter: PostImagesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +48,8 @@ class BreederActivity : AppCompatActivity() {
         recyclerViewUploadImages.layoutManager = linearLayoutManager
 
         postList = ArrayList()
-        breederImagesAdapter = BreederImagesAdapter(this, postList as ArrayList<PostModel>)
-        recyclerViewUploadImages.adapter = breederImagesAdapter
+        postImagesAdapter = PostImagesAdapter(this, postList as ArrayList<PostModel>)
+        recyclerViewUploadImages.adapter = postImagesAdapter
 
         retrievePosts()
         retrieveImage()
