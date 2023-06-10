@@ -85,8 +85,8 @@
     <string name="toast_sell_detail">Sapi telah terjual!</string>
     <string name="toast_was_taken_detail">Transaksi sedang berlangsung!</string>
     <string name="toast_warning_detail">Peringatan!</string>
-    <string name="toast_delete_detail">Apakah anda ingin menghapus data sapi ini?</string>
-    <string name="toast_delete_succeed_detail">Data sapi berhasil dihapus!</string>
+    <string name="toast_delete_detail">Apakah anda ingin menghapus sapi ini?</string>
+    <string name="toast_delete_succeed_detail">Sapi berhasil dihapus!</string>
     <string name="toast_remove_fav_detail">Apakah anda ingin menghapus sapi ini dari daftar favorit?</string>
     <string name="toast_remove_fav_succeed_detail">Sapi dihapus dari daftar favorite!</string>
 
@@ -96,7 +96,6 @@
     <string name="welcome">Masuk dengan akun yang telah terdaftar.</string>
     <string name="password">Kata Sandi</string>
     <string name="no_acc">Tidak punya akun?</string>
-    <string name="no_acc_bred">Akun untuk peternak?</string>
     <string name="invalid_email">Format email salah!</string>
     <string name="loading_title_login">Proses masuk sedang berlangsung..</string>
     <string name="loading_title_register">Proses pendaftaran sedang berlangsung..</string>
@@ -150,8 +149,9 @@
         <item>Sapi Madura</item>
         <item>Sapi Simental</item>
         <item>Sapi Brahman</item>
-        <item>Sapi Ongole</item>
-        <item>Sapi Peranakan Ongole</item>
+        <item>Sapi Limosin</item>
+        <item>Sapi Silangan</item>
+        <item>Sapi Kupang</item>
     </string-array>
 
     <string-array name="Gender">

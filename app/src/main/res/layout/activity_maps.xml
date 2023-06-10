@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/poppins_thin"
-                    android:text="Maps"
+                    android:text="Peta"
                     android:textSize="20sp"
                     tools:ignore="RelativeOverlap" />
 

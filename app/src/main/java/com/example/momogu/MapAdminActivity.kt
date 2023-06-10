@@ -115,7 +115,7 @@ class MapAdminActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.Info
             popupMenu.show()
         }
 
-        binding.searchMaps.queryHint = "Cari lokasi anda!"
+        binding.searchMaps.queryHint = "Cari lokasi!"
         binding.searchMaps.onActionViewExpanded()
         binding.searchMaps.clearFocus()
         binding.searchMaps.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

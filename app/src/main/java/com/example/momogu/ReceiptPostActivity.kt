@@ -65,7 +65,7 @@ class ReceiptPostActivity : AppCompatActivity() {
         }
 
         binding.btnReport.setOnClickListener {
-            reportTrans()
+            startActivity(Intent(this, ReportActivity::class.java))
         }
 
         binding.tvStatus.setOnClickListener{
@@ -363,38 +363,6 @@ class ReceiptPostActivity : AppCompatActivity() {
                         Toast.makeText(
                             applicationContext,
                             "Transaksi hanya dapat diselesaikan setelah sapi sampai di tujuan!",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-    }
-
-    private fun reportTrans() {
-
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
-
-        postsRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val receipt = p0.getValue(ReceiptModel::class.java)
-
-                    val arrived = receipt!!.getStatus().equals("Sampai")
-                    val delivery = receipt.getStatus().equals("Pengantaran")
-
-                    if (delivery || arrived) {
-                        val intent = Intent(this@ReceiptPostActivity, ReportActivity::class.java)
-                        this@ReceiptPostActivity.startActivity(intent)
-                    }else {
-                        Toast.makeText(
-                            applicationContext,
-                            "Transaksi hanya dapat dilaporkan setelah sapi sampai di tujuan!",
                             Toast.LENGTH_LONG
                         ).show()
                     }

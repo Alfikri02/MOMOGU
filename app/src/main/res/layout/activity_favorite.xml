@@ -340,7 +340,8 @@
                             android:clickable="false"
                             android:drawableStart="@drawable/ic_desc"
                             android:focusable="false"
-                            android:inputType="none" />
+                            android:inputType="none"
+                            android:textSize="14sp"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 

@@ -122,6 +122,7 @@ class BreederActivity : AppCompatActivity() {
                     val post = p0.getValue(PostModel::class.java)
 
                     myPhotos(post?.getPublisher())
+                    numberPhoto(post?.getPublisher())
 
                 }
             }
@@ -147,6 +148,30 @@ class BreederActivity : AppCompatActivity() {
                             (postList as ArrayList<PostModel>).add(post)
                         }
                     }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+        })
+    }
+
+    private fun numberPhoto(publisherId: String?) {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
+
+        postsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    var postCounter = 0
+
+                    for (snapShot in p0.children) {
+                        val post = snapShot.getValue(PostModel::class.java)
+
+                        if (post?.getPublisher() == publisherId) {
+                            postCounter++
+                        }
+                    }
+
+                    binding.totalPosts.text = postCounter.toString()
                 }
             }
 

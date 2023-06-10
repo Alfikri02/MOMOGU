@@ -114,7 +114,6 @@ class ReportActivity : AppCompatActivity() {
             }
         }
 
-
     }
 
     @Deprecated("Deprecated in Java")
