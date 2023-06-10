@@ -1,5 +1,6 @@
 package com.example.momogu.Adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -27,16 +28,10 @@ class BreederImagesAdapter(private val mContext: Context, mPost: List<PostModel>
         this.mPost = mPost
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var postImage: ImageView
-        var soldView: RelativeLayout
-        var soldTitle: TextView
-
-        init {
-            postImage = itemView.findViewById(R.id.post_image)
-            soldView = itemView.findViewById(R.id.layoutSoldView)
-            soldTitle = itemView.findViewById(R.id.soldTitle)
-        }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val postImage: ImageView = itemView.findViewById(R.id.post_image)
+        val soldView: RelativeLayout = itemView.findViewById(R.id.layoutSoldView)
+        val soldTitle: TextView  = itemView.findViewById(R.id.soldTitle)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -72,6 +67,7 @@ class BreederImagesAdapter(private val mContext: Context, mPost: List<PostModel>
         val receiptRef =
             FirebaseDatabase.getInstance().reference.child("Receipt").child(post.getPostid()!!)
         receiptRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val receipt = p0.getValue(ReceiptModel::class.java)

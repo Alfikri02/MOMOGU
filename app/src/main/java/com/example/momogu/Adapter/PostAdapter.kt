@@ -37,30 +37,18 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
     RecyclerView.Adapter<PostAdapter.ViewHolder>() {
     private var firebaseUser: FirebaseUser? = null
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var postImage: ImageView
-        var saveButton: ImageView
-        var timeAgo: TextView
-        var product: TextView
-        var price: TextView
-        var weight: TextView
-        var location: TextView
-        var cardPost: CardView
-        var soldView: RelativeLayout
-        var soldTitle: TextView
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val postImage: ImageView = itemView.findViewById(R.id.post_image_home)
+        val saveButton: ImageView = itemView.findViewById(R.id.post_save_comment_btn)
+        val timeAgo: TextView = itemView.findViewById(R.id.lblTimeAgo)
+        val product: TextView = itemView.findViewById(R.id.tv_product)
+        val price: TextView = itemView.findViewById(R.id.tv_price)
+        val weight: TextView = itemView.findViewById(R.id.tv_weight)
+        val location: TextView = itemView.findViewById(R.id.tv_location)
+        val cardPost: CardView = itemView.findViewById(R.id.cardPost)
+        val soldView: RelativeLayout = itemView.findViewById(R.id.layoutSoldView)
+        val soldTitle: TextView = itemView.findViewById(R.id.soldTitle)
 
-        init {
-            postImage = itemView.findViewById(R.id.post_image_home)
-            saveButton = itemView.findViewById(R.id.post_save_comment_btn)
-            timeAgo = itemView.findViewById(R.id.lblTimeAgo)
-            product = itemView.findViewById(R.id.tv_product)
-            price = itemView.findViewById(R.id.tv_price)
-            weight = itemView.findViewById(R.id.tv_weight)
-            location = itemView.findViewById(R.id.tv_location)
-            cardPost = itemView.findViewById(R.id.cardPost)
-            soldView = itemView.findViewById(R.id.layoutSoldView)
-            soldTitle = itemView.findViewById(R.id.soldTitle)
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -199,6 +187,7 @@ class PostAdapter(private val mContext: Context, private val mPost: List<PostMod
         val receiptRef =
             FirebaseDatabase.getInstance().reference.child("Receipt").child(post.getPostid()!!)
         receiptRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SetTextI18n")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val receipt = p0.getValue(ReceiptModel::class.java)
