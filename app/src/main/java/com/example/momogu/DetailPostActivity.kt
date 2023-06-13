@@ -40,6 +40,12 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class DetailPostActivity : AppCompatActivity() {
@@ -51,6 +57,8 @@ class DetailPostActivity : AppCompatActivity() {
     private lateinit var builder: AlertDialog.Builder
     private var storagePostPicRef: StorageReference? = null
     private var storagePostVideoRef: StorageReference? = null
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,19 +167,23 @@ class DetailPostActivity : AppCompatActivity() {
         return false
     }
 
+    @SuppressLint("SetTextI18n")
     private fun retrievePosts() {
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
+        coroutineScope.launch {
+            val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val post = p0.getValue(PostModel::class.java)
+            try {
+                val dataSnapshot = withContext(Dispatchers.IO) {
+                    postsRef.get().await()
+                }
+
+                if (dataSnapshot.exists()) {
+                    val post = dataSnapshot.getValue(PostModel::class.java)
 
                     Picasso.get().load(post!!.getPostimage()).into(binding.imageDetail)
 
                     binding.tvProductDetail.text = post.getProduct()
-                    binding.tvStatusDetail.text = "Rp. ${post.getPrice()}"
+                    binding.tvPriceDetail.text = "Rp. ${post.getPrice()}"
                     binding.tvPriceShippingDetail.text = "Rp. ${post.getShipping()}"
                     binding.tvDateDetail.text =
                         getDate(post.getDateTime()!!.toLong(), "dd MMM yyyy")
@@ -184,10 +196,10 @@ class DetailPostActivity : AppCompatActivity() {
                     productLongitude = post.getLongitude()!!
                     publisherInfo(post.getPublisher())
                 }
+            } catch (e: Exception) {
+                // Handle exceptions
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
     private fun retrieveVideo() {
@@ -249,14 +261,18 @@ class DetailPostActivity : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun publisherInfo(publisherId: String?) {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
+        coroutineScope.launch {
+            val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
 
-        usersRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(UserModel::class.java)
+            try {
+                val dataSnapshot = withContext(Dispatchers.IO) {
+                    usersRef.get().await()
+                }
+
+                if (dataSnapshot.exists()) {
+                    val user = dataSnapshot.getValue(UserModel::class.java)
 
                     if (user!!.getImage().isNullOrEmpty()) {
                         binding.userProfileDetail.setImageResource(R.drawable.profile)
@@ -286,10 +302,10 @@ class DetailPostActivity : AppCompatActivity() {
                     binding.tvCityDetail.text = user.getCity()
                     binding.tvNameDetail.text = user.getFullname()
                 }
+            } catch (e: Exception) {
+                // Handle exceptions
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
     private fun buyVal() {
@@ -446,6 +462,11 @@ class DetailPostActivity : AppCompatActivity() {
 
             override fun onCancelled(p0: DatabaseError) {}
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineScope.cancel()
     }
 
 }

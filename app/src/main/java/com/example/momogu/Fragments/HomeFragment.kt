@@ -23,10 +23,12 @@ import com.example.momogu.databinding.FragmentHomeBinding
 import com.example.momogu.utils.Helper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class HomeFragment : Fragment() {
 
@@ -35,6 +37,8 @@ class HomeFragment : Fragment() {
     private var postAdapter: PostAdapter? = null
     private var postList: MutableList<PostModel>? = null
     private lateinit var firebaseUser: FirebaseUser
+
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,103 +73,106 @@ class HomeFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                postSearch()
-                searchPost(newText.toString())
+                coroutineScope.launch {
+                    postSearch()
+                    searchPost(newText.toString())
+                }
                 return true
             }
-
         })
 
         binding.cvMaps.setOnClickListener {
-            mapsVal()
+            coroutineScope.launch {
+                mapsVal()
+            }
         }
 
         return binding.root
     }
 
-    private fun postSearch() {
+    @SuppressLint("NotifyDataSetChanged")
+    private suspend fun postSearch() {
         val userRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
-        userRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (binding.search.toString() == "") {
-                    postList?.clear()
+        try {
+            val dataSnapshot = userRef.get().await()
 
-                    for (snapshot in p0.children) {
-                        val post = snapshot.getValue(PostModel::class.java)
-
-                        if (post != null) {
-                            postList?.add(post)
-                        }
-                    }
-
-                    postAdapter?.notifyDataSetChanged()
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-    }
-
-    private fun searchPost(input: String) {
-        val query = FirebaseDatabase.getInstance().reference
-            .child("Posts")
-            .orderByChild("product")
-            .startAt(input)
-            .endAt(input + "\uf8ff")
-
-        query.addValueEventListener(object : ValueEventListener {
-            var isUserExist: Boolean? = false
-
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(p0: DataSnapshot) {
+            if (binding.search.toString() == "") {
                 postList?.clear()
 
-                for (snapshot in p0.children) {
+                for (snapshot in dataSnapshot.children) {
                     val post = snapshot.getValue(PostModel::class.java)
 
                     if (post != null) {
-                        isUserExist = true
                         postList?.add(post)
                     }
                 }
 
                 postAdapter?.notifyDataSetChanged()
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        } catch (e: Exception) {
+            // Handle the exception
+        }
     }
 
-    private fun retrievePosts() {
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
+    @SuppressLint("NotifyDataSetChanged")
+    private suspend fun searchPost(input: String) {
+        val query = FirebaseDatabase.getInstance().reference
+            .child("Posts")
+            .orderByChild("product")
+            .startAt(input)
+            .endAt(input + "\uf8ff")
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(p0: DataSnapshot) {
-                postList?.clear()
-                for (snapshot in p0.children) {
-                    val post = snapshot.getValue(PostModel::class.java)
-                    postList?.sortByDescending { it.getDateTime() }
-                    post?.let { postList!!.add(it) }
-                    postAdapter?.notifyDataSetChanged()
+        try {
+            val dataSnapshot = query.get().await()
+            postList?.clear()
+
+            for (snapshot in dataSnapshot.children) {
+                val post = snapshot.getValue(PostModel::class.java)
+
+                if (post != null) {
+                    postList?.add(post)
                 }
             }
 
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+            postAdapter?.notifyDataSetChanged()
+        } catch (e: Exception) {
+            // Handle the exception
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun retrievePosts() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
+
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = postsRef.get().await()
+                postList?.clear()
+
+                for (snapshot in dataSnapshot.children) {
+                    val post = snapshot.getValue(PostModel::class.java)
+                    postList?.sortByDescending { it.getDateTime() }
+                    post?.let { postList!!.add(it) }
+                }
+
+                postAdapter?.notifyDataSetChanged()
+            } catch (e: Exception) {
+                // Handle the exception
+            }
+        }
     }
 
     private fun transVal() {
         val context = requireContext()
         val notificationRef = FirebaseDatabase.getInstance().reference.child("Receipt")
 
-        notificationRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    for (snapshot in p0.children) {
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = notificationRef.get().await()
+
+                if (dataSnapshot.exists()) {
+                    for (snapshot in dataSnapshot.children) {
                         val receipt = snapshot.getValue(ReceiptModel::class.java)
 
                         if (receipt!!.getSellerId().equals(firebaseUser.uid)) {
@@ -217,13 +224,12 @@ class HomeFragment : Fragment() {
                                 }
                             }
                         }
-
                     }
                 }
+            } catch (e: Exception) {
+                // Handle the exception
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
 
@@ -231,10 +237,12 @@ class HomeFragment : Fragment() {
         val usersRef =
             FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
 
-        usersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(UserModel::class.java)
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = usersRef.get().await()
+
+                if (dataSnapshot.exists()) {
+                    val user = dataSnapshot.getValue(UserModel::class.java)
                     if (
                         user!!.getAddress().isNullOrEmpty() ||
                         user.getCity().isNullOrEmpty() ||
@@ -248,12 +256,11 @@ class HomeFragment : Fragment() {
                     } else {
                         startActivity(Intent(context, MapsActivity::class.java))
                     }
-
                 }
+            } catch (e: Exception) {
+                // Handle the exception
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
     private fun imageSlider() {
@@ -265,6 +272,12 @@ class HomeFragment : Fragment() {
 
         val imageSlider = binding.sliderHome
         imageSlider.setImageList(imageList)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Cancel the coroutine scope to avoid leaks
+        coroutineScope.cancel()
     }
 
 }

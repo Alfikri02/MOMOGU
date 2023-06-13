@@ -7,35 +7,32 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.Adapter.FavoriteAdapter
-import com.example.momogu.EditProfileActivity
 import com.example.momogu.Adapter.PostImagesAdapter
 import com.example.momogu.AddPostActivity
+import com.example.momogu.EditProfileActivity
 import com.example.momogu.Model.PostModel
 import com.example.momogu.Model.UserModel
-import com.example.momogu.R
 import com.example.momogu.databinding.FragmentProfileBinding
-import com.example.momogu.utils.Helper
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
-import java.util.*
-import kotlin.collections.ArrayList
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
+import com.example.momogu.R
+import com.example.momogu.utils.Helper
 
 class ProfileFragment : Fragment() {
 
@@ -48,6 +45,8 @@ class ProfileFragment : Fragment() {
     var favoriteAdapter: FavoriteAdapter? = null
     var mySavedImg: List<String>? = null
     private var isFragmentAttached = false
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,11 +81,13 @@ class ProfileFragment : Fragment() {
         recyclerViewSaveImages.visibility = View.GONE
         recyclerViewUploadImages.visibility = View.VISIBLE
 
-        userInfo()
-        numberPhoto()
-        numberFavorite()
-        myPhotos()
-        mySaves()
+        coroutineScope.launch {
+            userInfo()
+            numberPhoto()
+            numberFavorite()
+            myPhotos()
+            mySaves()
+        }
 
         val uploadImagesBtn: ImageButton = binding.imagesGridViewBtn
         val savedImagesBtn: ImageButton = binding.imagesSaveBtn
@@ -116,7 +117,9 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnAdd.setOnClickListener {
-            addVal()
+            coroutineScope.launch {
+                addVal()
+            }
         }
 
         binding.receipt.setOnClickListener {
@@ -125,92 +128,79 @@ class ProfileFragment : Fragment() {
         }
 
         binding.proImageProfileFrag.setOnClickListener {
-            profileImage()
+            coroutineScope.launch {
+                profileImage()
+            }
         }
 
         return binding.root
     }
 
-    private fun addVal() {
+    private suspend fun addVal() {
         if (!isFragmentAttached) {
             return
         }
 
-        val usersRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+        val dataSnapshot = usersRef.get().await()
 
-        usersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = dataSnapshot.getValue(UserModel::class.java)
-                if (user?.getAddress().isNullOrEmpty() ||
-                    user?.getCity().isNullOrEmpty() ||
-                    user?.getImage().isNullOrEmpty()
-                ) {
-                    activity?.let {
-                        Helper.showDialogInfo(
-                            it,
-                            "Tambahkan foto profil dan alamat lengkap untuk melanjutkan!",
-                            Gravity.CENTER
-                        )
-                    }
+        val user = dataSnapshot.getValue(UserModel::class.java)
+        if (user?.getAddress().isNullOrEmpty() ||
+            user?.getCity().isNullOrEmpty() ||
+            user?.getImage().isNullOrEmpty()
+        ) {
+            activity?.let {
+                Helper.showDialogInfo(
+                    it,
+                    "Tambahkan foto profil dan alamat lengkap untuk melanjutkan!",
+                    Gravity.CENTER
+                )
+            }
+        } else {
+            activity?.let { startActivity(Intent(it, AddPostActivity::class.java)) }
+        }
+    }
+
+    private suspend fun profileImage() {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+        val dataSnapshot = usersRef.get().await()
+
+        if (dataSnapshot.exists()) {
+            val user = dataSnapshot.getValue(UserModel::class.java)
+
+            withContext(Dispatchers.Main) {
+                val mBuilder = AlertDialog.Builder(requireContext())
+                val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
+
+                val imageView = mView.findViewById<PhotoView>(R.id.imageView)
+                Picasso.get().load(user!!.getImage()).into(imageView)
+
+                mBuilder.setView(mView)
+                val mDialog = mBuilder.create()
+                mDialog.show()
+            }
+        }
+    }
+
+    private suspend fun userInfo() {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+        val dataSnapshot = usersRef.get().await()
+
+        if (dataSnapshot.exists()) {
+            val user = dataSnapshot.getValue(UserModel::class.java)
+
+            withContext(Dispatchers.Main) {
+                if (user!!.getImage().isNullOrEmpty()) {
+                    binding.proImageProfileFrag.setImageResource(R.drawable.profile)
                 } else {
-                    activity?.let { startActivity(Intent(it, AddPostActivity::class.java)) }
+                    Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
+                        .into(binding.proImageProfileFrag)
                 }
+
+                binding.etFullnameProfile.text = user.getFullname()
+                binding.etCityProfile.text = user.getCity()
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
-    private fun profileImage() {
-        val usersRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
-
-        usersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(UserModel::class.java)
-
-                    val mBuilder = AlertDialog.Builder(requireContext())
-                    val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
-
-                    val imageView = mView.findViewById<PhotoView>(R.id.imageView)
-                    Picasso.get().load(user!!.getImage()).into(imageView)
-
-                    mBuilder.setView(mView)
-                    val mDialog = mBuilder.create()
-                    mDialog.show()
-
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-    }
-
-    private fun userInfo() {
-        val usersRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
-
-        usersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(UserModel::class.java)
-
-                    if (user!!.getImage().isNullOrEmpty()) {
-                        binding.proImageProfileFrag.setImageResource(R.drawable.profile)
-                    } else {
-                        Picasso.get().load(user.getImage()).placeholder(R.drawable.profile)
-                            .into(binding.proImageProfileFrag)
-                    }
-
-                    binding.etFullnameProfile.text = user.getFullname()
-                    binding.etCityProfile.text = user.getCity()
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
     private fun myPhotos() {
@@ -238,49 +228,30 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    private fun numberPhoto() {
+    private suspend fun numberPhoto() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
+        val dataSnapshot = postsRef.get().await()
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    var postCounter = 0
+        if (dataSnapshot.exists()) {
+            val postCounter = dataSnapshot.children.count { it.getValue(PostModel::class.java)?.getPublisher() == firebaseUser.uid }
 
-                    for (snapShot in p0.children) {
-                        val post = snapShot.getValue(PostModel::class.java)
-
-                        if (post?.getPublisher() == firebaseUser.uid) {
-                            postCounter++
-                        }
-                    }
-
-                    binding.totalPosts.text = postCounter.toString()//" $postCounter"
-                }
+            withContext(Dispatchers.Main) {
+                binding.totalPosts.text = postCounter.toString()
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
-    private fun numberFavorite() {
-        val postsRef =
-            FirebaseDatabase.getInstance().reference.child("Saves").child(firebaseUser.uid)
+    private suspend fun numberFavorite() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Saves").child(firebaseUser.uid)
+        val dataSnapshot = postsRef.get().await()
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    var favoriteCounter = 0
+        if (dataSnapshot.exists()) {
+            val favoriteCounter = dataSnapshot.children.count()
 
-                    for (snapShot in p0.children) {
-                        favoriteCounter++
-                    }
-
-                    binding.totalFavorite.text = favoriteCounter.toString()
-                }
+            withContext(Dispatchers.Main) {
+                binding.totalFavorite.text = favoriteCounter.toString()
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
     private fun mySaves() {
@@ -334,6 +305,10 @@ class ProfileFragment : Fragment() {
         })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        coroutineScope.cancel()
+    }
 
     override fun onStop() {
         super.onStop()

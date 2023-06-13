@@ -21,6 +21,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class BreederActivity : AppCompatActivity() {
 
@@ -29,6 +35,8 @@ class BreederActivity : AppCompatActivity() {
     private var postId: String = ""
     var postList: List<PostModel>? = null
     var postImagesAdapter: PostImagesAdapter? = null
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,45 +59,47 @@ class BreederActivity : AppCompatActivity() {
         postImagesAdapter = PostImagesAdapter(this, postList as ArrayList<PostModel>)
         recyclerViewUploadImages.adapter = postImagesAdapter
 
-        retrievePosts()
-        retrieveImage()
+
+        coroutineScope.launch {
+            retrievePosts()
+            retrieveImage()
+        }
 
         binding.backBreeder.setOnClickListener {
             finish()
         }
 
         binding.proImageProfileFrag.setOnClickListener {
-            retrievePublisherImage()
+            coroutineScope.launch {
+                retrievePublisherImage()
+            }
         }
 
     }
 
-    private fun retrievePosts() {
+    private suspend fun retrievePosts() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val post = p0.getValue(PostModel::class.java)
-
-                    publisherInfo(post?.getPublisher())
-
-                }
+        try {
+            val snapshot = postsRef.get().await()
+            if (snapshot.exists()) {
+                val post = snapshot.getValue(PostModel::class.java)
+                post?.getPublisher()?.let { publisherInfo(it) }
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        } catch (e: Exception) {
+            // Handle the exception
+        }
     }
 
-    private fun publisherInfo(publisherId: String?) {
+    private suspend fun publisherInfo(publisherId: String?) {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
 
-        usersRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(UserModel::class.java)
+        try {
+            val snapshot = usersRef.get().await()
+            if (snapshot.exists()) {
+                val user = snapshot.getValue(UserModel::class.java)
 
+                withContext(Dispatchers.Main) {
                     if (user!!.getImage().isNullOrEmpty()) {
                         binding.proImageProfileFrag.setImageResource(R.drawable.profile)
                     } else {
@@ -99,18 +109,17 @@ class BreederActivity : AppCompatActivity() {
 
                     if (user.getStatusOn().equals("Aktif")) {
                         binding.dotStatus.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
-
                     } else {
                         binding.dotStatus.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
                     }
+
                     binding.etFullnameProfile.text = user.getFullname()
                     binding.etCityProfile.text = user.getCity()
-
                 }
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        } catch (e: Exception) {
+            // Handle the exception
+        }
     }
 
     private fun retrieveImage() {
@@ -179,31 +188,29 @@ class BreederActivity : AppCompatActivity() {
         })
     }
 
-    private fun retrievePublisherImage() {
+    private suspend fun retrievePublisherImage() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val post = p0.getValue(PostModel::class.java)
-
-                    profileImage(post?.getPublisher())
-
-                }
+        try {
+            val snapshot = postsRef.get().await()
+            if (snapshot.exists()) {
+                val post = snapshot.getValue(PostModel::class.java)
+                post?.getPublisher()?.let { profileImage(it) }
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        } catch (e: Exception) {
+            // Handle the exception
+        }
     }
 
-    private fun profileImage(publisherId: String?) {
+    private suspend fun profileImage(publisherId: String?) {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(publisherId!!)
 
-        usersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(UserModel::class.java)
+        try {
+            val snapshot = usersRef.get().await()
+            if (snapshot.exists()) {
+                val user = snapshot.getValue(UserModel::class.java)
 
+                withContext(Dispatchers.Main) {
                     val mBuilder = AlertDialog.Builder(this@BreederActivity)
                     val mView = layoutInflater.inflate(R.layout.dialog_layout_image, null)
 
@@ -213,11 +220,15 @@ class BreederActivity : AppCompatActivity() {
                     mBuilder.setView(mView)
                     val mDialog = mBuilder.create()
                     mDialog.show()
-
                 }
             }
+        } catch (e: Exception) {
+            // Handle the exception
+        }
+    }
 
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineScope.cancel()
     }
 }
