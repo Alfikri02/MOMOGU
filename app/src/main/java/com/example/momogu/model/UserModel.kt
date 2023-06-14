@@ -1,4 +1,4 @@
-package com.example.momogu.Model
+package com.example.momogu.model
 
 class UserModel {
     private var fullname: String? = null

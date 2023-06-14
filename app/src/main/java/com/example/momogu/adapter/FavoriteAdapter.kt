@@ -1,4 +1,4 @@
-package com.example.momogu.Adapter
+package com.example.momogu.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,9 +10,9 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.momogu.DetailPostActivity
-import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.ReceiptModel
+import com.example.momogu.FavoriteActivity
+import com.example.momogu.model.PostModel
+import com.example.momogu.model.ReceiptModel
 import com.example.momogu.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,8 +20,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 
-class PostImagesAdapter(private val mContext: Context, mPost: List<PostModel>) :
-    RecyclerView.Adapter<PostImagesAdapter.ViewHolder?>() {
+class FavoriteAdapter(private val mContext: Context, mPost: List<PostModel>) :
+    RecyclerView.Adapter<FavoriteAdapter.ViewHolder?>() {
     private var mPost: List<PostModel>? = null
 
     init {
@@ -57,7 +57,7 @@ class PostImagesAdapter(private val mContext: Context, mPost: List<PostModel>) :
 
             editor.putString("postid", post.getPostid())
             editor.apply()
-            mContext.startActivity(Intent(mContext, DetailPostActivity::class.java))
+            mContext.startActivity(Intent(mContext, FavoriteActivity::class.java))
         }
     }
 
@@ -86,4 +86,5 @@ class PostImagesAdapter(private val mContext: Context, mPost: List<PostModel>) :
             override fun onCancelled(p0: DatabaseError) {}
         })
     }
+
 }

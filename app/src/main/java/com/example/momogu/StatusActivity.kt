@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.example.momogu.Model.ReceiptModel
+import com.example.momogu.model.ReceiptModel
 import com.example.momogu.databinding.ActivityStatusBinding
 import com.example.momogu.utils.Helper.getDate
 import com.google.firebase.database.DataSnapshot

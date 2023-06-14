@@ -15,8 +15,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.UserModel
+import com.example.momogu.model.PostModel
+import com.example.momogu.model.UserModel
 import com.example.momogu.databinding.ActivityCheckoutBinding
 import com.example.momogu.utils.Constanta.userLatitude
 import com.example.momogu.utils.Constanta.userLongitude

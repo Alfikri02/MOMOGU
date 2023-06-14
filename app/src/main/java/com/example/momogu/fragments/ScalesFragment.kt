@@ -1,4 +1,4 @@
-package com.example.momogu.Fragments
+package com.example.momogu.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE

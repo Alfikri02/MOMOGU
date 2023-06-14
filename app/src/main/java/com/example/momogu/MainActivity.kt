@@ -4,9 +4,9 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.momogu.Fragments.HomeFragment
-import com.example.momogu.Fragments.ProfileFragment
-import com.example.momogu.Fragments.ScalesFragment
+import com.example.momogu.fragments.HomeFragment
+import com.example.momogu.fragments.ProfileFragment
+import com.example.momogu.fragments.ScalesFragment
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity()

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
-import com.example.momogu.Model.PostModel
+import com.example.momogu.model.PostModel
 import com.example.momogu.databinding.ActivityEditProductBinding
 import com.example.momogu.utils.Helper.decimalFormatET
 import com.google.android.gms.tasks.Continuation

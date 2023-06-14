@@ -1,4 +1,4 @@
-package com.example.momogu.Adapter
+package com.example.momogu.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,8 +12,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.*
-import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.ReceiptModel
+import com.example.momogu.model.PostModel
+import com.example.momogu.model.ReceiptModel
 import com.example.momogu.utils.Helper.getDate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

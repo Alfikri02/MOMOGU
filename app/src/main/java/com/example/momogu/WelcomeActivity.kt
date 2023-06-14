@@ -3,7 +3,7 @@ package com.example.momogu
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.momogu.Model.UserModel
+import com.example.momogu.model.UserModel
 import com.example.momogu.databinding.ActivityWelcomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

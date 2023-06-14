@@ -17,7 +17,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.example.momogu.Model.ReceiptModel
+import com.example.momogu.model.ReceiptModel
 import com.example.momogu.databinding.ActivityReportBinding
 import com.example.momogu.utils.Constanta
 import com.google.android.gms.tasks.Continuation

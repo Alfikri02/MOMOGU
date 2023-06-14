@@ -1,4 +1,4 @@
-package com.example.momogu.Model
+package com.example.momogu.model
 
 class PostModel {
     private var postid: String? = null

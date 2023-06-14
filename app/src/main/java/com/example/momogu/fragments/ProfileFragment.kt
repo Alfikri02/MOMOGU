@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.momogu.Fragments
+package com.example.momogu.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,12 +17,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.momogu.Adapter.FavoriteAdapter
-import com.example.momogu.Adapter.PostImagesAdapter
+import com.example.momogu.adapter.FavoriteAdapter
+import com.example.momogu.adapter.PostImagesAdapter
 import com.example.momogu.AddPostActivity
 import com.example.momogu.EditProfileActivity
-import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.UserModel
+import com.example.momogu.model.PostModel
+import com.example.momogu.model.UserModel
 import com.example.momogu.databinding.FragmentProfileBinding
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.auth.FirebaseAuth

@@ -1,4 +1,4 @@
-package com.example.momogu.Fragments
+package com.example.momogu.fragments
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieDrawable
-import com.example.momogu.Adapter.ReceiptAdapter
-import com.example.momogu.Model.ReceiptModel
+import com.example.momogu.adapter.ReceiptAdapter
+import com.example.momogu.model.ReceiptModel
 import com.example.momogu.databinding.FragmentReceiptBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

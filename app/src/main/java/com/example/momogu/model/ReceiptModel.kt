@@ -1,4 +1,4 @@
-package com.example.momogu.Model
+package com.example.momogu.model
 
 class ReceiptModel {
     private var buyerid: String? = null

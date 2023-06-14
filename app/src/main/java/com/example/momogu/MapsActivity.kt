@@ -12,8 +12,8 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.example.momogu.Adapter.PostAdapter
-import com.example.momogu.Model.PostModel
+import com.example.momogu.adapter.PostAdapter
+import com.example.momogu.model.PostModel
 import com.example.momogu.databinding.ActivityMapsBinding
 import com.example.momogu.databinding.MapsItemBinding
 import com.github.marlonlom.utilities.timeago.TimeAgo

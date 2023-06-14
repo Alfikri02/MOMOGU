@@ -18,7 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
-import com.example.momogu.Model.UserModel
+import com.example.momogu.model.UserModel
 import com.example.momogu.databinding.ActivityEditProfileBinding
 import com.example.momogu.utils.Constanta.LocationPicker
 import com.example.momogu.utils.Constanta.LOCATION_PERMISSION_CODE

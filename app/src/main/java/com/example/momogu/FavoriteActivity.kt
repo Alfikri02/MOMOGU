@@ -18,10 +18,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import com.example.momogu.Fragments.ProfileFragment
-import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.ReceiptModel
-import com.example.momogu.Model.UserModel
+import com.example.momogu.fragments.ProfileFragment
+import com.example.momogu.model.PostModel
+import com.example.momogu.model.ReceiptModel
+import com.example.momogu.model.UserModel
 import com.example.momogu.databinding.ActivityFavoriteBinding
 import com.example.momogu.utils.Constanta.productLatitude
 import com.example.momogu.utils.Constanta.productLongitude

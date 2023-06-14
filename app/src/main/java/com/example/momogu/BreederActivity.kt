@@ -11,9 +11,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.momogu.Adapter.PostImagesAdapter
-import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.UserModel
+import com.example.momogu.adapter.PostImagesAdapter
+import com.example.momogu.model.PostModel
+import com.example.momogu.model.UserModel
 import com.example.momogu.databinding.ActivityBreederBinding
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.database.DataSnapshot

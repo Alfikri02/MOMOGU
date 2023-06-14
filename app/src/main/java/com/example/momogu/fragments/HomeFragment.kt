@@ -1,4 +1,4 @@
-package com.example.momogu.Fragments
+package com.example.momogu.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
-import com.example.momogu.Adapter.PostAdapter
+import com.example.momogu.adapter.PostAdapter
 import com.example.momogu.MapsActivity
-import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.ReceiptModel
-import com.example.momogu.Model.UserModel
+import com.example.momogu.model.PostModel
+import com.example.momogu.model.ReceiptModel
+import com.example.momogu.model.UserModel
 import com.example.momogu.R
 import com.example.momogu.databinding.FragmentHomeBinding
 import com.example.momogu.utils.Helper

@@ -1,4 +1,4 @@
-package com.example.momogu.Adapter
+package com.example.momogu.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -16,9 +16,9 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momogu.DetailPostActivity
-import com.example.momogu.Model.PostModel
-import com.example.momogu.Model.ReceiptModel
-import com.example.momogu.Model.UserModel
+import com.example.momogu.model.PostModel
+import com.example.momogu.model.ReceiptModel
+import com.example.momogu.model.UserModel
 import com.example.momogu.R
 import com.example.momogu.utils.Helper
 import com.github.marlonlom.utilities.timeago.TimeAgo
