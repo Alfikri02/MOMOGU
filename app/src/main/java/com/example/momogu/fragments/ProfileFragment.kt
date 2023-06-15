@@ -39,14 +39,14 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
 
     private lateinit var firebaseUser: FirebaseUser
-    var postList: List<PostModel>? = null
-    var postImagesAdapter: PostImagesAdapter? = null
-    var postListSaved: List<PostModel>? = null
-    var favoriteAdapter: FavoriteAdapter? = null
-    var mySavedImg: List<String>? = null
+    private var postList: MutableList<PostModel>? = null
+    private var postImagesAdapter: PostImagesAdapter? = null
+    private var postListSaved: MutableList<PostModel>? = null
+    private var favoriteAdapter: FavoriteAdapter? = null
+    private var mySavedImg: List<String>? = null
     private var isFragmentAttached = false
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -203,29 +203,34 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun myPhotos() {
         val postRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
-        postRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    (postList as ArrayList<PostModel>).clear()
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = postRef.get().await()
+                val tempList = ArrayList<PostModel>()
 
-                    for (snapshot in p0.children) {
-                        val post = snapshot.getValue(PostModel::class.java)
+                for (snapshot in dataSnapshot.children) {
+                    val post = snapshot.getValue(PostModel::class.java)
 
-                        if (post?.getPublisher().equals(firebaseUser.uid)) {
-                            (postList as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
-                            (postList as ArrayList<PostModel>).add(post!!)
-                        }
+                    if (post != null && post.getPublisher() == firebaseUser.uid) {
+                        tempList.add(post)
+                    }
+
+                    tempList.sortedByDescending { it.getDateTime() }
+
+                    withContext(Dispatchers.Main) {
+                        postList?.clear()
+                        postList?.addAll(tempList)
                         postImagesAdapter?.notifyDataSetChanged()
                     }
                 }
+            }catch (e: Exception) {
+                // Handle the exception
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
     private suspend fun numberPhoto() {
@@ -277,37 +282,36 @@ class ProfileFragment : Fragment() {
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun readSavedImagesData() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    (postListSaved as ArrayList<PostModel>).clear()
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = postsRef.get().await()
+                val tempList = ArrayList<PostModel>()
 
-                    for (snapshot in p0.children) {
-                        val post = snapshot.getValue(PostModel::class.java)
+                for (snapshot in dataSnapshot.children) {
+                    val post = snapshot.getValue(PostModel::class.java)
 
-                        for (key in mySavedImg!!) {
-                            if (post?.getPostid() == key) {
-                                (postListSaved as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
-                                (postListSaved as ArrayList<PostModel>).add(post)
-                            }
+                    for (key in mySavedImg!!) {
+                        if (post?.getPostid() == key) {
+                            tempList.add(post)
                         }
                     }
+                }
 
+                tempList.sortedByDescending { it.getDateTime() }
+
+                withContext(Dispatchers.Main) {
+                    postListSaved?.clear()
+                    postListSaved?.addAll(tempList)
                     favoriteAdapter?.notifyDataSetChanged()
                 }
+            }catch (e: Exception) {
+                // Handle the exception
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        coroutineScope.cancel()
+        }
     }
 
     override fun onStop() {
@@ -316,6 +320,8 @@ class ProfileFragment : Fragment() {
         val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
+
+        coroutineScope.cancel()
     }
 
     override fun onPause() {
@@ -324,6 +330,8 @@ class ProfileFragment : Fragment() {
         val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
+
+        coroutineScope.cancel()
     }
 
     override fun onDestroy() {
@@ -332,6 +340,8 @@ class ProfileFragment : Fragment() {
         val pref = context?.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)?.edit()
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
+
+        coroutineScope.cancel()
     }
 
     override fun onAttach(context: Context) {

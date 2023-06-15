@@ -23,7 +23,10 @@ import com.example.momogu.databinding.FragmentHomeBinding
 import com.example.momogu.utils.Helper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -35,10 +38,34 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private var postAdapter: PostAdapter? = null
-    private var postList: MutableList<PostModel>? = null
+    private var postList: MutableList<PostModel> = ArrayList()
     private lateinit var firebaseUser: FirebaseUser
 
-    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
+    private var postCache: MutableMap<String, PostModel> = HashMap()
+
+    private val valueEventListener: ValueEventListener = object : ValueEventListener {
+        @SuppressLint("NotifyDataSetChanged")
+        override fun onDataChange(snapshot: DataSnapshot) {
+            postList.clear()
+            postCache.clear()
+
+            for (childSnapshot in snapshot.children) {
+                val post = childSnapshot.getValue(PostModel::class.java)
+                post?.let {
+                    postList.add(it)
+                    postCache[childSnapshot.key.toString()] = it
+                }
+            }
+
+            postList.sortByDescending { it.getDateTime() }
+            postAdapter?.notifyDataSetChanged()
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            // Handle the error
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,15 +95,14 @@ class HomeFragment : Fragment() {
         binding.search.onActionViewExpanded()
         binding.search.clearFocus()
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(newText: String?): Boolean {
+                coroutineScope.launch {
+                    searchPost(newText.toString()) // Perform search based on the query
+                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                coroutineScope.launch {
-                    postSearch()
-                    searchPost(newText.toString())
-                }
                 return true
             }
         })
@@ -91,31 +117,6 @@ class HomeFragment : Fragment() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private suspend fun postSearch() {
-        val userRef = FirebaseDatabase.getInstance().reference.child("Posts")
-
-        try {
-            val dataSnapshot = userRef.get().await()
-
-            if (binding.search.toString() == "") {
-                postList?.clear()
-
-                for (snapshot in dataSnapshot.children) {
-                    val post = snapshot.getValue(PostModel::class.java)
-
-                    if (post != null) {
-                        postList?.add(post)
-                    }
-                }
-
-                postAdapter?.notifyDataSetChanged()
-            }
-        } catch (e: Exception) {
-            // Handle the exception
-        }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
     private suspend fun searchPost(input: String) {
         val query = FirebaseDatabase.getInstance().reference
             .child("Posts")
@@ -125,13 +126,19 @@ class HomeFragment : Fragment() {
 
         try {
             val dataSnapshot = query.get().await()
-            postList?.clear()
+            postList.clear()
 
             for (snapshot in dataSnapshot.children) {
                 val post = snapshot.getValue(PostModel::class.java)
 
                 if (post != null) {
-                    postList?.add(post)
+                    val postTitle = post.javaClass.getDeclaredField("product").apply {
+                        isAccessible = true
+                    }.get(post) as String
+
+                    if (postTitle.contains(input, ignoreCase = true)) {
+                        postList.add(post)
+                    }
                 }
             }
 
@@ -141,27 +148,22 @@ class HomeFragment : Fragment() {
         }
     }
 
+
     @SuppressLint("NotifyDataSetChanged")
     private fun retrievePosts() {
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
-
-        coroutineScope.launch {
-            try {
-                val dataSnapshot = postsRef.get().await()
-                postList?.clear()
-
-                for (snapshot in dataSnapshot.children) {
-                    val post = snapshot.getValue(PostModel::class.java)
-                    postList?.sortByDescending { it.getDateTime() }
-                    post?.let { postList!!.add(it) }
-                }
-
-                postAdapter?.notifyDataSetChanged()
-            } catch (e: Exception) {
-                // Handle the exception
+        if (postCache.isNotEmpty()) {
+            // Data is already cached, use it
+            postList.addAll(postCache.values)
+            postList.sortByDescending { it.getDateTime() }
+            postAdapter?.notifyDataSetChanged()
+        } else {
+            coroutineScope.launch {
+                val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
+                postsRef.addValueEventListener(valueEventListener)
             }
         }
     }
+
 
     private fun transVal() {
         val context = requireContext()
@@ -274,9 +276,19 @@ class HomeFragment : Fragment() {
         imageSlider.setImageList(imageList)
     }
 
+    override fun onStop() {
+        super.onStop()
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
+        postsRef.removeEventListener(valueEventListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        coroutineScope.cancel()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        // Cancel the coroutine scope to avoid leaks
         coroutineScope.cancel()
     }
 

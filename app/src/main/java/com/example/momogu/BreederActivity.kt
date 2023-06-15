@@ -33,10 +33,10 @@ class BreederActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBreederBinding
 
     private var postId: String = ""
-    var postList: List<PostModel>? = null
-    var postImagesAdapter: PostImagesAdapter? = null
+    private var postList: MutableList<PostModel>? = null
+    private var postImagesAdapter: PostImagesAdapter? = null
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,9 +108,15 @@ class BreederActivity : AppCompatActivity() {
                     }
 
                     if (user.getStatusOn().equals("Aktif")) {
-                        binding.dotStatus.setColorFilter(resources.getColor(R.color.ijotua), PorterDuff.Mode.SRC_IN)
+                        binding.dotStatus.setColorFilter(
+                            resources.getColor(R.color.ijotua),
+                            PorterDuff.Mode.SRC_IN
+                        )
                     } else {
-                        binding.dotStatus.setColorFilter(resources.getColor(R.color.colorBlack), PorterDuff.Mode.SRC_IN)
+                        binding.dotStatus.setColorFilter(
+                            resources.getColor(R.color.colorBlack),
+                            PorterDuff.Mode.SRC_IN
+                        )
                     }
 
                     binding.etFullnameProfile.text = user.getFullname()
@@ -140,29 +146,37 @@ class BreederActivity : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun myPhotos(publisherId: String?) {
+        // Data is not cached, retrieve from the database
         val postRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
-        postRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    (postList as ArrayList<PostModel>).clear()
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = postRef.get().await()
+                val tempList = ArrayList<PostModel>()
 
-                    for (snapshot in p0.children) {
-                        val post = snapshot.getValue(PostModel::class.java)
+                for (snapshot in dataSnapshot.children) {
+                    val post = snapshot.getValue(PostModel::class.java)
 
-                        if (post!!.getPublisher().equals(publisherId)) {
-                            (postList as ArrayList<PostModel>).sortByDescending { it.getDateTime() }
-                            (postList as ArrayList<PostModel>).add(post)
-                        }
+                    if (post != null && post.getPublisher() == publisherId) {
+                        tempList.add(post)
                     }
                 }
-            }
 
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+                tempList.sortedByDescending { it.getDateTime() }
+
+                withContext(Dispatchers.Main) {
+                    postList?.clear()
+                    postList?.addAll(tempList)
+                    postImagesAdapter?.notifyDataSetChanged()
+                }
+            } catch (e: Exception) {
+                // Handle the exception
+            }
+        }
     }
+
 
     private fun numberPhoto(publisherId: String?) {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
@@ -225,6 +239,16 @@ class BreederActivity : AppCompatActivity() {
         } catch (e: Exception) {
             // Handle the exception
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        coroutineScope.cancel()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        coroutineScope.cancel()
     }
 
     override fun onDestroy() {
