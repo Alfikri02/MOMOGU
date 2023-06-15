@@ -1,9 +1,7 @@
 package com.example.momogu.fragments
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,20 +14,24 @@ import com.example.momogu.model.ReceiptModel
 import com.example.momogu.databinding.FragmentReceiptBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import java.util.Collections.reverse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import kotlin.collections.ArrayList
 
 class ReceiptFragment : Fragment() {
 
     private lateinit var binding: FragmentReceiptBinding
 
-    private var receiptList: List<ReceiptModel>? = null
+    private var receiptList: MutableList<ReceiptModel>? = null
     private var receiptAdapter: ReceiptAdapter? = null
     private lateinit var firebaseUser: FirebaseUser
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,44 +51,47 @@ class ReceiptFragment : Fragment() {
             ReceiptAdapter(requireContext(), receiptList as ArrayList<ReceiptModel>)
         recyclerView.adapter = receiptAdapter
 
-        readNotifications()
+        myReceipt()
 
         return binding.root
     }
 
-    private fun readNotifications() {
-        val notificationRef = FirebaseDatabase.getInstance().reference.child("Receipt")
+    @SuppressLint("NotifyDataSetChanged")
+    private fun myReceipt() {
+        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt")
 
-        notificationRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    (receiptList as ArrayList<ReceiptModel>).clear()
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = receiptRef.get().await()
+                val tempList = ArrayList<ReceiptModel>()
 
-                    for (snapshot in p0.children) {
-                        val notification = snapshot.getValue(ReceiptModel::class.java)
+                for (snapshot in dataSnapshot.children) {
+                    val notification = snapshot.getValue(ReceiptModel::class.java)
 
-                        if (notification?.getSellerId().equals(firebaseUser.uid)) {
-                            (receiptList as ArrayList<ReceiptModel>).sortByDescending { it.getDateTime() }
-                            (receiptList as ArrayList<ReceiptModel>).add(notification!!)
-                        } else if (notification?.getBuyerId().equals(firebaseUser.uid)) {
-                            (receiptList as ArrayList<ReceiptModel>).sortByDescending { it.getDateTime() }
-                            (receiptList as ArrayList<ReceiptModel>).add(notification!!)
-                        }
-                        //else { startAnimation() }
+                    if (notification?.getSellerId().equals(firebaseUser.uid)) {
+                        tempList.add(notification!!)
+                    } else if (notification?.getBuyerId().equals(firebaseUser.uid)) {
+                        tempList.add(notification!!)
                     }
 
-                    receiptList?.let { reverse(it) }
-                    receiptAdapter!!.notifyDataSetChanged()
-                }else {
-                    startAnimation()
+                    tempList.sortedByDescending { it.getDateTime() }
                 }
 
-            }
+                withContext(Dispatchers.Main) {
+                    receiptList?.clear()
+                    receiptList?.addAll(tempList)
+                    receiptAdapter?.notifyDataSetChanged()
 
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+                    if (tempList.isEmpty()) {
+                        startAnimation()
+                    }
+                }
+            } catch (e: Exception) {
+                // Handle the exception
+            }
+        }
     }
+
 
     private fun startAnimation(){
         binding.animLoadingViewNotification.visibility = View.VISIBLE
@@ -99,17 +104,17 @@ class ReceiptFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAG, "onPause")
+        coroutineScope.cancel()
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAG, "onStop")
+        coroutineScope.cancel()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy")
+        coroutineScope.cancel()
     }
 
 }

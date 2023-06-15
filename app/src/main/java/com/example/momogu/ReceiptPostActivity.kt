@@ -27,6 +27,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
 
 class ReceiptPostActivity : AppCompatActivity() {
@@ -35,6 +40,8 @@ class ReceiptPostActivity : AppCompatActivity() {
     private var postId: String = ""
     private lateinit var locationManager: LocationManager
     private lateinit var builder: AlertDialog.Builder
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,14 +142,18 @@ class ReceiptPostActivity : AppCompatActivity() {
         return false
     }
 
+    @SuppressLint("SetTextI18n")
     private fun retrievePosts() {
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts").child(postId)
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val post = p0.getValue(PostModel::class.java)
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = withContext(Dispatchers.IO) {
+                    postsRef.get().await()
+                }
+
+                if (dataSnapshot.exists()) {
+                    val post = dataSnapshot.getValue(PostModel::class.java)
 
                     Picasso.get().load(post!!.getPostimage()).placeholder(R.drawable.ic_momogu_text_bottom)
                         .into(binding.imagePost)
@@ -168,20 +179,26 @@ class ReceiptPostActivity : AppCompatActivity() {
 
 
                 }
-            }
 
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+            }catch (e: Exception) {
+                // Handle exceptions
+            }
+        }
+
     }
 
+    @SuppressLint("SetTextI18n")
     private fun retrieveBuyer() {
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
+        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
 
-        postsRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val receipt = p0.getValue(ReceiptModel::class.java)
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = withContext(Dispatchers.IO) {
+                    receiptRef.get().await()
+                }
+
+                if (dataSnapshot.exists()) {
+                    val receipt = dataSnapshot.getValue(ReceiptModel::class.java)
 
                     binding.tvInvoice.text = receipt!!.getPostId()
                     binding.tvDate.text =
@@ -261,20 +278,24 @@ class ReceiptPostActivity : AppCompatActivity() {
                     userInfo(receipt.getBuyerId())
 
                 }
+            }catch (e: Exception) {
+                // Handle exceptions
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun userInfo(buyerId: String?) {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(buyerId!!)
 
-        usersRef.addValueEventListener(object : ValueEventListener {
-            @SuppressLint("SetTextI18n")
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(UserModel::class.java)
+        coroutineScope.launch {
+            try {
+                val dataSnapshot = withContext(Dispatchers.IO) {
+                    usersRef.get().await()
+                }
+
+                if (dataSnapshot.exists()) {
+                    val user = dataSnapshot.getValue(UserModel::class.java)
 
                     if (user != null) {
                         binding.tvName.text = user.getFullname()
@@ -284,10 +305,10 @@ class ReceiptPostActivity : AppCompatActivity() {
                         userLongitude = user.getLongitude()!!
                     }
                 }
+            }catch (e: Exception) {
+                // Handle exceptions
             }
-
-            override fun onCancelled(p0: DatabaseError) {}
-        })
+        }
     }
 
     private fun phoneBuyer() {
@@ -329,10 +350,9 @@ class ReceiptPostActivity : AppCompatActivity() {
     }
 
     private fun setStatusFinish() {
+        val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
 
-        val postsRef = FirebaseDatabase.getInstance().reference.child("Receipt").child(postId)
-
-        postsRef.addValueEventListener(object : ValueEventListener {
+        receiptRef.addValueEventListener(object : ValueEventListener {
             @SuppressLint("SetTextI18n")
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
