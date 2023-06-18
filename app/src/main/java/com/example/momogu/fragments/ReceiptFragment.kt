@@ -80,6 +80,8 @@ class ReceiptFragment : Fragment() {
                     if (tempList.isEmpty()) {
                         startAnimation()
                     }
+                }else{
+                    startAnimation()
                 }
             }
 
