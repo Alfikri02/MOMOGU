@@ -14,13 +14,10 @@ import com.example.momogu.model.ReceiptModel
 import com.example.momogu.databinding.FragmentReceiptBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
+import com.google.firebase.database.ValueEventListener
 import kotlin.collections.ArrayList
 
 class ReceiptFragment : Fragment() {
@@ -30,8 +27,6 @@ class ReceiptFragment : Fragment() {
     private var receiptList: MutableList<ReceiptModel>? = null
     private var receiptAdapter: ReceiptAdapter? = null
     private lateinit var firebaseUser: FirebaseUser
-
-    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,24 +55,24 @@ class ReceiptFragment : Fragment() {
     private fun myReceipt() {
         val receiptRef = FirebaseDatabase.getInstance().reference.child("Receipt")
 
-        coroutineScope.launch {
-            try {
-                val dataSnapshot = receiptRef.get().await()
-                val tempList = ArrayList<ReceiptModel>()
+        receiptRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val tempList = ArrayList<ReceiptModel>()
 
-                for (snapshot in dataSnapshot.children) {
-                    val notification = snapshot.getValue(ReceiptModel::class.java)
+                    for (snapshot in p0.children) {
+                        val notification = snapshot.getValue(ReceiptModel::class.java)
 
-                    if (notification?.getSellerId().equals(firebaseUser.uid)) {
-                        tempList.add(notification!!)
-                    } else if (notification?.getBuyerId().equals(firebaseUser.uid)) {
-                        tempList.add(notification!!)
+                        if (notification?.getSellerId().equals(firebaseUser.uid)) {
+                            tempList.add(notification!!)
+                        } else if (notification?.getBuyerId().equals(firebaseUser.uid)) {
+                            tempList.add(notification!!)
+                        }
                     }
 
-                    tempList.sortedByDescending { it.getDateTime() }
-                }
+                    tempList.sortByDescending { it.getDateTime() }
 
-                withContext(Dispatchers.Main) {
                     receiptList?.clear()
                     receiptList?.addAll(tempList)
                     receiptAdapter?.notifyDataSetChanged()
@@ -86,35 +81,20 @@ class ReceiptFragment : Fragment() {
                         startAnimation()
                     }
                 }
-            } catch (e: Exception) {
-                // Handle the exception
             }
-        }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
 
-    private fun startAnimation(){
+    private fun startAnimation() {
         binding.animLoadingViewNotification.visibility = View.VISIBLE
         binding.emptyNotification.visibility = View.VISIBLE
         binding.recyclerViewNotifications.visibility = View.GONE
         binding.animLoadingViewNotification.setAnimation("empty.json")
         binding.animLoadingViewNotification.playAnimation()
         binding.animLoadingViewNotification.repeatCount = LottieDrawable.INFINITE
-    }
-
-    override fun onPause() {
-        super.onPause()
-        coroutineScope.cancel()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        coroutineScope.cancel()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        coroutineScope.cancel()
     }
 
 }
