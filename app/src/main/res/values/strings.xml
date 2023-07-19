@@ -15,11 +15,11 @@
     <string name="change_image">Ubah Foto Profil</string>
     <string name="ubah_profil">Ubah Profil</string>
     <string name="address">Alamat Lengkap</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Keluar</string>
     <string name="delete_account">Delete Account</string>
 
     <!--Activity Add Post-->
-    <string name="add_data">Tambah Data</string>
+    <string name="add_data">Tambah Sapi</string>
     <string name="tv_image_add">Pilih Gambar Sapi Anda!</string>
     <string name="tv_video_add">Pilih Video Sapi Anda!</string>
     <string name="tv_max_video_add">Maksimal 30 Detik</string>

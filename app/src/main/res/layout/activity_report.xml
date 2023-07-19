@@ -176,12 +176,10 @@
                             android:id="@+id/et_kop"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_name"
+                            android:drawableStart="@drawable/ic_problem"
                             android:drawablePadding="5dp"
                             android:fontFamily="@font/poppins_light"
                             android:inputType="none"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="5dp"
                             android:textSize="16sp"
                             tools:ignore="LabelFor,TouchTargetSizeCheck" />
 
@@ -199,7 +197,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_desc"
                             style="@style/et_layout"
-                            android:drawableStart="@drawable/ic_name"
+                            android:drawableStart="@drawable/ic_details"
                             android:inputType="textMultiLine" />
 
                     </com.google.android.material.textfield.TextInputLayout>
